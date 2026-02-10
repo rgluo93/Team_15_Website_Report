@@ -16,9 +16,10 @@ An interactive project report website for the LeadNow AI coaching platform devel
 5. UI Design
 6. System Design
 7. Implementation
-8. Evaluation and Testing
-9. Conclusion
-10. Appendices
+8. Testing
+9. Evaluation
+10. Conclusion
+11. Appendices
 
 ---
 
@@ -286,20 +287,26 @@ The website follows WCAG 2.1 AA standards:
 - Development process
 - Challenges and solutions
 
-### 8. Evaluation and Testing
+### 8. Testing
+- Testing strategy
 - Test results and metrics
-- User feedback and testimonials
-- Usability studies
-- Performance benchmarks
-- Data visualizations
+- Unit tests
+- User acceptance testing
 
-### 9. Conclusion
+### 9. Evaluation
+- MoSCoW checklist
+- Known bugs
+- Individual contribution tables
+- Critical evaluation
+- Future work
+
+### 10. Conclusion
 - Project summary
 - Key achievements
 - Lessons learned
 - Future work and roadmap
 
-### 10. Appendices
+### 11. Appendices
 - Supplementary materials
 - Detailed references
 - Additional documentation

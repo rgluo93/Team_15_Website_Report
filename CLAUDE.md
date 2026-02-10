@@ -43,7 +43,8 @@ This is a **multi-page website** where each major section has its own HTML file.
 ├── ui-design.html         # UI/UX Design
 ├── system-design.html     # System Architecture
 ├── implementation.html    # Implementation Details
-├── evaluation.html        # Testing & Evaluation
+├── testing.html           # Testing
+├── evaluation.html        # Evaluation
 ├── conclusion.html        # Conclusions & Reflections
 ├── appendices.html        # Appendices
 ├── css/                   # Shared CSS files
