@@ -29,37 +29,76 @@ This file contains important constraints, patterns, and guidelines for working o
 
 ## Architecture Rules
 
-### Single-Page Application Pattern
+### Multi-Page Application Pattern
 
-This is a **single HTML file** with multiple sections. DO NOT create separate HTML files for each page.
+This is a **multi-page website** where each major section has its own HTML file. Create separate HTML files for each major section with consistent header/footer navigation.
 
-**Structure:**
+**File Structure:**
+```
+/
+├── index.html              # Home page
+├── requirements.html       # Requirements Analysis
+├── research.html          # Background Research
+├── algorithms.html        # Algorithm Design
+├── ui-design.html         # UI/UX Design
+├── system-design.html     # System Architecture
+├── implementation.html    # Implementation Details
+├── evaluation.html        # Testing & Evaluation
+├── conclusion.html        # Conclusions & Reflections
+├── appendices.html        # Appendices
+├── css/                   # Shared CSS files
+├── js/                    # Shared JavaScript files
+└── assets/                # Images, videos, documents
+```
+
+**Each HTML file structure:**
 ```html
 <!DOCTYPE html>
 <html>
-<head>...</head>
+<head>
+  <!-- Same head content on all pages -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <!-- ... other CSS files ... -->
+</head>
 <body>
-  <nav><!-- Navigation to all sections --></nav>
+  <header class="site-header">
+    <nav class="main-nav">
+      <!-- Same navigation menu on all pages -->
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="requirements.html" class="nav-link">Requirements</a></li>
+        <li><a href="research.html" class="nav-link">Research</a></li>
+        <!-- ... other nav links ... -->
+      </ul>
+    </nav>
+  </header>
 
   <main>
-    <section id="home">...</section>
-    <section id="requirements">...</section>
-    <section id="research">...</section>
-    <section id="algorithms">...</section>
-    <section id="ui-design">...</section>
-    <section id="system-design">...</section>
-    <section id="implementation">...</section>
-    <section id="evaluation">...</section>
-    <section id="conclusion">...</section>
-    <section id="appendices">...</section>
+    <!-- Page-specific content here -->
   </main>
 
-  <footer>...</footer>
+  <footer class="site-footer">
+    <!-- Same footer on all pages -->
+  </footer>
+
+  <!-- Same scripts on all pages -->
+  <script src="js/navigation.js" defer></script>
+  <script src="js/modal.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/main.js" defer></script>
 </body>
 </html>
 ```
 
-**Navigation:** Hash-based (`#home`, `#requirements`, etc.) with smooth scrolling
+**Navigation:** Link-based (standard `<a href="page.html">`) with page reloads
+
+**Why Multi-Page:**
+- Clear separation of content by section
+- Easier to edit individual sections without affecting others
+- Each page has its own URL (better for bookmarking and sharing)
+- Simpler mental model for content creators
+- Better for SEO (search engines index separate pages)
 
 ---
 
@@ -85,7 +124,7 @@ Split CSS into logical modules, loaded in this order:
 
 Split JS into focused modules, loaded with `defer`:
 
-1. `js/navigation.js` - Smooth scroll, active link tracking
+1. `js/navigation.js` - Active page highlighting, mobile menu toggle
 2. `js/modal.js` - Modal/pop-up system
 3. `js/animations.js` - Scroll-triggered animations
 4. `js/main.js` - Initialize all modules
@@ -110,34 +149,190 @@ window.MyModule.init();
 
 ---
 
+## Maintaining Consistency Across Pages
+
+### Shared Header and Footer
+
+**Every HTML page must include the exact same header and footer.** This ensures consistent navigation and branding across the entire site.
+
+**Header structure (copy to all pages):**
+```html
+<header class="site-header">
+  <nav class="main-nav">
+    <div class="nav-brand">
+      <a href="index.html">LeadNow Project Report</a>
+    </div>
+    <button class="mobile-menu-toggle" aria-label="Toggle navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-menu">
+      <li><a href="index.html" class="nav-link">Home</a></li>
+      <li><a href="requirements.html" class="nav-link">Requirements</a></li>
+      <li><a href="research.html" class="nav-link">Research</a></li>
+      <li><a href="algorithms.html" class="nav-link">Algorithms</a></li>
+      <li><a href="ui-design.html" class="nav-link">UI Design</a></li>
+      <li><a href="system-design.html" class="nav-link">System Design</a></li>
+      <li><a href="implementation.html" class="nav-link">Implementation</a></li>
+      <li><a href="evaluation.html" class="nav-link">Evaluation</a></li>
+      <li><a href="conclusion.html" class="nav-link">Conclusion</a></li>
+      <li><a href="appendices.html" class="nav-link">Appendices</a></li>
+    </ul>
+  </nav>
+</header>
+```
+
+**Footer structure (copy to all pages):**
+```html
+<footer class="site-footer">
+  <div class="footer-content">
+    <p>&copy; 2026 LeadNow Project - Team 15</p>
+    <p>Dignitas Technologies</p>
+  </div>
+</footer>
+```
+
+### Shared CSS and JavaScript Files
+
+**Every HTML page must link to the same CSS and JavaScript files in the same order:**
+
+```html
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title - LeadNow Project Report</title>
+
+  <!-- CSS files in order -->
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- CDN libraries (if needed on page) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+  <!-- Page content -->
+
+  <!-- JavaScript files in order -->
+  <script src="js/navigation.js" defer></script>
+  <script src="js/modal.js" defer></script>
+  <script src="js/animations.js" defer></script>
+  <script src="js/main.js" defer></script>
+
+  <!-- CDN libraries (if needed on page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+</body>
+```
+
+### Updating Shared Elements
+
+**When you need to update header, footer, or navigation:**
+
+1. Make the change in one file first
+2. Copy the updated `<header>` or `<footer>` block
+3. Replace the same block in ALL other HTML files
+4. Verify the change appears consistently across all pages
+
+**Important:** Since there's no build system, you must manually update all files. Be thorough and check each file.
+
+### Relative Paths
+
+**All paths must be relative from the root directory:**
+
+```html
+<!-- ✅ CORRECT - relative from root -->
+<link rel="stylesheet" href="css/variables.css">
+<script src="js/navigation.js"></script>
+<img src="assets/images/logo.png" alt="Logo">
+
+<!-- ❌ WRONG - absolute or wrong relative paths -->
+<link rel="stylesheet" href="/css/variables.css">  <!-- Don't use leading slash -->
+<script src="../js/navigation.js"></script>         <!-- Don't use parent directory -->
+<img src="/assets/images/logo.png" alt="Logo">     <!-- Don't use leading slash -->
+```
+
+**Why?** All HTML files are in the same root directory, so all paths to `css/`, `js/`, and `assets/` folders are the same from every page.
+
+### Page-Specific Elements
+
+**Change these on each page:**
+
+1. **Page title:** `<title>Requirements - LeadNow Project Report</title>`
+2. **Main content:** Everything inside `<main>...</main>`
+3. **Meta description (optional):** `<meta name="description" content="...">`
+
+**Keep the same:**
+- Header with navigation
+- Footer
+- All CSS/JS links
+- CDN library links
+
+---
+
 ## Technical Patterns
 
 ### Navigation System
 
-**Implementation:** Intersection Observer API
+**Implementation:** Active page highlighting based on current URL
 
 ```javascript
-// Pattern to follow
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      // Update active nav link
-      document.querySelector('.nav-link.active')?.classList.remove('active');
-      document.querySelector(`a[href="#${entry.target.id}"]`)?.classList.add('active');
-    }
-  });
-}, {
-  threshold: 0.5,
-  rootMargin: '-100px 0px -50% 0px'
-});
+// Pattern to follow - navigation.js
+(function() {
+  'use strict';
 
-// Observe all sections
-document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+  function highlightActivePage() {
+    // Get current page filename (e.g., 'requirements.html')
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+    // Remove active class from all nav links
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+    });
+
+    // Add active class to current page link
+    const activeLink = document.querySelector(`.nav-link[href="${currentPage}"]`);
+    if (activeLink) {
+      activeLink.classList.add('active');
+    }
+  }
+
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', highlightActivePage);
+  } else {
+    highlightActivePage();
+  }
+})();
+```
+
+**CSS for active link:**
+```css
+.nav-link {
+  color: var(--color-text);
+  text-decoration: none;
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: color var(--transition-fast);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-primary);
+}
 ```
 
 **DO NOT:**
-- Use scroll event listeners (performance issues)
-- Manually calculate scroll position
+- Use complex scroll tracking (not needed for multi-page sites)
+- Use Intersection Observer for navigation (only use for animations)
 - Use libraries like Scrollspy
 
 ### Modal System
@@ -559,8 +754,9 @@ When actual content is not available, use clear placeholders:
 ### Manual Testing Checklist
 
 **Navigation:**
-- [ ] All nav links scroll to correct sections
-- [ ] Active link updates based on scroll position
+- [ ] All nav links navigate to correct pages
+- [ ] Active link highlights on current page
+- [ ] Navigation is consistent across all pages
 - [ ] Mobile menu opens/closes on hamburger click
 
 **Modals:**
@@ -639,23 +835,37 @@ container.appendChild(clone);
 
 ---
 
-### ❌ DON'T: Create multiple HTML files
-
-```
-index.html
-requirements.html  ❌
-research.html      ❌
-algorithms.html    ❌
-```
-
-### ✅ DO: Use single HTML with sections
+### ❌ DON'T: Put all content in a single HTML file
 
 ```html
-<!-- All in index.html -->
-<section id="requirements">...</section>
-<section id="research">...</section>
-<section id="algorithms">...</section>
+<!-- DON'T do this - one massive file -->
+<section id="home">... 500 lines ...</section>
+<section id="requirements">... 800 lines ...</section>
+<section id="research">... 600 lines ...</section>
+<!-- ... thousands more lines ... -->
 ```
+
+### ✅ DO: Create separate HTML files for each major section
+
+```
+index.html              ✅ Home page
+requirements.html       ✅ Requirements section
+research.html          ✅ Research section
+algorithms.html        ✅ Algorithms section
+ui-design.html         ✅ UI Design section
+system-design.html     ✅ System Design section
+implementation.html    ✅ Implementation section
+evaluation.html        ✅ Evaluation section
+conclusion.html        ✅ Conclusion section
+appendices.html        ✅ Appendices
+```
+
+**Benefits:**
+- Easier to find and edit specific content
+- Cleaner file organization
+- Can work on sections independently
+- Better browser history and bookmarking
+- Each page has its own URL for sharing
 
 ---
 
@@ -700,7 +910,7 @@ document.querySelectorAll('.button').forEach(button => {
 Before considering any code complete, verify:
 
 - [ ] No build tools or compilation required
-- [ ] Single HTML file for entire site
+- [ ] Separate HTML files for each major section with consistent header/footer
 - [ ] CSS split into logical modules (reset, variables, layout, components, animations, responsive)
 - [ ] JavaScript split into focused modules (navigation, modal, animations, main)
 - [ ] Only approved CDN libraries used (Prism.js, Chart.js)
@@ -719,8 +929,8 @@ Before considering any code complete, verify:
 1. **Does this require a build tool?** → If yes, find another approach
 2. **Can this be done with vanilla JavaScript?** → If yes, don't add a library
 3. **Is this content in `General Website Content.md`?** → Use existing content first
-4. **Should this be in `index.html`?** → Almost always yes (single-page design)
-5. **Is this a new section?** → Add as `<section id="...">` in `index.html`
+4. **Which HTML file does this belong in?** → Match content to appropriate section page
+5. **Is this a new major section?** → Create a new HTML file (e.g., `new-section.html`)
 6. **Is this a reusable component?** → Style in `css/components.css`
 7. **Is this a layout change?** → Update `css/layout.css`
 8. **Is this responsive?** → Media queries in `css/responsive.css`
@@ -731,8 +941,8 @@ Before considering any code complete, verify:
 
 ## Summary: Core Principles
 
-1. **No Build Tools:** Must work by opening `index.html` directly
-2. **Single HTML File:** All sections in one file, hash-based navigation
+1. **No Build Tools:** Must work by opening any HTML file directly in a browser
+2. **Multiple HTML Files:** One file per major section with consistent header/footer navigation
 3. **Modular CSS/JS:** Split into logical files, not monolithic
 4. **Vanilla JavaScript:** No jQuery, no frameworks
 5. **CDN Only:** Prism.js and Chart.js are the only external dependencies
@@ -746,11 +956,13 @@ Before considering any code complete, verify:
 
 ## When in Doubt
 
-**Ask yourself:** "Can I double-click `index.html` and see this working in a browser with no other steps?"
+**Ask yourself:** "Can I double-click any HTML file and see it working in a browser with no other steps?"
 
 If the answer is **no**, you're doing it wrong.
 
 If the answer is **yes**, you're on the right track.
+
+**Remember:** Each HTML file should work independently when opened directly. The navigation links will work, CSS will load, JavaScript will run, and the page will look complete.
 
 ---
 
