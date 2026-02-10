@@ -1,0 +1,70 @@
+/* CSS Reset - Browser Normalization */
+
+/* Box sizing reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove default styling */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove list styles */
+ul, ol {
+  list-style: none;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Remove default button styles */
+button {
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Remove default input styles */
+input, textarea, select {
+  font: inherit;
+}
+
+/* Images */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Remove default form element styling */
+input, button, textarea, select {
+  outline: none;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}

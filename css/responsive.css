@@ -1,0 +1,276 @@
+/* Responsive Design - Media Queries */
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Small Mobile (320px - 640px) - Base styles in other files */
+
+/* Tablet (768px and up) */
+@media (min-width: 768px) {
+  /* Container */
+  .container {
+    padding-left: var(--spacing-xl);
+    padding-right: var(--spacing-xl);
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 80vh;
+  }
+
+  .hero-title {
+    font-size: var(--font-size-5xl);
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-2xl);
+  }
+
+  .hero-tagline {
+    font-size: var(--font-size-xl);
+  }
+
+  /* Section Headers */
+  .section-title {
+    font-size: var(--font-size-4xl);
+  }
+
+  .section-subtitle {
+    font-size: var(--font-size-xl);
+  }
+
+  /* Section Spacing */
+  section {
+    padding-top: var(--spacing-4xl);
+    padding-bottom: var(--spacing-4xl);
+  }
+
+  /* Grid Layouts */
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-2xl);
+  }
+
+  /* Abstract Grid */
+  .abstract-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  /* Mission Box */
+  .mission-box {
+    padding: var(--spacing-3xl);
+  }
+
+  .mission-text {
+    font-size: var(--font-size-xl);
+  }
+
+  /* Team Grid */
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-2xl);
+  }
+
+  /* Modal */
+  .modal-container {
+    max-width: 700px;
+  }
+
+  .modal-content {
+    padding: var(--spacing-3xl);
+  }
+
+  /* Partner Logos */
+  .partner-logos {
+    gap: var(--spacing-2xl);
+  }
+
+  .partner-logo {
+    width: 150px;
+    height: 75px;
+  }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+  /* Container */
+  .container {
+    padding-left: var(--spacing-2xl);
+    padding-right: var(--spacing-2xl);
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 85vh;
+  }
+
+  .hero-title {
+    font-size: var(--font-size-6xl);
+  }
+
+  .hero-subtitle {
+    font-size: var(--font-size-3xl);
+  }
+
+  .hero-tagline {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Section Spacing */
+  section {
+    padding-top: var(--spacing-5xl);
+    padding-bottom: var(--spacing-5xl);
+  }
+
+  /* Grid Layouts */
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-2xl);
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-2xl);
+  }
+
+  /* Abstract Grid - Side by Side */
+  .abstract-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+  }
+
+  /* Team Grid */
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-3xl);
+  }
+
+  /* Team Cards */
+  .team-photo,
+  .team-photo-placeholder {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Modal */
+  .modal-container {
+    max-width: 800px;
+  }
+
+  /* Cards Hover Effect Enhancement */
+  .card:hover {
+    transform: translateY(-6px);
+  }
+
+  .team-card:hover {
+    transform: translateY(-10px);
+  }
+
+  /* Partner Logos */
+  .partner-logo {
+    width: 180px;
+    height: 90px;
+  }
+}
+
+/* Large Desktop (1280px and up) */
+@media (min-width: 1280px) {
+  /* Container */
+  .container {
+    max-width: var(--container-xl);
+  }
+
+  /* Hero Title */
+  .hero-title {
+    font-size: 4.5rem;
+  }
+
+  /* Section Headers */
+  .section-title {
+    font-size: var(--font-size-5xl);
+  }
+
+  /* Team Grid - 4 columns for larger screens */
+  .team-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Extra Large Desktop (1536px and up) */
+@media (min-width: 1536px) {
+  .container {
+    max-width: var(--container-2xl);
+  }
+
+  /* Increase spacing for very large screens */
+  section {
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  /* Remove animations */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Remove shadows and gradients for better print */
+  .hero {
+    background: var(--color-primary) !important;
+    color: black !important;
+  }
+
+  .card,
+  .team-card,
+  .abstract-card {
+    box-shadow: none !important;
+    border: 1px solid var(--color-border) !important;
+  }
+
+  /* Hide modal overlay */
+  .modal-overlay {
+    display: none !important;
+  }
+
+  /* Ensure text is readable */
+  body {
+    color: black !important;
+    background: white !important;
+  }
+
+  /* Page breaks */
+  section {
+    page-break-inside: avoid;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .card,
+  .team-card,
+  .abstract-card {
+    border-width: 2px;
+  }
+
+  .btn {
+    border-width: 3px;
+  }
+
+  .placeholder-card {
+    border-width: 3px;
+  }
+}
+
+/* Dark Mode Support (Future Enhancement) */
+@media (prefers-color-scheme: dark) {
+  /* This section can be expanded later for dark mode support */
+  /* For now, we'll keep the light theme as default */
+}
