@@ -1,0 +1,108 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Technology Review
+
+<Tabs>
+  <TabItem value="languages" label="Languages" default>
+
+# Languages
+
+
+As we had to work with a pre-existing codebase, a few programming languages were initially fixed. HTML/CSS/JavaScript was used for the website frontend, PHP for the main Laravel backend, Flutter for mobile development, and SQL for the database. For the AI features, however, we evaluated multiple languages before selecting the one that best fit our requirements.
+
+---
+
+## Python
+
+| Advantages | Disadvantages |
+|---|---|
+| Strong team familiarity | Slower runtime performance than alternatives |
+| Extensive ecosystem of AI libraries and frameworks | Not previously used in the codebase, requiring a dedicated Python microservice |
+| High readability, improving development speed | Additional CI/CD configuration needed to deploy the separate microservice |
+| Widely known among software engineers, making hiring for future development easier | |
+
+---
+
+## JavaScript
+
+| Advantages | Disadvantages |
+|---|---|
+| Previously used by the client | Some team members were familiar with it |
+| Faster runtime performance than Python | Significantly smaller AI/ML ecosystem compared to Python |
+| | Slower than PHP |
+
+---
+
+## PHP
+
+| Advantages | Disadvantages |
+|---|---|
+| Previously used by the client | No team members had PHP experience |
+| Straightforward integration into the existing monolith codebase | Very limited support for AI frameworks |
+| Faster runtime performance than Python | Synchronous execution model causes requests to hang during LLM API calls, blocking other clients |
+| Single CI/CD pipeline, therefore no additional deployment configuration required | Slower development speed due to team unfamiliarity |
+
+---
+
+## Decision
+
+We ultimately chose Python, prioritising team familiarity and ecosystem support above other factors such as raw performance. Although Python was not part of the existing codebase, our client confirmed they were comfortable with the language and were supportive of the decision.
+
+  </TabItem>
+
+  <TabItem value="backend" label="Backend Framework">
+
+# Python Backend Framework
+
+After selecting Python for AI feature development, we evaluated several backend frameworks to serve the endpoints consumed by the Laravel backend.
+
+---
+
+## Django
+
+| Advantages | Disadvantages |
+|---|---|
+| Rich set of built-in features including ORM, admin panel, form handling, and authentication | Steeper learning curve and higher complexity than alternatives |
+| Large, well-established community with extensive support | Slower performance compared to FastAPI |
+
+---
+
+## Flask
+
+| Advantages | Disadvantages |
+|---|---|
+| Minimal and easy to get started with | Very few built-in features |
+| Some team members already had prior experience with it | Slower performance compared to FastAPI |
+
+---
+
+## FastAPI
+
+| Advantages | Disadvantages |
+|---|---|
+| Significantly faster than Flask and Django due to its asynchronous design | Newer framework with a smaller community compared to Django and Flask |
+| Lightweight and straightforward to work with | Very few built-in features |
+
+---
+
+## Decision
+
+We chose FastAPI, primarily for its performance and native asynchronous support. The dominant source of latency in our AI service is network I/O, specifically calls to and from the LLM API. FastAPI's asynchronous model allows the service to handle other requests concurrently while awaiting LLM responses, rather than blocking. Additionally, built-in features such as authentication, an admin panel, and ORM were not required, as these are already handled by the Laravel backend — making FastAPI's lightweight nature an advantage rather than a limitation.
+
+
+  </TabItem>
+
+
+  <TabItem value="other" label="Other Technologies">
+
+## Other Technologies
+
+  <!-- Add your content about any other technologies here -->
+
+  </TabItem>
+</Tabs>
