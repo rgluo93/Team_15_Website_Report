@@ -7,49 +7,48 @@ import TabItem from "@theme/TabItem";
 
 # Technology Review
 
-<Tabs>
+<Tabs className="small-tabs">
   <TabItem value="languages" label="Languages" default>
 
-# Languages
-
+## Languages
 
 As we had to work with a pre-existing codebase, a few programming languages were initially fixed. HTML/CSS/JavaScript was used for the website frontend, PHP for the main Laravel backend, Flutter for mobile development, and SQL for the database. For the AI features, however, we evaluated multiple languages before selecting the one that best fit our requirements.
 
 ---
 
-## Python
+### Python
 
-| Advantages | Disadvantages |
-|---|---|
-| Strong team familiarity | Slower runtime performance than alternatives |
-| Extensive ecosystem of AI libraries and frameworks | Not previously used in the codebase, requiring a dedicated Python microservice |
-| High readability, improving development speed | Additional CI/CD configuration needed to deploy the separate microservice |
-| Widely known among software engineers, making hiring for future development easier | |
+| Advantages                                                                         | Disadvantages                                                                  |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Strong team familiarity                                                            | Slower runtime performance than alternatives                                   |
+| Extensive ecosystem of AI libraries and frameworks                                 | Not previously used in the codebase, requiring a dedicated Python microservice |
+| High readability, improving development speed                                      | Additional CI/CD configuration needed to deploy the separate microservice      |
+| Widely known among software engineers, making hiring for future development easier |                                                                                |
 
 ---
 
-## JavaScript
+### JavaScript
 
-| Advantages | Disadvantages |
-|---|---|
-| Previously used by the client | Some team members were familiar with it |
+| Advantages                             | Disadvantages                                            |
+| -------------------------------------- | -------------------------------------------------------- |
+| Previously used by the client          | Some team members were familiar with it                  |
 | Faster runtime performance than Python | Significantly smaller AI/ML ecosystem compared to Python |
-| | Slower than PHP |
+|                                        | Slower than PHP                                          |
 
 ---
 
-## PHP
+### PHP
 
-| Advantages | Disadvantages |
-|---|---|
-| Previously used by the client | No team members had PHP experience |
-| Straightforward integration into the existing monolith codebase | Very limited support for AI frameworks |
-| Faster runtime performance than Python | Synchronous execution model causes requests to hang during LLM API calls, blocking other clients |
-| Single CI/CD pipeline, therefore no additional deployment configuration required | Slower development speed due to team unfamiliarity |
+| Advantages                                                                       | Disadvantages                                                                                    |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Previously used by the client                                                    | No team members had PHP experience                                                               |
+| Straightforward integration into the existing monolith codebase                  | Very limited support for AI frameworks                                                           |
+| Faster runtime performance than Python                                           | Synchronous execution model causes requests to hang during LLM API calls, blocking other clients |
+| Single CI/CD pipeline, therefore no additional deployment configuration required | Slower development speed due to team unfamiliarity                                               |
 
 ---
 
-## Decision
+### Decision
 
 We ultimately chose Python, prioritising team familiarity and ecosystem support above other factors such as raw performance. Although Python was not part of the existing codebase, our client confirmed they were comfortable with the language and were supportive of the decision.
 
@@ -57,50 +56,112 @@ We ultimately chose Python, prioritising team familiarity and ecosystem support 
 
   <TabItem value="backend" label="Backend Framework">
 
-# Python Backend Framework
+## Python Backend Framework
 
 After selecting Python for AI feature development, we evaluated several backend frameworks to serve the endpoints consumed by the Laravel backend.
 
 ---
 
-## Django
+### Django
 
-| Advantages | Disadvantages |
-|---|---|
+| Advantages                                                                                  | Disadvantages                                                  |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | Rich set of built-in features including ORM, admin panel, form handling, and authentication | Steeper learning curve and higher complexity than alternatives |
-| Large, well-established community with extensive support | Slower performance compared to FastAPI |
+| Large, well-established community with extensive support                                    | Slower performance compared to FastAPI                         |
 
 ---
 
-## Flask
+### Flask
 
-| Advantages | Disadvantages |
-|---|---|
-| Minimal and easy to get started with | Very few built-in features |
+| Advantages                                             | Disadvantages                          |
+| ------------------------------------------------------ | -------------------------------------- |
+| Minimal and easy to get started with                   | Very few built-in features             |
 | Some team members already had prior experience with it | Slower performance compared to FastAPI |
 
 ---
 
-## FastAPI
+### FastAPI
 
-| Advantages | Disadvantages |
-|---|---|
-| Significantly faster than Flask and Django due to its asynchronous design | Newer framework with a smaller community compared to Django and Flask |
-| Lightweight and straightforward to work with | Very few built-in features |
+| Advantages                                                                                           | Disadvantages                                                         |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Faster performance than Flask and Django due to its asynchronous design and minimal package overhead | Newer framework with a smaller community compared to Django and Flask |
+| Lightweight and straightforward to work with                                                         | Very few built-in features                                            |
+| Pydantic data validation which improves performance                                                  |                                                                       |
 
 ---
 
-## Decision
+### Decision
 
-We chose FastAPI, primarily for its performance and native asynchronous support. The dominant source of latency in our AI service is network I/O, specifically calls to and from the LLM API. FastAPI's asynchronous model allows the service to handle other requests concurrently while awaiting LLM responses, rather than blocking. Additionally, built-in features such as authentication, an admin panel, and ORM were not required, as these are already handled by the Laravel backend — making FastAPI's lightweight nature an advantage rather than a limitation.
+We selected FastAPI primarily for its performance and native asynchronous support. It is built on the ASGI (Asynchronous Server Gateway Interface) protocol, which allows the server to handle multiple requests concurrently on a single thread.
 
+In our AI service, the dominant source of latency is network I/O, specifically the wait time for external LLM API responses. FastAPI’s asynchronous model enables the service to process incoming traffic while awaiting these responses, rather than blocking the worker process. This provides a significant throughput advantage over traditional frameworks like Flask and Django, which were built on the synchronous WSGI standard.
+
+While Django and Flask are integrating ASGI, their implementations are often abstraction layers rather than native designs. Additionally, FastAPI offers superior performance by using Pydantic for data validation (powered by a Rust engine) and maintaining minimal framework overhead. Since authentication and database management are already handled by our Laravel backend, FastAPI’s lightweight nature is a distinct advantage for this microservice.
 
   </TabItem>
 
+  <TabItem value="llm-model" label="LLM Model">
 
-  <TabItem value="other" label="Other Technologies">
+## LLM Model
 
-## Other Technologies
+An important decision in building our service was selecting the LLM model to power it. As we were provided free Azure credits, we chose to use Azure AI Foundry to make our LLM API calls. While our model selection was restricted to Azure's offerings, we evaluated the following candidates:
+
+| Model             | AI Quality Index | Cost (USD per 1M tokens) | Time to First Token (s) | Throughput (tokens/s) |
+| ----------------- | ---------------- | ------------------------ | ----------------------- | --------------------- |
+| gpt-5             | 0.91             | $3.69                    | 26.86                   | 68.86                 |
+| gpt-4o            | 0.75             | $4.38                    | 1.39                    | 64.67                 |
+| gpt-4o-mini       | 0.72             | $0.26                    | 0.89                    | 73.83                 |
+| claude-sonnet-4-5 | 0.92             | $6.00                    | 2.69                    | 42.61                 |
+| grok-3-mini       | 0.87             | $0.51                    | 0.33                    | 147.54                |
+_Data referenced from Azure AI Foundry._
+
+We ultimately selected GPT-4o-mini. Given that Dignitas is a non-profit organisation, cost was the most critical factor in our decision and GPT-4o-mini is among the most affordable models available on Azure AI Foundry. Beyond cost, it offers an extremely low time to first token and high throughput, both of which contribute to a fast, responsive user experience. While its AI quality index is comparatively lower, the tasks our service requires of the model are not particularly complex, making this a reasonable trade-off.
+
+  </TabItem>
+
+  <TabItem value="ai-orchestration-frameworks" label="AI Orchestration Frameworks">
+
+## AI orchestration frameworks
+
+  <!-- Add your content about any other technologies here -->
+
+  </TabItem>
+
+  <TabItem value="database" label="Database">
+
+## Database Technologies
+
+  <!-- Add your content about any other technologies here -->
+
+  </TabItem>
+
+  <TabItem value="messaging" label="Messaging">
+
+## Text Messaging
+
+  <!-- Add your content about any other technologies here -->
+
+  </TabItem>
+
+  <TabItem value="speech-to-text" label="Speech To Text">
+
+## Speech To Text
+
+  <!-- Add your content about any other technologies here -->
+
+  </TabItem>
+
+  <TabItem value="translation-model" label="Translation">
+
+## Translation model
+
+  <!-- Add your content about any other technologies here -->
+
+  </TabItem>
+
+  <TabItem value="cloud-platform" label="Cloud Platform">
+
+## Cloud Platform
 
   <!-- Add your content about any other technologies here -->
 
