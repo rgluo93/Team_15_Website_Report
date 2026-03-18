@@ -112,10 +112,10 @@ The mobile AI features are tested mainly across 5 files, focusing on the AI func
 | File | Coverage |
 |------|---------|
 | `ai_chatbot_service.dart` | 100% |
-| `home_view_model.dart` | 98% |
-| `chatbot_view.dart` | 94% |
-| `chatbot_view_model.dart` | 76% |
-| `alert_service.dart` | 68% |
+| `home_view_model.dart` | 99% |
+| `chatbot_view.dart` | 95% |
+| `chatbot_view_model.dart` | 74% |
+| `alert_service.dart` | 67% |
 
 ### Testing Patterns
 
@@ -132,15 +132,14 @@ The mobile AI features are tested mainly across 5 files, focusing on the AI func
 - **`home_view_model.dart`**: Covers summary generation, translation toggle, caching, navigation and user data refresh  
 - **`chatbot_view_model.dart`**: Covers message flow, clear history, translation toggle, caching  
 - **`chatbot_view.dart`**: Covers UI elements, offline banner, input area, translation button, loading indicator  
-- **`scenario_feedback_dialog.dart`**: Covers AI feedback generation, button states, spinners, translation toggle  
+- **`alert_service.dart`**: Covers AI feedback generation, button states, spinners, translation toggle  
 
 ### Testing Limitations
 
 - **`chatbot_view_model.dart`**: The `startRecording` and `stopRecording` methods instantiate `Record()` directly, which requires real microphone permissions and cannot be tested.  
 - **`chatbot_view.dart`**: Microphone and recording UI elements, such as buttons and waveform, are tied to the real `Record` instance, preventing simulation in tests.  
 - **`home_view.dart`**: Uses localisation (`S.of(context)`), `CachedNetworkImage`, `Marquee` and `DigDrawer`, all of which do not function in the test environment.  
-- **`alert_service.dart`**: Sections relying on platform channels or device dialogs are not covered by tests.  
-- **`ai_chatbot_service.dart`**: WebSocket connections and stream handling require a live server and cannot be fully tested.  
+- **`alert_service.dart`**: Sections relying on platform channels or device dialogs are not covered by tests. 
 - **`General limitations`**: Platform channels (mic, camera), localisation, third-party widgets and direct instantiation of services limit testability and mockability.
 
 ---
