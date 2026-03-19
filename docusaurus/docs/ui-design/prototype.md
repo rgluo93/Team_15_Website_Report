@@ -26,15 +26,15 @@ Integrating an LLM into scenario-based learning modules to simulate real-world s
 
 The chatbot is different depending on the user's role. Teachers can use it to get answers to questions related to teaching and student issues. For education officers, the chatbot supports monitoring teacher performance and measuring engagement.
 
-### Education Officer — AI Chatbot
+### AI Chatbot
 
-<img src="/img/ui-design-images/prototype-edu-officer-ai.png" alt="Education Officer AI Chatbot" width="80%" />
+<img src="/img/ui-design-images/prototype-edu-officer-ai.png" alt="Education Officer AI Chatbot" width="35%" />
 
-### Education Officer — Dashboard
+### Dashboard
 
 <img src="/img/ui-design-images/prototype-edu-officer-dashboard.png" alt="Education Officer Dashboard" width="80%" />
 
-## Changes in the Final Implementation
+### Changes in the Final Implementation
 
 In the final product, the separate dashboard and chatbot views were consolidated into a single AI agent. Rather than navigating between screens, education officers interact with one chatbot interface that automatically determines the appropriate action (querying live data, sending WhatsApp reminders, generating planning documents or translating messages) based on what they ask.
 

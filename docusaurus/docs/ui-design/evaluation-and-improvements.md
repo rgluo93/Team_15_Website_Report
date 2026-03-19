@@ -6,6 +6,8 @@ sidebar_position: 5
 
 ## Heuristic Evaluation
 
+**Severity scale:** 1 — not very severe &nbsp;|&nbsp; 2 — not severe &nbsp;|&nbsp; 3 — severe &nbsp;|&nbsp; 4 — very severe
+
 | No. | Heuristic | Location & Description | Solution | Severity |
 |-----|-----------|----------------------|----------|----------|
 | 1 | Visibility of system status | All LLM features. Responses may take time to receive and users need to be informed. | Implement a loading indicator and streamed output to show that a response is being fetched. | 2 |
@@ -15,18 +17,18 @@ sidebar_position: 5
 
 ## Improvements
 
-### Issue 1 — Loading icon and LLM streaming
+### Issue 1: Loading icon and LLM streaming
 
 <img src="/img/ui-design-images/prototype-improvements1.png" alt="Improvement 1 - Loading indicator and streaming" width="80%" />
 
-### Issue 2 — Button to translate between English and Swahili
+### Issue 2: Button to translate between English and Swahili
 
 <img src="/img/ui-design-images/prototype-improvements2.png" alt="Improvement 2 - Translation button" width="80%" />
 
-### Issue 3 — Icon to indicate LLM-generated content
+### Issue 3: Icon to indicate LLM-generated content
 
 <img src="/img/ui-design-images/prototype-improvements3.png" alt="Improvement 3 - LLM generation icon" width="80%" />
 
-### Issue 4 — Dropdown button for user insights
+### Issue 4: Dropdown button for user insights
 
 <img src="/img/ui-design-images/prototype-improvements4.png" alt="Improvement 4 - Collapsible user insight" width="80%" />
