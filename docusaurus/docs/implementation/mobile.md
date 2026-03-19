@@ -12,11 +12,17 @@ This section outlines the AI-related updates made to the LeadNow mobile applicat
 
 ## AI Features Implementation
 
-### Central AI Service
+### AI Services
 
-**File:** `lib/services/ai_chatbot_service.dart`  
+There are 5 services, each responsible for a single concern:
 
-The `AIChatbotService` connects the mobile app to the FastAPI backend and handles all AI-related requests.  
+| Service File | Methods |
+|---|---|
+| `ai_chatbot_service.dart` | `sendMessage()`, `clearHistory()` |
+| `ai_user_summary_service.dart` | `generateUserSummary()` |
+| `ai_scenario_feedback_service.dart` | `generateScenarioFeedback()` |
+| `ai_speech_to_text_service.dart` | `transcribeAudio()` |
+| `ai_translation_service.dart` | `translateText()`, `clearTranslationCache()` |
 
 **Features & Endpoints:**
 
@@ -48,7 +54,7 @@ The `AIChatbotService` connects the mobile app to the FastAPI backend and handle
 - Triggered after submitting scenario responses.  
 - AI feedback is shown alongside the user’s answer and expert answer.  
 - Modal dialog UI allows per-field translation and shows a loading spinner while feedback is generated.  
-- **Functions called:** `generateScenarioFeedback()`, `translateText()`
+- **Functions called:** `generateScenarioFeedback()`, `transcribeAudio()`, `translateText()`
 
 ### Language Translation
 
@@ -105,13 +111,17 @@ The `AIChatbotService` connects the mobile app to the FastAPI backend and handle
 
 ## Testing
 
-The mobile AI features are tested mainly across 5 files, focusing on the AI functionalities we implemented.
+The tests focuses on the AI functionalities we implemented.
 
 ### Test Coverage by File
 
 | File | Coverage |
 |------|---------|
 | `ai_chatbot_service.dart` | 100% |
+| `ai_user_summary_service.dart` | 100% |
+| `ai_scenario_feedback_service.dart` | 100% |
+| `ai_speech_to_text_service.dart` | 100% |
+| `ai_translation_service.dart` | 100% |
 | `home_view_model.dart` | 99% |
 | `chatbot_view.dart` | 95% |
 | `chatbot_view_model.dart` | 74% |
@@ -120,6 +130,7 @@ The mobile AI features are tested mainly across 5 files, focusing on the AI func
 ### Testing Patterns
 
 - **Mockito with @GenerateMocks** and code generation for mocking services  
+- **MockClient** from `package:http/testing.dart` to mock HTTP responses in service tests
 - **registerServices() / locator.reset()** in `setUp` and `tearDown`  
 - **`Completer<T>` pattern** to control async timing in widget tests  
 - **testWidgets** to verify UI state, not just unit behavior  
@@ -128,11 +139,15 @@ The mobile AI features are tested mainly across 5 files, focusing on the AI func
 
 ### Key Test Coverage
 
-- **`ai_chatbot_service.dart`**: Covers all AI methods, including error handling and translation caching  
-- **`home_view_model.dart`**: Covers summary generation, translation toggle, caching, navigation and user data refresh  
-- **`chatbot_view_model.dart`**: Covers message flow, clear history, translation toggle, caching  
-- **`chatbot_view.dart`**: Covers UI elements, offline banner, input area, translation button, loading indicator  
-- **`alert_service.dart`**: Covers AI feedback generation, button states, spinners, translation toggle  
+- **`ai_chatbot_service.dart`**: Covers `sendMessage` and `clearHistory`, including error handling
+- **`ai_user_summary_service.dart`**: Covers `generateUserSummary`, including success/fallback fields, empty data, all HTTP status codes, timeout and network errors
+- **`ai_scenario_feedback_service.dart`**: Covers `generateScenarioFeedback`, including success/fallback fields, empty data, non-200, timeout and unexpected errors
+- **`ai_speech_to_text_service.dart`**: Covers `transcribeAudio`, including three response field fallbacks and null on non-200/exception/false-success
+- **`ai_translation_service.dart`**: Covers `translateText` and `clearTranslationCache`, including caching (no duplicate HTTP calls), null on failure and cache reset
+- **`home_view_model.dart`**: Covers summary generation, translation toggle, caching, navigation and user data refresh
+- **`chatbot_view_model.dart`**: Covers message flow, clear history, translation toggle, caching
+- **`chatbot_view.dart`**: Covers UI elements, offline banner, input area, translation button, loading indicator
+- **`alert_service.dart`**: Covers AI feedback generation, button states, spinners, translation toggle
 
 ### Testing Limitations
 
