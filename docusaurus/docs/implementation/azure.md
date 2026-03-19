@@ -12,11 +12,11 @@ Kubernetes would provide maximum flexibility and control over the infrastructure
 
 From a cost perspective, Container Apps is more suitable. The services scale based on demand and do not require maintaining compute nodes that must always be on, which would be necessary in a dedicated Kubernetes cluster.  
 
-Additionally, Kubernetes introduces additional infrastructure management. Running a Kubernetes cluster requires managing node pools, networking, persistent storage, scaling policies and cluster maintenance. For a system of this size, that level of operational responsibility adds unnecessary complexity.  
+Additionally, Kubernetes introduces additional infrastructure management. Running a Kubernetes cluster requires managing node pools, networking, persistent storage, scaling policies and cluster maintenance. For a system of this size, needing to manage all these adds unnecessary complexity.
 
 Azure Container Apps provides a simpler alternative that still supports **containerised services and automatic scaling**. It allows the services to run directly from Docker images while Azure manages the underlying infrastructure, networking and scaling behavior.  
 
-For these reasons, Azure Container Apps was chosen as the hosting platform. It provides sufficient scalability and reliability while keeping operational complexity and infrastructure costs low. A Kubernetes setup has also been prepared in case the client prefers using it in the future.
+For these reasons, Azure Container Apps was chosen as the hosting platform. It provides sufficient scalability and reliability while keeping complexity and infrastructure costs low. A Kubernetes setup has also been prepared in case the client prefers using it in the future.
 
 ---
 
@@ -36,7 +36,7 @@ Within that resource group, the following resources are created:
 For Redis, there are two options:
 
 1. **Container App deployment**: Redis runs as a container inside the same environment using the official Redis image. No authentication is needed, and applications in the same environment can reach it by name through the internal network.  
-2. **Azure Cache for Redis**: a fully managed service that provides persistence, high availability, and SSL, but requires a password and connecting over port 6380.  
+2. **Azure Cache for Redis**: a fully managed service that provides persistence, high availability and SSL, but requires a password and connecting over port 6380.  
 
 For this deployment, the former option was chosen. Because all services communicate internally within the same Container Apps environment and the Redis instance is not exposed publicly, authentication was not required. This keeps the setup simpler while remaining secure within the private environment.
 
