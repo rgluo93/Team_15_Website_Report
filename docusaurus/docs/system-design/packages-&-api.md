@@ -1,7 +1,7 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 ---
 
-# Sequence Diagram
+# Packages & API
 
 Details about the sequence diagram will go here.
