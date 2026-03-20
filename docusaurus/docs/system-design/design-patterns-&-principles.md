@@ -1,7 +1,7 @@
 ---
-sidebar_position: 4
+sidebar_position: 5
 ---
 
-# Design Patterns
+# Design Patterns & Principles
 
 Details about design patterns will go here.
