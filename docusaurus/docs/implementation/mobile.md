@@ -153,19 +153,12 @@ Future<String> sendMessage(String userId, String question) async {
 
 ## Architecture
 
-- **Pattern:** MVVM using **Stacked**.  
-- **Views:** purely UI.  
-- **ViewModels:** manage state, call Services/Repositories.  
-- **Local storage:** ObjectBox.  
-- **Offline handling:** `ConnectivityService` gates AI calls.  
+The app follows the **MVVM (Model-View-ViewModel)** pattern using the **Stacked** framework. MVVM separates the UI from business logic: Views only handle what the user sees, while ViewModels manage state and coordinate service calls, making the codebase easier to test and maintain.
 
----
-
-## Summary
-
-- Mobile app now fully integrates **AI features**: chatbot, user summary, scenario feedback, speech-to-text, translation and delete history.  
-- Frontend is enhanced with **intuitive UI components**, including translation buttons, trash icons and loading indicators.  
-- Architecture and MVVM pattern maintain clear separation of concerns.  
-- Test suite covers the majority of AI-related functionality, with platform-specific limitations noted.  
+- **Views:** purely UI, no business logic.
+- **ViewModels:** manage state, handle user actions and call Services/Repositories.
+- **Services:** responsible for a single concern each (e.g. chatbot, translation, speech-to-text).
+- **Local storage:** ObjectBox is used to persist chat history and cached summaries.
+- **Offline handling:** `isOffline` from the user repository is checked before making AI calls, preventing unnecessary requests when the device is offline.
 
 
