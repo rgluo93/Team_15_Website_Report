@@ -6,7 +6,9 @@ sidebar_position: 1
 
 ## Introduction
 
-This section outlines the AI-related updates made to the LeadNow mobile application, covering new features, UI changes, architecture and testing. All AI features communicate with the Azure-hosted FastAPI backend.
+The LeadNow mobile application is built with **Flutter**, Google's open-source UI framework for building natively compiled applications for iOS and Android from a single codebase. Flutter uses the Dart programming language and allows teams to ship consistent, high-performance apps across platforms without maintaining separate codebases.
+
+This section outlines the AI-related updates made to the LeadNow mobile application, covering new features, UI changes and architecture. All AI features communicate with the Azure-hosted FastAPI backend.
 
 ---
 
@@ -34,6 +36,56 @@ There are 5 services, each responsible for a single concern:
 | Scenario feedback   | `generateScenarioFeedback()` | POST `/api/v1/scenario-feedback/generate` |
 | Speech-to-text      | `transcribeAudio()`  | POST `/api/v1/speech-to-text/transcribe` |
 | Translation         | `translateText()`    | POST `/api/v1/translate` |
+
+### Service Pattern
+
+All services follow the same structure: a POST or DELETE request to the backend with an API key, a timeout and error handling for different HTTP status codes. Below is an example from `ai_chatbot_service.dart`:
+
+```dart
+Future<String> sendMessage(String userId, String question) async {
+  try {
+    final uri = Uri.parse('${Config.aiBaseUrl}/api/v1/chatbot/chat');
+
+    final response = await _client.post(
+      uri,
+      headers: {
+        'x-api-key': Config.aiApiKey,
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        'user_id': userId,
+        'question': question,
+      }),
+    ).timeout(const Duration(seconds: 30));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      if (responseData['success'] == true && responseData['data'] != null) {
+        final aiResponse = responseData['data']['response'] ??
+                          responseData['data']['message'];
+        if (aiResponse == null || aiResponse.toString().trim().isEmpty) {
+          return 'AI service returned an empty response.';
+        }
+        return aiResponse.toString();
+      } else {
+        return 'AI service returned an unexpected response format.';
+      }
+    } else if (response.statusCode == 422) {
+      return 'Invalid request. Please check your input and try again.';
+    } else if (response.statusCode == 500) {
+      return 'AI service encountered an internal error. Please try again later.';
+    } else {
+      return 'AI service returned an error (${response.statusCode}). Please try again.';
+    }
+  } on TimeoutException {
+    return 'Request timed out. Please check your internet connection and try again.';
+  } on http.ClientException {
+    return 'Unable to reach the AI service. Please try again later.';
+  } catch (e) {
+    return 'AI service is currently unavailable. Please try again later.';
+  }
+}
+```
 
 ### General Chatbot
 
@@ -106,56 +158,6 @@ There are 5 services, each responsible for a single concern:
 - **ViewModels:** manage state, call Services/Repositories.  
 - **Local storage:** ObjectBox.  
 - **Offline handling:** `ConnectivityService` gates AI calls.  
-
----
-
-## Testing
-
-The tests focuses on the AI functionalities we implemented.
-
-### Test Coverage by File
-
-| File | Coverage |
-|------|---------|
-| `ai_chatbot_service.dart` | 100% |
-| `ai_user_summary_service.dart` | 100% |
-| `ai_scenario_feedback_service.dart` | 100% |
-| `ai_speech_to_text_service.dart` | 100% |
-| `ai_translation_service.dart` | 100% |
-| `home_view_model.dart` | 99% |
-| `chatbot_view.dart` | 95% |
-| `chatbot_view_model.dart` | 74% |
-| `alert_service.dart` | 67% |
-
-### Testing Patterns
-
-- **Mockito with @GenerateMocks** and code generation for mocking services  
-- **MockClient** from `package:http/testing.dart` to mock HTTP responses in service tests
-- **registerServices() / locator.reset()** in `setUp` and `tearDown`  
-- **`Completer<T>` pattern** to control async timing in widget tests  
-- **testWidgets** to verify UI state, not just unit behavior  
-- Direct instantiation of `AlertService()` to test private dialog widgets  
-- `tester.binding.setSurfaceSize()` to prevent layout overflow in widget tests  
-
-### Key Test Coverage
-
-- **`ai_chatbot_service.dart`**: Covers `sendMessage` and `clearHistory`, including error handling
-- **`ai_user_summary_service.dart`**: Covers `generateUserSummary`, including error handling
-- **`ai_scenario_feedback_service.dart`**: Covers `generateScenarioFeedback`, including error handling
-- **`ai_speech_to_text_service.dart`**: Covers `transcribeAudio`, including error handling
-- **`ai_translation_service.dart`**: Covers `translateText`, `clearTranslationCache` and cache size tracking
-- **`home_view_model.dart`**: Covers summary generation, translation toggle, caching, navigation and user data refresh
-- **`chatbot_view_model.dart`**: Covers message flow, clear history, translation toggle, caching
-- **`chatbot_view.dart`**: Covers UI elements, offline banner, input area, translation button, loading indicator
-- **`alert_service.dart`**: Covers AI feedback generation, button states, spinners, translation toggle
-
-### Testing Limitations
-
-- **`chatbot_view_model.dart`**: The `startRecording` and `stopRecording` methods instantiate `Record()` directly, which requires real microphone permissions and cannot be tested.  
-- **`chatbot_view.dart`**: Microphone and recording UI elements, such as buttons and waveform, are tied to the real `Record` instance, preventing simulation in tests.  
-- **`home_view.dart`**: Uses localisation (`S.of(context)`), `CachedNetworkImage`, `Marquee` and `DigDrawer`, all of which do not function in the test environment.  
-- **`alert_service.dart`**: Only `feedbackDialog` was tested as part of this refactor (it uses the AI feedback and translation services). The non-AI methods were out of scope and were untested.
-- **`General limitations`**: Platform channels (mic, camera), localisation, third-party widgets and direct instantiation of services limit testability and mockability.
 
 ---
 
