@@ -283,7 +283,7 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 #### 1. Chatbot & AI Agents
 
 **General Chat & EO Agent**
-* **Endpoint:** `POST /api/v1/chatbot/chat` or `POST /api/v1/eo-agent/chat`
+* **Endpoint:** `POST /api/v1/chatbot/chat`
 * **Request:**
 ```json
 {
@@ -292,6 +292,7 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
   "phone_number": "254712345678"
 }
 ```
+* **Endpoint:** `POST /api/v1/eo-agent/chat`
 * **Response:**
 ```json
 {
