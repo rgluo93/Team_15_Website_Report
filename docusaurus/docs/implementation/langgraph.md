@@ -2,6 +2,6 @@
 sidebar_position: 10
 ---
 
-# Langgraph
+# LangGraph
 
-Details about Langgraph implementation will go here.
+Details about LangGraph implementation will go here.
