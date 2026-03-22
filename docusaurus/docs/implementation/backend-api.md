@@ -2,11 +2,11 @@
 sidebar_position: 3
 ---
 
-# Backend API Implementation
+# Backend API
 
 At the core of our backend is a RESTful API implemented using FastAPI, a robust and asynchronous Python backend web framework. 
 
-### FastAPI Background 
+### FastAPI Introduction 
 
 FastAPI is built on top of Starlette and operates within the ASGI (Asynchronous Server Gateway Interface) ecosystem and is being served with Uvicorn. ASGI is a specification that defines how asynchronous Python applications communicate with web servers, enabling efficient handling of concurrent requests. Uvicorn is a lightweight ASGI server responsible for listening for incoming HTTP requests, converting them into the ASGI format, passing them to the application, and returning the resulting HTTP responses to the client. Starlette is an asynchronous web framework that provides the core web functionality, including routing, middleware, request and response handling, and support for WebSockets. FastAPI builds on top of Starlette by adding higher-level features such as automatic request validation using Python type hints and dependency injection. Together, these components form an extremely high-performance and easy to use Python web framework.
 
@@ -126,9 +126,6 @@ def initialize_chat_service() -> ChatService:
             redis_password=settings.redis_password or None,
             qdrant_url=settings.qdrant_url
         )
-        print(f"✓ ChatService initialized successfully with Azure deployment: {settings.azure_api_deployment}")
-        print(f"  └─ Redis: {settings.redis_host}:{settings.redis_port}")
-        print(f"  └─ Qdrant: {settings.qdrant_url}")
 
     return _chat_service
 ```
@@ -137,19 +134,6 @@ def initialize_chat_service() -> ChatService:
 
 ```python
 def verify_api_key(x_api_key: str = Header(..., description="API key for authentication")):
-    """
-    Verify API key from request header.
-
-    Args:
-        x_api_key: API key from X-API-Key header
-
-    Raises:
-        HTTPException: 401 if API key is missing or invalid
-
-    Returns:
-        str: The validated API key
-    """
-    # Use constant-time comparison to prevent timing attacks
     if not secrets.compare_digest(x_api_key, settings.api_key):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -164,10 +148,6 @@ def verify_api_key(x_api_key: str = Header(..., description="API key for authent
 
 ```python
 class Settings(BaseSettings):
-    """
-    Application settings loaded from environment variables.
-    """
-
     # API Configuration
     api_key: str
     api_host: str = "0.0.0.0"
@@ -242,7 +222,7 @@ settings = Settings()
 
 ### Endpoints and Schema Definitions
 
-API endpoints are grouped by functionality and registered using FastAPI’s router mechanism, allowing for modular and maintainable code organisation. For example, user summary is grouped into its own endpoint as it is a separate feature 
+API endpoints are grouped by functionality and registered using FastAPI’s router mechanism, allowing for modular and maintainable code organisation. For example, user summary is grouped into its own endpoint as it is a separate feature. For example the user summary endpoint is defined in `routers/user_summary.py` and includes both the route handler and the Pydantic models for request validation and response formatting:
 
 ```python
 router = APIRouter(
@@ -265,7 +245,7 @@ async def generate_summary(
 ) -> StandardResponse[UserSummaryResponseData]
 ```
 
-Each endpoint validates incoming request data using Pydantic models, ensuring type safety and consistent data handling, and returns standardized JSON responses. 
+Each endpoint validates incoming request data using Pydantic models, ensuring type safety and consistent data handling, and returns standardized JSON responses. For example, the `UserSummaryRequest` and `UserSummaryResponseData` models define the expected structure of the request and response for the user summary endpoint:
 
 ```python
 class UserSummaryRequest(BaseModel):
@@ -301,55 +281,36 @@ class UserSummaryRequest(BaseModel):
         examples=["Active participation in quizzes, completed 5 action plans"]
     )
 
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "user_id": "user-123",
-                "modules_completed": "Module 1: Classroom Management (2024-01-15), Module 2: Student Engagement (2024-02-10)",
-                "topics_covered": "Classroom Management, Student Engagement",
-                "all_modules": "Module 1: Classroom Management, Module 2: Student Engagement, Module 3: Assessment Strategies",
-                "additional_details": "Active participation, completed all quizzes with average score of 85%"
-            }
-        }
-
 
 class UserSummaryResponseData(BaseModel):
     summary: str = Field(..., description="AI-generated summary of user's learning progress and recommendations")
     user_id: str = Field(..., description="User identifier")
 
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "summary": "You have successfully completed 2 modules covering Classroom Management and Student Engagement. Your progress shows strong engagement with an 85% average quiz score. Based on your learning path, we recommend exploring Module 3: Assessment Strategies next to build on your classroom management skills.",
-                "user_id": "user-123"
-            }
-        }
-
 ```
 
 ### Asynchronous Integration with Core Services
 
-The API layer interacts with the LLM service, RAG pipeline, and Redis cache through well-defined service interfaces, ensuring clear separation of concerns and maintainability. Asynchronous calls are used throughout the system when interacting with these interfaces to maximise throughput and scalability, enabling efficient handling of concurrent requests.
+The API layer interacts with the LLM service, RAG pipeline, and Redis cache through well-defined service interfaces, ensuring clear separation of concerns and maintainability. Asynchronous calls are used throughout the system when interacting with these interfaces to maximise throughput and scalability, enabling efficient handling of concurrent requests. For example, the `TranslationService` is designed to be asynchronous, allowing the API to handle multiple chatbot interactions concurrently without blocking:
+
 
 ``` python
 @router.post("/translate", response_model=StandardResponse[TranslateResponse])
 async def translate(request: TranslateRequest) -> StandardResponse[TranslateResponse]:
 		try:
-				translated = await translate_text(
-						text=request.text,
-						direction="english_to_swahili" if request.target_lang == "sw" else "swahili_to_english"
-				)
+			translated = await translate_text(
+				text=request.text,
+				direction="english_to_swahili" if request.target_lang == "sw" else "swahili_to_english"
+			)
 		except Exception as e:
-				raise HTTPException(status_code=500, detail=f"Translation failed: {str(e)}")
-
+			raise HTTPException(status_code=500, detail=f"Translation failed: {str(e)}")
 		return StandardResponse(
-				data=TranslateResponse(translated_text=translated)
+			data=TranslateResponse(translated_text=translated)
 		)
 ```
 
 ### System Reliability and Observability Infrastructure
 
-Core logic is separated from infrastructure through a dedicated utils layer to ensure resilience and transparency. A custom exception hierarchy and global handlers was implemented to catch failures automatically, returning standardized JSON responses that provide clear feedback while preventing system crashes.
+Core logic is separated from infrastructure through a dedicated utils layer to ensure resilience and transparency. A custom exception hierarchy and global handlers was implemented to catch failures automatically, returning standardized JSON responses that provide clear feedback while preventing system crashes. For example, the `AIServiceError` base exception and `AzureAPIError` subclass allow for consistent error handling across all AI service interactions, while the `ai_service_exception_handler` ensures that any exceptions raised are logged with contextual information and returned to the client in a structured format:
 
 ```python
 class AIServiceError(Exception):
@@ -386,24 +347,11 @@ async def ai_service_exception_handler(request: Request, exc: AIServiceError) ->
 
 ```
 
-Complementing this, the observability engine produces machine-readable JSON logs enriched with contextual metadata, such as user_id, request endpoint, and operation duration_ms, allowing for high-precision monitoring and rapid diagnosis in production environments.
+Complementing this, the observability engine produces machine-readable JSON logs enriched with contextual metadata, such as user_id, request endpoint, and operation duration_ms, allowing for high-precision monitoring and rapid diagnosis in production environments. Below is the `JSONFormatter` class which formats logs into structured JSON format, including additional fields for enhanced observability. 
 
 ```python
 class JSONFormatter(logging.Formatter):
-    """
-    Custom JSON formatter for structured logging.
-    """
-
     def format(self, record: logging.LogRecord) -> str:
-        """
-        Format log record as JSON.
-
-        Args:
-            record: Log record to format
-
-        Returns:
-            str: JSON-formatted log message
-        """
         log_data: Dict[str, Any] = {
             "timestamp": datetime.utcnow().isoformat(),
             "level": record.levelname,
