@@ -89,54 +89,56 @@ Future<String> sendMessage(String userId, String question) async {
 
 ### General Chatbot
 
-- Floating action button that expands into a full chat interface.  
-- Supports voice recording (speech-to-text), per-message translation, offline banner, typing indicator and auto-scroll.  
-- Chat history is persisted locally using ObjectBox.  
-- **Functions called:** `sendMessage()`, `clearHistory()`, `transcribeAudio()`, `translateText()`
+- Available via a floating action button on the home dashboard.
+- Chat history is persisted locally using ObjectBox.
+- **Functions called:** `sendMessage()`, `clearHistory()`
 
 ### User Progress Summary
 
-- AI-generated progress summaries displayed on the home dashboard.  
-- Cached locally with a 1-hour cooldown before regeneration.  
-- Gradient card UI with **Translate** and **Refresh/Regenerate** buttons, markdown rendering and last-updated timestamp.  
-- **Functions called:** `generateUserSummary()`, `translateText()`
+- AI-generated progress summaries displayed on the home dashboard.
+- Cached locally with a 1-hour cooldown before regeneration.
+- **Functions called:** `generateUserSummary()`
 
 ### Scenario-Based Learning Feedback
 
-- Triggered after submitting scenario responses.  
-- AI feedback is shown alongside the user’s answer and expert answer.  
-- Modal dialog UI allows per-field translation and shows a loading spinner while feedback is generated.  
-- **Functions called:** `generateScenarioFeedback()`, `transcribeAudio()`, `translateText()`
+- Available after submitting scenario responses via a **Generate Feedback** button.
+- AI feedback is shown alongside the user’s answer and expert answer.
+- **Functions called:** `generateScenarioFeedback()`
+
+### Speech-to-Text
+
+- Allows users to record voice input instead of typing, with audio transcribed and inserted into the relevant input field.
+- Available in the chatbot input bar and per response field in scenario-based learning.
+- **Functions called:** `transcribeAudio()`
 
 ### Language Translation
 
-- On-demand translation for AI-generated content.  
-- Translation button available on AI responses; target language selection handled in the UI.  
-- Cached locally for performance.  
-- **Functions called:** `translateText()`
+- Translates AI-generated text between English and Swahili on demand.
+- Available per message in the chatbot, as a single toggle on the user summary, and per field in the scenario feedback dialog.
+- **Functions called:** `translateText()`, `clearTranslationCache()`
 
 ---
 
 ## Frontend Changes
 
-### Chatbot UI (`lib/ui/views/chatbot/`)
-- Floating action button expands into a full chat interface.  
-- Voice recording with speech-to-text transcription.  
-- Per-message translation button on AI responses.  
-- Offline banner, typing indicator, auto-scroll.  
-- Chat history persisted locally in **ObjectBox** (`ChatMessage` entity).  
-- Trash can icon integrated for **delete history**.
+### Chatbot UI (`lib/ui/views/chatbot/chatbot_view.dart`)
+- A floating action button in the bottom-right corner opens the chat interface as an overlay.
+- Displays an offline banner when the device has no network connection, and a typing indicator while the AI is responding.
+- Messages auto-scroll to the latest response, and a trash icon in the header clears the chat history.
+- Chat history is persisted locally in **ObjectBox** (`ChatMessage` entity) so conversations are retained between sessions.
+- **Speech-to-text:** A single microphone button in the input bar records audio. On stop, the transcribed text is automatically placed into the input field.
+- **Translation:** Each AI message bubble has an independent **Translate** button below it, toggling that message between English and Swahili without affecting other messages.
 
 ### User Summary Section (`lib/ui/views/home/home_view.dart`)
-- Gradient card displaying AI-generated summary.  
-- Translate, Refresh/Regenerate buttons with loading states.  
-- Markdown rendering for formatted AI output.  
-- Last-updated timestamp displayed.
+- A gradient card on the home dashboard displays the AI-generated progress summary with markdown rendering and a last-updated timestamp.
+- A **Refresh/Regenerate** button triggers a new summary generation, with a loading state shown while the request is in progress.
+- **Translation:** A single **Translate** button on the card toggles the entire summary block between English and Swahili.
 
 ### Scenario Feedback Dialog (`lib/services/alert_service.dart`)
-- Modal showing user answer, expert answer and AI feedback.  
-- Independent translation per field.  
-- Loading spinner while feedback is being generated.  
+- A modal dialog displays the user's answer, the expert answer and the AI-generated feedback side by side.
+- A **Generate Feedback** button triggers the AI request; a loading spinner is shown while feedback is being fetched.
+- **Speech-to-text:** Each response field has its own microphone button. The transcribed text fills that specific answer field.
+- **Translation:** Each AI feedback field has an independent **Translate** button, allowing each field to be toggled between English and Swahili independently.
 
 ---
 
@@ -147,7 +149,8 @@ Future<String> sendMessage(String userId, String question) async {
 | **General Chatbot** | Tap the chat icon at the bottom-right of the screen to open the chatbot window and start a conversation. |
 | **User Progress Summary** | Scroll to the bottom of the page on the home dashboard. Tap **Refresh** to generate an updated summary. |
 | **Scenario-Based Learning Feedback** | Within Scenario-Based Learning pages, tap **Resume Session** to enter the activity. After submitting your response, tap the option to generate AI feedback. |
-| **Language Translation** | Tap the **Translate** button on any AI-generated text to see it in a different language. |
+| **Speech-to-Text** | Tap the **microphone** icon in the chatbot or scenario response input to record your response via speech-to-text. |
+| **Language Translation** | Tap the **Translate** button on any AI-generated text to toggle between English and Swahili. |
 
 ---
 
