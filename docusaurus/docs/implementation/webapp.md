@@ -8,7 +8,7 @@ sidebar_position: 2
 
 ## 1. AI Assistant Chat (Teacher)
 
-The teacher dashboard includes an AI chat modal with message input, response rendering and user-friendly fallback messages when the AI service is unavailable.
+The teacher dashboard now includes an AI chat with message input, response rendering and user-friendly fallback messages when the AI service is unavailable.
 
 ```js
 async function sendChatMessage() {
@@ -95,7 +95,7 @@ AI-generated scenario feedback is surfaced directly in the Scenario-Based Learni
 
 ---
 
-## 4. Speech-to-Text Input for Chat and Scenario Responses
+## 4. Speech to Text Input for Chat and Scenario Responses
 
 Voice input was integrated into both chatbot and scenario response flows to improve accessibility and speed of response authoring.
 
