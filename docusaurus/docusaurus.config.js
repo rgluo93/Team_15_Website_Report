@@ -11,7 +11,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: "LeadNow Dignitas",
-  tagline: "Dinosaurs are cool",
+  tagline: "Improve access to tailored, high-quality professional development for educators",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -27,8 +27,8 @@ const config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "facebook", // Usually your GitHub org/user name.
-  projectName: "docusaurus", // Usually your repo name.
+  organizationName: "rgluo93", // GitHub org/user name.
+  projectName: "Team_15_Website_Report", // Repo name.
 
   onBrokenLinks: "throw",
 
@@ -50,7 +50,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
         },
         blog: {
           showReadingTime: true,
@@ -61,7 +61,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            "https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/",
+            "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
           onInlineAuthors: "warn",
@@ -146,7 +146,7 @@ const config = {
           },
           { to: "/blog", label: "Blog", position: "left" },
           {
-            href: "https://github.com/facebook/docusaurus",
+            href: "https://github.com/rgluo93/Team_15_Website_Report",
             label: "GitHub",
             position: "right",
           },
@@ -156,28 +156,32 @@ const config = {
         style: "light",
         links: [
           {
-            title: "Docs",
+            title: "Report",
             items: [
               {
-                label: "Tutorial",
+                label: "Project Overview",
                 to: "/docs/intro",
+              },
+              {
+                label: "Requirements",
+                to: "/docs/requirements/partner-introduction",
+              },
+              {
+                label: "Implementation",
+                to: "/docs/implementation/mobile",
               },
             ],
           },
           {
-            title: "Community",
+            title: "Partners",
             items: [
               {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
+                label: "Dignitas Kenya",
+                href: "https://dignitas.ngo",
               },
               {
-                label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
-              },
-              {
-                label: "X",
-                href: "https://x.com/docusaurus",
+                label: "UCL Computer Science",
+                href: "https://www.ucl.ac.uk/computer-science/",
               },
             ],
           },
@@ -190,12 +194,12 @@ const config = {
               },
               {
                 label: "GitHub",
-                href: "https://github.com/facebook/docusaurus",
+                href: "https://github.com/rgluo93/Team_15_Website_Report",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} LeadNow Project - Team 15, Dignitas Technologies. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,
