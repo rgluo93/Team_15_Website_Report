@@ -5,6 +5,8 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import { themes as prismThemes } from "prism-react-renderer";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -20,10 +22,10 @@ const config = {
   },
 
   // Set the production url of your site here
-  url: 'http://students.cs.ucl.ac.uk',
+  url: "http://students.cs.ucl.ac.uk",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/2025/group15/',
+  baseUrl: "/2025/group15/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -40,6 +42,13 @@ const config = {
     locales: ["en"],
   },
 
+  stylesheets: [
+    {
+      href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
+      type: "text/css",
+    },
+  ],
+
   presets: [
     [
       "classic",
@@ -49,8 +58,9 @@ const config = {
           sidebarPath: "./sidebars.js",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
+          editUrl: "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         blog: {
           showReadingTime: true,
