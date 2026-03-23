@@ -176,31 +176,6 @@ RUN mkdir -p /app/speech_to_text && \
 
 ---
 
-## Why Vosk Was Chosen Over Other Options
-
-Vosk was selected based on product and deployment constraints visible in this codebase:
-
-1. **Local/offline inference support**
-   - The model is downloaded into the container and loaded from disk (`speech_to_text/vosk-model-small-en-us-0.15`), reducing runtime dependency on external STT APIs.
-
-2. **Predictable cost model**
-   - Since inference runs inside our own service, usage does not scale with per-minute cloud STT billing.
-
-3. **Operational fit with current architecture**
-   - The stack already runs containerized AI services; Vosk fits naturally as another local model dependency in the same FastAPI service.
-
-4. **Latency and control**
-   - For short UI interactions (chat prompts, scenario justifications), local inference avoids an extra external network hop and gives direct control of audio pre-processing (mono/16kHz/PCM normalization).
-
-5. **Privacy posture**
-   - Audio stays within LeadNow-managed application boundaries (browser → Laravel → FastAPI) rather than being sent to a third-party speech API.
-
-### Trade-off Acknowledgement
-
-Compared with cloud-managed STT services, Vosk requires us to manage model files and audio conversion dependencies (FFmpeg/PyDub), but this trade-off was acceptable for deployment independence, cost predictability, and architectural control.
-
----
-
 ## Key Endpoints
 
 - Web app upload endpoint: `POST /transcribe`

@@ -4,15 +4,15 @@ sidebar_position: 1
 
 # Design Principles
 
-This document defines the guiding principles used to design LeadNow frontend AI experiences across chat, summaries, translation, speech input, and scenario feedback.
+The guiding principles used to design LeadNow frontend AI experiences across chat, summaries, translation, speech input, and scenario feedback.
 
 ## 1. Embedded Assistance
 
-AI should appear inside existing learning workflows, not as a separate destination.
+AI should be embedded into existing learning workflows, not as a separate destination.
 
 - Place AI controls where users already make decisions (dashboard, scenario, reflection views).
 - Reduce context-switching by keeping prompts, answers, and actions in one screen.
-- Treat AI as a support layer, not a replacement for the core task UI.
+- Treat AI as a support layer, not a replacement for the core learning experience.
 
 ## 2. Low-Friction Interaction
 
@@ -62,34 +62,14 @@ Users should remain in control of AI conversation and generated content.
 - Keep user-owned context (like chat history and summaries) manageable from the UI.
 - Ensure AI feedback is presented as guidance within the learning flow.
 
-## 8. Consistent Cross-Feature Patterns
-
-Shared interaction rules improve learnability and reduce cognitive load.
-
-- Reuse common UI primitives across AI features (modal shell, feedback block, status area).
-- Keep action semantics consistent (`send`, `translate`, `record`, `clear`).
-- Align tone and microcopy across participant and EO interfaces.
-
-## 9. Principle-to-Feature Mapping
+## Principle-to-Feature Mapping
 
 | Frontend AI Feature | Primary Principles Applied |
 |---|---|
-| Participant/EO Chat | Embedded Assistance, Low-Friction Interaction, Explicit System State |
-| EO Explainability Panel | Transparent Intelligence, Human-Readable Output |
-| AI Summary Card | Human-Readable Output, Explicit System State, Trust Through Control |
+| Teacher/EO Chat | Embedded Assistance, Low-Friction Interaction, Explicit System State |
+| EO Thought Process | Transparent Intelligence, Human-Readable Output |
+| Teacher Summary Card | Human-Readable Output, Explicit System State, Trust Through Control |
 | Translation Popup | Accessibility and Inclusion, Low-Friction Interaction |
 | Speech-to-Text Input | Accessibility and Inclusion, Low-Friction Interaction |
 | Scenario Expert Feedback | Transparent Intelligence, Human-Readable Output, Trust Through Control |
-
-## 10. Practical Review Checklist
-
-Use this checklist when adding or changing frontend AI UI:
-
-- Is AI embedded in the user’s current task flow?
-- Is the entry point immediate and discoverable?
-- Are loading/typing/error states visible?
-- Is the output structure easy to scan?
-- Are speech/translation pathways available where relevant?
-- Can users clear, close, or retry without confusion?
-
 
