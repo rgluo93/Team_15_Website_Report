@@ -5,6 +5,7 @@ const teamMembers = [
   {name: 'Team Member 2', role: 'Role / Specialization', bio: 'Profile and contact information needed'},
   {name: 'Team Member 3', role: 'Role / Specialization', bio: 'Profile and contact information needed'},
   {name: 'Team Member 4', role: 'Role / Specialization', bio: 'Profile and contact information needed'},
+  {name: 'Team Member 5', role: 'Role / Specialization', bio: 'Profile and contact information needed'},
 ];
 
 export default function TeamSection() {

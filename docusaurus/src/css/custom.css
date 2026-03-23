@@ -567,7 +567,7 @@
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--spacing-xl);
   margin-top: var(--spacing-2xl);
 }
@@ -588,7 +588,7 @@
 
 @media (min-width: 1280px) {
   .team-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
@@ -938,7 +938,25 @@
 }
 
 /* ============================================
-   20. SMALL TABS (existing)
+   20. HIDE TABLE OF CONTENTS SIDEBAR
+   ============================================ */
+
+.theme-doc-toc-desktop {
+  display: none;
+}
+
+.theme-doc-toc-mobile {
+  display: none;
+}
+
+/* Let the main doc content use the full width */
+[class*='docItemCol'] {
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+}
+
+/* ============================================
+   21. SMALL TABS (existing)
    ============================================ */
 
 .small-tabs .tabs__item {
