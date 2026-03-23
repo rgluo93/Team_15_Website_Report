@@ -312,7 +312,43 @@ See the translation section for details on the translation tool and the research
 
 ## Speech To Text
 
-  <!-- Add your content about any other technologies here -->
+  Speech to text was needed to reduce typing friction in AI interactions, particularly when teachers submit longer reflections or scenario responses using their phones (most teachers in Kenya don't have a laptop). We evaluated four approaches against our project constraints: low operating cost, container-based deployment, response speed for short utterances, and minimal external dependencies.
+
+  ---
+
+  ### Options evaluated
+
+  | Option | Advantages | Disadvantages |
+  |---|---|---|
+  | **Vosk (self-hosted)** | Runs locally in our FastAPI container, no per-request API billing, works without internet once model is present, full control over audio pre-processing | Lower raw accuracy ceiling than top-tier cloud STT in noisy/multi-accent audio, model files and conversion pipeline must be maintained |
+  | **OpenAI Whisper API (hosted)** | Strong recognition quality and language support, no local model maintenance | Per-usage API cost, network dependency, higher end-to-end latency from external round trips |
+  | **Azure Speech-to-Text (hosted)** | Mature managed service, strong tooling and enterprise reliability | Usage-based cost, vendor lock-in, requires sending user audio to external cloud STT endpoint |
+  | **Whisper local (self-hosted large model)** | No per-request billing, data stays within application boundary | Significantly higher CPU/GPU requirements for acceptable latency, heavier operational footprint for our prototype |
+
+  ---
+
+  ### Decision
+
+  We selected **Vosk** because it best matched the constraints of this project phase:
+
+  1. **Cost predictability**  
+    Inference runs inside our own service, so speech usage does not introduce variable API charges.
+
+  2. **Deployment fit**  
+    The AI stack already uses containerised Python services (FastAPI + local dependencies), so adding a local STT model aligned with existing operations.
+
+  3. **Latency for short interactions**  
+    For short prompts used in chat and scenario flows, local processing removes an external network hop and keeps response times consistent.
+
+  4. **Privacy and control**  
+    Audio remains inside LeadNow-managed boundaries (browser → Laravel → FastAPI), and we keep direct control of pre-processing decisions (mono / 16kHz / PCM normalization).
+
+  ---
+
+  ### Trade-off and mitigation
+
+  Compared with managed cloud STT, Vosk can be less accurate for difficult acoustic conditions and requires us to manage model assets plus FFmpeg/PyDub conversion dependencies. This trade-off was acceptable for a cost-sensitive prototype, and can be revisited later if production requirements prioritise maximum transcription accuracy over infrastructure independence.
+
 
   </TabItem>
 
