@@ -21,7 +21,7 @@ Below is an overview of the testing methods we employed and why they are suitabl
 | Data validation is safety-critical | Incorrect SQL queries, malformed WhatsApp messages, or invalid translation directions could cause downstream failures or unintended side effects. Validation Testing ensures Pydantic schemas and parameter constraints catch bad input before it reaches external systems. |
 
 
-## Testing Statistics
+## Web App Testing Statistics
 
 | Metric | Value |
 |--------|-------|

@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Unit Testing
 
-## Website
+## Web App
 
 We conducted unit tests for all major modules of the AI Resource service, organized into subdirectories mirroring the source code structure. This ensured comprehensive test coverage across all service components.
 
