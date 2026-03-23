@@ -2,6 +2,6 @@
 sidebar_position: 4
 ---
 
-# Langchain
+# LangChain
 
 Details about Langchain implementation will go here.
