@@ -1,32 +1,38 @@
 import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 const teamMembers = [
   {
     name: 'James Loke',
+    photo: '/img/team-images/JamesLoke.jpeg',
     email: 'jameslokejw@gmail.com',
     github: 'https://github.com/BigBouncyBoii',
     linkedin: 'https://www.linkedin.com/in/james-loke-34a0612bb/',
   },
   {
     name: 'Lincoln Kwan',
+    photo: null,
     email: 'lincoln.kwan.24@ucl.ac.uk',
     github: 'https://github.com/carbonf',
     linkedin: 'https://www.linkedin.com/in/lincoln-kwan/',
   },
   {
     name: 'Ronald Luo',
+    photo: '/img/team-images/RonaldLuo.jpeg',
     email: 'ronaldluo93@gmail.com',
     github: 'https://github.com/rgluo93',
     linkedin: 'https://www.linkedin.com/in/ronald-luo-9839ba31b/',
   },
   {
     name: 'Yi Kang Chai',
+    photo: '/img/team-images/YiKangChai.jpeg',
     email: 'yi.chai.24@ucl.ac.uk',
     github: 'https://github.com/Derlic',
     linkedin: 'https://www.linkedin.com/in/yi-kang-chai/',
   },
   {
     name: 'Matthew Mok',
+    photo: '/img/team-images/MatthewMok.jpeg',
     email: 'matthew.mok.24@ucl.ac.uk',
     github: 'https://github.com/matthewchmok/',
     linkedin: 'https://www.linkedin.com/in/chinghimmatthewmok/',
@@ -63,7 +69,11 @@ export default function TeamSection() {
     <div className="team-grid">
       {teamMembers.map((member, idx) => (
         <div className="team-card" key={idx}>
-          <div className="team-photo-placeholder">&#128100;</div>
+          {member.photo ? (
+            <img src={useBaseUrl(member.photo)} alt={member.name} className="team-photo" />
+          ) : (
+            <div className="team-photo-placeholder">&#128100;</div>
+          )}
           <h3 className="team-name">{member.name}</h3>
           <div className="team-links">
             <a href={`mailto:${member.email}`} className="team-link" aria-label={`Email ${member.name}`} title="Email">
