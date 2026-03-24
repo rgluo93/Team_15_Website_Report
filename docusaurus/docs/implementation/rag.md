@@ -158,31 +158,6 @@ class QdrantUploader:
         else:
             # Local instance or no auth
             self.client = QdrantClient(url=self.qdrant_url)
-    
-    def _ensure_collection(self):
-        """Create collection if it doesn't exist."""
-        # Check if collection exists
-        collections = self.client.get_collections().collections
-        collection_names = [c.name for c in collections]
-        
-        if self.collection_name not in collection_names:
-            if self.verbose:
-                print(f"Creating collection: {self.collection_name}", file=sys.stderr)
-            
-            # Map distance metric string to Qdrant Distance enum
-            distance_map = {
-                "Cosine": Distance.COSINE,
-                "Euclidean": Distance.EUCLID,
-                "Dot": Distance.DOT
-            }
-            
-            self.client.create_collection(
-                collection_name=self.collection_name,
-                vectors_config=VectorParams(
-                    size=self.embedding_dim,
-                    distance=distance_map.get(self.distance_metric, Distance.COSINE)
-                )
-            )
             
     def _init_vectorstore(self):
         """Initialize LangChain Qdrant vector store."""

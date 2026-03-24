@@ -36,12 +36,43 @@ For data storage that we introduced for our project however, we introduced data 
 
 Redis is used to maintain context of the user's previous messages with the educational assistant LLM. Each conversation is scoped to a unique `(user_id, service_id)` pair and stored under a key of the form `chat_history:{user_id}:{service_id}`. The data is stored as a Redis LIST, where each element represents a single message in the conversation. Messages are serialized as JSON objects from LangChain’s BaseMessage, and contain fields such as type (e.g., human, AI) and content. The list also preserves message order, allowing the system to reconstruct the full conversation history. Additionally, Redis applies a TTL of 180 seconds and is refreshed on read and write operations. Therefore, if a user does not chat to the educational assistant, the message history will be removed. This can be modelled as a one-to-many relationship where a `ChatSession` contains an ordered list of `Message` entities.
 
-<div align="center">
-  <img src="/img/er-redis.png" alt="Description" height="500" />
-</div>
+```mermaid
+erDiagram
+    ChatSession ||--o{ Message : "has ordered"
+
+    ChatSession {
+        string user_id
+        string service_id
+        string redis_key
+        int ttl_seconds
+    }
+
+    Message {
+        int index
+        string type
+        string content
+    }
+```
 
 Qdrant is used as a persistent vector database to store document embeddings for retrieval. The main collection, leadnow_documents, contains vector embeddings of LeadNow resources document chunks along with associated metadata. Each entry represents a chunk of a document and includes a unique `point_id`, a vector[384] `embedding`, metadata fields such as `document_id`, `chunk_id`, `chunk_index`, `source`, `page`, and `chunk_size` and optional fields like `tenant_id` and `module_id`. Conceptually the schema consists of a Document entity and a ChunkEmbedding entity, where each document is associated with multiple chunk embeddings.
 
-<div align="center">
-  <img src="/img/er-qdrant.png" alt="Description" height="500" />
-</div>
+```mermaid
+erDiagram
+    Document ||--o{ ChunkEmbedding : "has chunks"
+
+    Document {
+        string document_id
+        string tenant_id
+        string module_id
+    }
+
+    ChunkEmbedding {
+        string point_id
+        float vector_384
+        string chunk_id
+        int chunk_index
+        string source
+        int page
+        int chunk_size
+    }
+```
