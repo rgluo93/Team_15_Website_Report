@@ -177,7 +177,7 @@ const config = {
             items: [
               {
                 label: "Dignitas Kenya",
-                href: "https://dignitas.ngo",
+                href: "https://dignitasproject.org/",
               },
               {
                 label: "UCL Computer Science",
