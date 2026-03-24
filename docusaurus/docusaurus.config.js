@@ -12,7 +12,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 const config = {
   title: "LeadNow Dignitas",
   tagline: "Improve access to tailored, high-quality professional development for educators",
-  favicon: "img/favicon.ico",
+  favicon: "img/favicon.png",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -87,7 +87,7 @@ const config = {
         title: "LeadNow Dignitas",
         logo: {
           alt: "LeadNow Dignitas Logo",
-          src: "img/logo.svg",
+          src: "img/favicon.png",
         },
         items: [
           {
