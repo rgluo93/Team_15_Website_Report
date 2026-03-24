@@ -18,6 +18,7 @@ Below is an overview of the testing methods we employed and why they are suitabl
 |----------------|-------------|
 | Unit Testing | The LeadNow AI Resource involves many components including LLM services, vector databases, MCP tool servers, external APIs, and more. Unit Testing helps ensure that each component works correctly in isolation. |
 | Integration Testing | The new AI capabilities involve many interactions between multiple complex components. Integration Testing helps ensure that each component works correctly when combined with others. |
+| System Testing | With the AI Resource deployed as a live service on the cloud, System Testing validates the behaviour of the fully deployed system end-to-end, including API availability, response correctness under real network conditions, and overall system stability. |
 | User Acceptance Testing | Most importantly, for the LeadNow AI Resource to be useful, it must be usable, intuitive, and easy to adopt for teachers in Kenya. We conducted User Acceptance Testing to ensure this and also identify possible improvements. |
 
 
