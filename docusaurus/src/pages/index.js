@@ -4,7 +4,6 @@ import HeroSection from '@site/src/components/HeroSection';
 import MissionBox from '@site/src/components/MissionBox';
 import AbstractCards from '@site/src/components/AbstractCards';
 import VideoDemo from '@site/src/components/VideoDemo';
-import FeatureCards from '@site/src/components/FeatureCards';
 import TeamSection from '@site/src/components/TeamSection';
 
 function Section({title, subtitle, alt, children}) {
@@ -44,13 +43,6 @@ export default function Home() {
           title="Project Demo"
           subtitle="Watch our 8-minute demonstration of LeadNow in action">
           <VideoDemo />
-        </Section>
-
-        <Section
-          title="Key Features"
-          subtitle="New AI capabilities that power LeadNow"
-          alt>
-          <FeatureCards />
         </Section>
 
         <Section

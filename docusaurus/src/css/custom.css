@@ -660,6 +660,31 @@
   line-height: var(--line-height-relaxed);
 }
 
+.team-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.team-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-background-alt);
+  color: var(--color-text-light);
+  transition: all var(--transition-base);
+}
+
+.team-link:hover {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
 /* ============================================
    14. FEATURE CARDS GRID
    ============================================ */
