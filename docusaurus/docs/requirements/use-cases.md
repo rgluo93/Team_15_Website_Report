@@ -14,7 +14,7 @@ sidebar_position: 5
 
 | Actor | Description |
 |-------|-------------|
-| **Client** | A LeadNow programme participant accessing the web application to practice scenarios, chat with the AI, and generate summaries. |
+| **Client** | A LeadNow programme participant accessing the web application to practice scenarios, chat with the AI and generate summaries. |
 | **Education Officer (EO)** | A LeadNow staff member who uses the EO Agent to query programme data and generate planning documents. |
 | **WhatsApp User** | A user interacting with LeadNow via WhatsApp messaging, routed through the LeadNow WhatsApp number. |
 
@@ -47,7 +47,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | Client |
-| **Description** | The client submits responses to a structured leadership scenario presented by the system. |
+| **Description** | The client submits responses to a scenario-based learning page. |
 | **Extensions** | • Transcribe Audio: the client may speak their response rather than type it.<br/>• Get AI Scenario Feedback: after submission, the system may generate AI-powered feedback on the response. |
 
 ---
@@ -57,7 +57,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | Client (via Input Scenario Responses) |
-| **Description** | The system analyses the client's scenario response and provides structured AI feedback on their leadership approach. |
+| **Description** | The system analyses both the client's scenario response and the hardcoded Expert Feedback text, then provides structured AI feedback. |
 | **Includes** | • Perform Semantic Search: retrieves relevant leadership knowledge to contextualise the feedback. |
 | **Extensions** | • Translate Text (Mobile): feedback may be translated into the client's preferred language. |
 
@@ -68,7 +68,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | Client |
-| **Description** | The system generates a summary of the client's progress, scenario performance, and key themes from their interactions. |
+| **Description** | The system generates a summary of the client's progress, achievements and recommended next steps. |
 | **Extensions** | • Translate Text (Mobile): the summary may be translated into the client's preferred language. |
 
 ---
@@ -78,7 +78,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actors** | Client, Education Officer |
-| **Description** | The user submits text on the web application for translation into their chosen language. |
+| **Description** | The user highlights text on the web application, a popup appears with a translate button, and clicking it displays the translated Swahili text. |
 
 ---
 
@@ -87,7 +87,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | Client (via General Chatbot or Input Scenario Responses) |
-| **Description** | The system converts a user-submitted audio recording into text, which is then processed as a standard text input. |
+| **Description** | The user clicks a record button to capture live audio, which the system transcribes into text and processes as a standard text input. |
 
 ---
 
@@ -96,7 +96,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | Client (via General Chatbot, Get AI Scenario Feedback, or Generate User Summary) |
-| **Description** | AI-generated responses are translated on the mobile interface into the client's preferred language before being displayed. |
+| **Description** | AI-generated responses are translated into Swahili on the mobile interface via a translate button. |
 
 ---
 
@@ -105,7 +105,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | Education Officer |
-| **Description** | The Education Officer interacts with a dedicated AI agent to query programme data, retrieve participant insights, and generate planning documents. |
+| **Description** | The Education Officer interacts with a dedicated AI agent to query programme data, retrieve participant insights, generate planning documents and more. |
 | **Includes** | • Langgraph Agent: all EO Agent interactions are orchestrated through the multi-step Langgraph agent pipeline. |
 
 ---
@@ -135,7 +135,7 @@ sidebar_position: 5
 | Field | Detail |
 |-------|--------|
 | **Actor** | System |
-| **Description** | The system performs a vector similarity search over the LeadNow knowledge base (RAG) to retrieve the most relevant content for a given query. Used across the chatbot, scenario feedback, and the Langgraph agent. |
+| **Description** | The system performs a vector similarity search over the LeadNow knowledge base (RAG) to retrieve the most relevant content for a given query. Used across the chatbot, scenario feedback and the Langgraph agent. |
 
 ---
 
