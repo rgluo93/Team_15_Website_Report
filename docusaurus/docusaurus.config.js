@@ -16,6 +16,11 @@ const config = {
   tagline: "Improve access to tailored, high-quality professional development for educators",
   favicon: "img/favicon.ico",
 
+  themes: ["@docusaurus/theme-mermaid"],
+  markdown: {
+    mermaid: true,
+  },
+
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
