@@ -14,6 +14,7 @@ export default function HeroSection() {
         </p>
 
         <div className="partner-logos">
+          <img src={useBaseUrl('/img/partner-logos/UCL-Logo.png')} alt="UCL" className="partner-logo" />
           <img src={useBaseUrl('/img/partner-logos/Dignitas-Logo.png')} alt="Dignitas Kenya" className="partner-logo" />
           <img src={useBaseUrl('/img/partner-logos/IBM-Logo.png')} alt="IBM" className="partner-logo" />
           <img src={useBaseUrl('/img/partner-logos/TechToTheRescue-Logo.png')} alt="Tech To The Rescue" className="partner-logo" />
