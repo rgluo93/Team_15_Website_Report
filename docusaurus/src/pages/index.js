@@ -5,6 +5,7 @@ import MissionBox from '@site/src/components/MissionBox';
 import AbstractCards from '@site/src/components/AbstractCards';
 import VideoDemo from '@site/src/components/VideoDemo';
 import TeamSection from '@site/src/components/TeamSection';
+import ProjectTimeline from '@site/src/components/ProjectTimeline';
 
 function Section({title, subtitle, alt, children}) {
   return (
@@ -48,14 +49,7 @@ export default function Home() {
         <Section
           title="Project Timeline"
           subtitle="Our journey from conception to implementation">
-          <div className="placeholder-card" style={{minHeight: '300px'}}>
-            <span className="placeholder-icon">&#128197;</span>
-            <p className="placeholder-title">Project Timeline Graphic</p>
-            <p className="placeholder-text">
-              Visual timeline showing key milestones, phases, and deliverables
-              throughout the project lifecycle
-            </p>
-          </div>
+          <ProjectTimeline />
         </Section>
 
         <Section title="Our Team" alt>
