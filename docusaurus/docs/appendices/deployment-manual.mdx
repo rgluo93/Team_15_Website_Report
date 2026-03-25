@@ -2,6 +2,9 @@
 sidebar_position: 2
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # Deployment Manual
 
 The AI layer consists of two services deployed as Docker containers:
@@ -13,7 +16,10 @@ The AI layer consists of two services deployed as Docker containers:
 
 Both services use GitHub Actions CI/CD. Any push to `master` that touches their respective directories automatically builds and deploys.
 
-## Common Setup (Azure and Kubernetes)
+<Tabs className="small-tabs">
+<TabItem value="common" label="Common Setup" default>
+
+## Common Setup
 
 These steps apply regardless of whether you deploy to Azure Container Apps or Kubernetes.
 
@@ -140,6 +146,9 @@ env:
   AZURE_CONTAINER_ENV: your-managed-environment-name
 ```
 
+</TabItem>
+<TabItem value="azure" label="Azure Container Apps">
+
 ## Azure Container Apps
 
 ### Phase 1: Infrastructure (one-time)
@@ -199,7 +208,7 @@ Set `REDIS_PORT=6380`, `REDIS_SSL=true`, `REDIS_PASSWORD` to the primary key.
 
 #### 1.3 Provision Qdrant
 
-Azure Container Apps does not support persistent volumes. Either run Qdrant as a separate container app with its own managed storage, or use Kubernetes for persistent storage.
+Azure Container Apps does not support persistent volumes natively. Option A runs Qdrant as a container app with ephemeral storage (data is lost on restart). Use Kubernetes (Option B) if persistent storage is required.
 
 **Option A: Qdrant as a Container App:**
 
@@ -224,7 +233,7 @@ az containerapp show \
   --output tsv
 ```
 
-**Option B: Kubernetes:** See the Kubernetes section for a Qdrant StatefulSet with persistent storage.
+**Option B: Kubernetes:** See the Kubernetes tab for a Qdrant StatefulSet with persistent storage.
 
 ### Phase 2: Deploy the FastAPI Service
 
@@ -386,6 +395,9 @@ CI/CD triggers:
 | `deploy-ai-resource.yml` | `ai_resource/api/**`, `ai_resource/Dockerfile` |
 | `deploy-mcp-server.yml` | `ai_resource/mcp_server/**`, `ai_resource/language_translation/**`, `ai_resource/whatsapp_service/**`, `ai_resource/Dockerfile.mcp` |
 
+</TabItem>
+<TabItem value="kubernetes" label="Kubernetes">
+
 ## Kubernetes
 
 The Kubernetes deployment runs the same Docker images from ACR but adds persistent storage for Qdrant via a StatefulSet, horizontal pod autoscaling for FastAPI and NGINX Ingress for external access.
@@ -426,7 +438,7 @@ kubectl get svc -n ingress-nginx ingress-nginx-controller --watch
 
 #### 1.3 Provision Redis
 
-Use Azure Cache for Redis (same as the Azure Container Apps setup in Phase 1.2 above). Set `REDIS_PORT=6380`, `REDIS_SSL=true`, `REDIS_PASSWORD` to the primary key.
+Use Azure Cache for Redis (same as the Azure Container Apps setup in Phase 1.2). Set `REDIS_PORT=6380`, `REDIS_SSL=true`, `REDIS_PASSWORD` to the primary key.
 
 #### 1.4 Configure DNS (optional)
 
@@ -536,3 +548,6 @@ az aks nodepool add \
 **Scale to zero for dev environments** by setting `minReplicas: 0` in the HPA spec, so pods scale down completely when there is no traffic.
 
 **Use Azure Dev/Test pricing** if your subscription is eligible.
+
+</TabItem>
+</Tabs>
