@@ -4,7 +4,35 @@ sidebar_position: 11
 
 # Web App
 
- The frontend changes were primarily made to integrate AI capabilities into the existing LeadNow Laravel Web App. The implementation was additive, meaning AI features were layered onto current UI patterns and views rather than rewriting the existing frontend.
+The LeadNow web application is built with **Laravel**, a PHP web framework that follows the MVC (Model-View-Controller) pattern. Laravel handles routing, authentication and server-side logic, with Blade used as the templating engine for rendering views. The frontend is jQuery and vanilla JavaScript served through Laravel's asset pipeline.
+
+The AI-related changes were primarily made to integrate AI capabilities into the existing web app. The implementation was additive, meaning AI features were layered onto current UI patterns and views rather than rewriting the existing frontend.
+
+## AI Features Implementation
+
+### AI Services
+
+There are 4 controllers handling AI features:
+
+| Controller | Methods |
+|---|---|
+| `DashboardController` | `chatbot()`, `clearChatHistory()`, `chatbotEO()`, `generateUserSummary()` |
+| `ScenarioController` | `getScenarioAiFeedback()` |
+| `TranslateController` | `translate()` |
+| `TranscribeController` | `transcribe()` |
+
+**Features & Endpoints:**
+
+| Feature | Method | Endpoint | HTTP Method |
+|---|---|---|---|
+| Chatbot | `chatbot()` | POST `/api/v1/chatbot/chat` | POST |
+| Clear chat history | `clearChatHistory()` | `/api/v1/chatbot/history/{user_id}` | DELETE |
+| EO Agent chat | `chatbotEO()` | `/api/v1/eo-agent/chat` | POST |
+| User summary | `generateUserSummary()` | `/api/v1/user-summary/generate` | POST |
+| Scenario feedback | `getScenarioAiFeedback()` | `/api/v1/scenario-feedback/generate` | POST |
+| Translation | `translate()` | `/api/v1/translate` | POST |
+| Speech-to-text | `transcribe()` | `/api/v1/speech-to-text/transcribe` | POST |
+
 
 ## 1. AI Assistant Chat (Teacher)
 
