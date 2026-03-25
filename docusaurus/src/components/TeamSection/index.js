@@ -11,7 +11,7 @@ const teamMembers = [
   },
   {
     name: 'Lincoln Kwan',
-    photo: null,
+    photo: '/img/team-images/LincolnKwan.jpeg',
     email: 'lincoln.kwan.24@ucl.ac.uk',
     github: 'https://github.com/carbonf',
     linkedin: 'https://www.linkedin.com/in/lincoln-kwan/',
