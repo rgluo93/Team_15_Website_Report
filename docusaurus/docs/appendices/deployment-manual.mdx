@@ -14,7 +14,7 @@ The AI layer consists of two services deployed as Docker containers:
 | FastAPI REST API | 8000 | Main API called by the Laravel app for all AI features |
 | MCP Server | 8001 | Internal service called by FastAPI for SQL queries, translation and WhatsApp messaging |
 
-Both services use GitHub Actions CI/CD. Any push to `master` that touches their respective directories automatically builds and deploys.
+For Azure Container Apps, both services use GitHub Actions CI/CD. Any push to `master` that touches their respective directories automatically builds and deploys. Kubernetes deployments are done manually via `kubectl`.
 
 <Tabs className="small-tabs">
 <TabItem value="common" label="Common Setup" default>
