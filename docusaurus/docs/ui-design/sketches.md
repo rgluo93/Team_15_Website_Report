@@ -8,13 +8,13 @@ After we surveyed the client and gathered our requirements, we produced sketches
 
 ## Sketch 1
 
-<img src="/img/ui-design-images/sketch1.png" alt="Sketch 1" width="80%" />
-<img src="/img/ui-design-images/sketch1-1.png" alt="Sketch 1 (continued)" width="80%" />
+![Sketch 1](/img/ui-design-images/sketch1.png)
+![Sketch 1 (continued)](/img/ui-design-images/sketch1-1.png)
 
 ## Sketch 2
 
-<img src="/img/ui-design-images/sketch2.png" alt="Sketch 2" width="80%" />
-<img src="/img/ui-design-images/sketch2-1.png" alt="Sketch 2 (continued)" width="80%" />
+![Sketch 2](/img/ui-design-images/sketch2.png)
+![Sketch 2 (continued)](/img/ui-design-images/sketch2-1.png)
 
 ## User Feedback
 

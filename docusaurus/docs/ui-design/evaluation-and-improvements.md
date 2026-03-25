@@ -19,16 +19,16 @@ sidebar_position: 5
 
 ### Issue 1: Loading icon and LLM streaming
 
-<img src="/img/ui-design-images/prototype-improvements1.png" alt="Improvement 1 - Loading indicator and streaming" width="80%" />
+![Improvement 1 - Loading indicator and streaming](/img/ui-design-images/prototype-improvements1.png)
 
 ### Issue 2: Button to translate between English and Swahili
 
-<img src="/img/ui-design-images/prototype-improvements2.png" alt="Improvement 2 - Translation button" width="80%" />
+![Improvement 2 - Translation button](/img/ui-design-images/prototype-improvements2.png)
 
 ### Issue 3: Icon to indicate LLM-generated content
 
-<img src="/img/ui-design-images/prototype-improvements3.png" alt="Improvement 3 - LLM generation icon" width="80%" />
+![Improvement 3 - LLM generation icon](/img/ui-design-images/prototype-improvements3.png)
 
 ### Issue 4: Dropdown button for user insights
 
-<img src="/img/ui-design-images/prototype-improvements4.png" alt="Improvement 4 - Collapsible user insight" width="80%" />
+![Improvement 4 - Collapsible user insight](/img/ui-design-images/prototype-improvements4.png)
