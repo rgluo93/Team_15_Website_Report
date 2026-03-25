@@ -12,12 +12,13 @@ export default function AbstractCards() {
         <div className="abstract-card-content">
           <p>
             Less than 50% of Grade 4 children in Kenya are learning at the
-            expected level (Usawa Agenda, 2023). One of the root causes is
-            teaching quality. Teachers often lack access to adequate professional
-            development opportunities. Our project is aimed at developing
-            software, LeadNow, to help coach educators in Kenya. Our project
-            incorporates AI features into the software to improve the experience
-            and impact of LeadNow.
+            expected level. One of the root causes is
+            teaching quality.
+          </p>
+          <p>
+            Teachers often lack access to adequate professional
+            development opportunities, and some are rushed into a job without proper training.
+            This can lead to stunted student development and long-term educational inequality.
           </p>
         </div>
       </div>
@@ -29,13 +30,11 @@ export default function AbstractCards() {
           <h3 className="abstract-card-title">Our Solution</h3>
         </div>
         <div className="abstract-card-content">
-          <div className="placeholder-card" style={{margin: 0, minHeight: '150px'}}>
-            <span className="placeholder-icon">&#128221;</span>
-            <p className="placeholder-title">Content Coming Soon</p>
-            <p className="placeholder-text">
-              Detailed description of the LeadNow AI solution
-            </p>
-          </div>
+            <p>Our project is aimed at developing
+            software, LeadNow, to help coach educators in Kenya. Our project
+            incorporates AI features into the software to improve the experience
+            and impact of LeadNow.</p>
+            <p>Using RAG, MCP, LangGraph, Azure, and other tools, we have implemented a variety of AI features into the software, including an education officer agent, a general chatbot, a user summary generator, a scenario feedback generator, translation, speech-to-text, and WhatsApp messaging.</p>
         </div>
       </div>
 

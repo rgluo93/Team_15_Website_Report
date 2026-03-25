@@ -14,7 +14,7 @@ import rehypeKatex from "rehype-katex";
 const config = {
   title: "LeadNow Dignitas",
   tagline: "Improve access to tailored, high-quality professional development for educators",
-  favicon: "img/favicon.ico",
+  favicon: "img/favicon.png",
 
   themes: ["@docusaurus/theme-mermaid"],
   markdown: {
@@ -102,7 +102,7 @@ const config = {
         title: "LeadNow Dignitas",
         logo: {
           alt: "LeadNow Dignitas Logo",
-          src: "img/logo.svg",
+          src: "img/favicon.png",
         },
         items: [
           {
@@ -159,9 +159,8 @@ const config = {
             position: "left",
             activeBaseRegex: `/docs/appendices/`,
           },
-          { to: "/blog", label: "Blog", position: "left" },
           {
-            href: "https://github.com/rgluo93/Team_15_Website_Report",
+            href: "https://github.com/matthewchmok/COMP0016_2025_Team15_AICoachingForEducatorDevelopment",
             label: "GitHub",
             position: "right",
           },
@@ -177,26 +176,14 @@ const config = {
                 label: "Project Overview",
                 to: "/docs/intro",
               },
-              {
-                label: "Requirements",
-                to: "/docs/requirements/partner-introduction",
-              },
-              {
-                label: "Implementation",
-                to: "/docs/implementation/mobile",
-              },
             ],
           },
           {
-            title: "Partners",
+            title: "Try it out",
             items: [
               {
-                label: "Dignitas Kenya",
-                href: "https://dignitas.ngo",
-              },
-              {
-                label: "UCL Computer Science",
-                href: "https://www.ucl.ac.uk/computer-science/",
+                label: "LeadNow App",
+                href: "https://dignitas.dev.leadnow.ke/login",
               },
             ],
           },
@@ -204,17 +191,13 @@ const config = {
             title: "More",
             items: [
               {
-                label: "Blog",
-                to: "/blog",
-              },
-              {
                 label: "GitHub",
-                href: "https://github.com/rgluo93/Team_15_Website_Report",
+                href: "https://github.com/matthewchmok/COMP0016_2025_Team15_AICoachingForEducatorDevelopment",
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} LeadNow Project - Team 15, Dignitas Technologies. Built with Docusaurus.`,
+        copyright: `2026 LeadNow Project - UCL Team 15.`,
       },
       prism: {
         theme: prismThemes.github,

@@ -1,4 +1,5 @@
 import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 export default function HeroSection() {
   return (
@@ -13,12 +14,10 @@ export default function HeroSection() {
         </p>
 
         <div className="partner-logos">
-          <div className="placeholder-card" style={{padding: 'var(--spacing-lg)', minHeight: 'auto'}}>
-            <p className="placeholder-title">Partner Logos</p>
-            <p className="placeholder-text" style={{fontSize: 'var(--font-size-sm)'}}>
-              Dignitas Kenya and project partner logos
-            </p>
-          </div>
+          <img src={useBaseUrl('/img/partner-logos/UCL-Logo.png')} alt="UCL" className="partner-logo" />
+          <img src={useBaseUrl('/img/partner-logos/Dignitas-Logo.png')} alt="Dignitas Kenya" className="partner-logo" />
+          <img src={useBaseUrl('/img/partner-logos/IBM-Logo.png')} alt="IBM" className="partner-logo" />
+          <img src={useBaseUrl('/img/partner-logos/TechToTheRescue-Logo.png')} alt="Tech To The Rescue" className="partner-logo" />
         </div>
       </div>
     </header>
