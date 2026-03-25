@@ -990,3 +990,5 @@
     display: none !important;
   }
 }
+
+.vertical-screenshot img { max-width: 320px; }
