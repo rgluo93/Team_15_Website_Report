@@ -12,7 +12,13 @@ import TabItem from "@theme/TabItem";
 
 ## User Interface / User Experience
 
-_Content for UI/UX evaluation..._
+Overall, the project maintains a consistent visual design across both web and mobile interfaces, using a coherent colour palette centred around deep teal and gold. Rounded components, modern card layouts and structured dashboards create a cohesive interface that aligns with the overall theme of the website.
+
+The user summary interface on the web dashboard is presented within a dedicated section that aligns with the card-based layout used throughout the page, maintaining visual consistency with the rest of the interface. On mobile, the gradient summary card with subtle shadow gives the section strong visual prominence within the interface. In both platforms, the use of clear headings and structured content helps users quickly locate the summary within the dashboard. This interface could be further enhanced by incorporating visual progress indicators or charts to allow users to interpret their learning progress more quickly at a glance.
+
+The AI chatbot interface provides an accessible and non-intrusive support tool. On the web platform, the floating chat widget allows users to request help without disrupting their workflow, while loading indicators and typing animations provide useful feedback during AI response latency. On mobile, the chatbot includes thoughtful features such as an adjustable window height, automatic expansion when the keyboard opens and microphone input states, which improve usability for mobile-first users. Future improvements could allow the web chatbot to expand to full screen and include quick action buttons or suggested prompts to help users better understand how it can assist them.
+Finally, the scenario feedback interface presents a clear structure: personal justification, expert feedback and personalised AI feedback, which creates a logical flow for reflection. The AI progress summary section is visually consistent with the other cards in the page on both web and mobile, and provides a structured and consolidated overview of the user’s learning progress, complementing the per-scenario feedback with a broader perspective.
+Overall, the interface successfully integrates AI-driven learning support features within the LeadNow platform, but improvements in clarity, accessibility and maintainability would further enhance the overall user experience.
 
   </TabItem>
 
@@ -20,7 +26,11 @@ _Content for UI/UX evaluation..._
 
 ## Functionality
 
-_Content for Functionality evaluation..._
+Our project successfully delivered all required functionality as defined in our MoSCoW requirements list. While we initially identified three core requirements from the client's brief, through ongoing collaboration and discussion with stakeholders we proactively uncovered additional issues beyond the original scope, allowing us to exceed expectations and deliver a more comprehensive solution.
+
+[Talk about UAT and client indicated functionality] 
+
+The vast majority of bugs identified during development and testing were non-critical and low priority, with clear justifications provided or documented as areas for future improvement. Any issues that were identified do not affect the core usability or integrity of the system. Furthermore, the project has been designed with extensibility in mind, allowing additional features and enhancements to be integrated seamlessly in future development cycles. Overall, the project successfully achieves its primary objective of integrating AI to enhance educator development.
 
   </TabItem>
 
@@ -28,7 +38,12 @@ _Content for Functionality evaluation..._
 
 ## Stability
 
-_Content for Stability evaluation..._
+Our system is reliable and performs its intended functions without crashes or errors for the vast majority of interactions. While uptime is largely managed by Azure Cloud, meaning there is a degree of infrastructure dependency outside our control, the application code itself is robust and dependable. As the system is built on Azure Container Apps, it has also been designed to be resilient under load; we have configured maximum replica counts for each container and provisioned resources accordingly to handle higher volumes of traffic without degradation.
+
+The system is supported by a comprehensive test suite consisting of three layers of testing. Unit tests validate the correctness of individual functions and components in isolation, ensuring each piece of logic behaves as expected independently. Integration tests verify that the different modules and services interact correctly with one another, catching issues that would not surface in isolation. System tests assess the end-to-end behaviour of the application as a whole, confirming that the system meets its requirements from a user perspective. Together, this test suite provides strong regression resistance, ensuring that future changes and additions do not break existing functionality.
+
+Behavioral predictability is also largely achieved. While large language models are inherently non-deterministic, we mitigate this by validating that responses are semantically consistent with expected outputs rather than requiring exact matches. This is enforced through semantic similarity tests within our system test suite, providing a practical and meaningful measure of predictability given the nature of the underlying technology.
+
 
   </TabItem>
 
