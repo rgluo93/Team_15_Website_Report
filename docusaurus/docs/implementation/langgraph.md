@@ -654,3 +654,129 @@ Provide a clear summary and insights."""
 
 ### Coaching Tool Workflow (Lincoln writes this)
 
+### Building the Agent 
+
+Finally, once the nodes have been defined, the agent is built and exposed via a chat function. The agent is built to follow the algorithm below:
+
+1. The user query is passed to the planning sub-agent, which generates a structured step-by-step plan.
+2. The plan is passed to the execution agent, which crafts an execution instruction for the current step.
+3. The execution agent makes a selection: if the plan is complete, route to summarize_agent_workflow and end; otherwise route to classify_message.
+4. The classifier makes a selection on the execution instruction, routing to one of four tool workflows:
+
+- SQL → generate_sql_query → execute_sql → summarize_sql_results
+- WhatsApp → generate_whatsapp_message → send_whatsapp
+- Translation → extract_translation_text → translate_text
+- General → respond_with_rag
+
+5. Once the tool workflow completes, the result is stored in generated_content and control loops back to the execution agent.
+6. Steps 3–5 iterate until the execution agent determines the plan is complete, at which point summarize_agent_workflow synthesises all results into a final response.
+
+```python
+class GeneralAgent:
+
+    def __init__(self, chat_service: ChatService = None):
+        self.chat_service = chat_service or ChatService()
+
+        # Initialize node classes with shared chat_service
+        self.general_nodes = GeneralNodes(self.chat_service)
+        self.sql_nodes = SQLNodes(self.chat_service)
+        self.whatsapp_nodes = WhatsAppNodes(self.chat_service)
+        self.translation_nodes = TranslationNodes(self.chat_service)
+        self.coaching_nodes = CoachingNodes(self.chat_service)
+        self.planning_agent_nodes = PlanningAgentNodes(self.chat_service)
+        self.execution_agent_nodes = ExecutionAgentNodes(self.chat_service)
+
+        self.agent = self._build_agent()
+
+    def _build_agent(self):
+        workflow = StateGraph(AgentState)
+
+        # Add nodes
+        workflow.add_node("plan_task", self.planning_agent_nodes.plan_task)
+        workflow.add_node("execution_agent", self.execution_agent_nodes.execution_agent)
+        workflow.add_node("summarize_agent_workflow", self.execution_agent_nodes.summarize_agent_workflow)
+        workflow.add_node("classify_message", self.general_nodes.classify_message)
+        workflow.add_node("respond_with_rag", self.general_nodes.respond_with_rag)
+        workflow.add_node("generate_whatsapp_message", self.whatsapp_nodes.generate_whatsapp_message)
+        workflow.add_node("send_whatsapp", self.whatsapp_nodes.send_whatsapp)
+        workflow.add_node("generate_sql_query", self.sql_nodes.generate_sql_query)
+        workflow.add_node("execute_sql", self.sql_nodes.execute_sql)
+        workflow.add_node("summarize_sql_results", self.sql_nodes.summarize_sql_results)
+        workflow.add_node("extract_translation_text", self.translation_nodes.extract_translation_text)
+        workflow.add_node("translate_text", self.translation_nodes.translate_text_node)
+        workflow.add_node("classify_coaching_task", self.coaching_nodes.classify_coaching_task)
+        workflow.add_node("generate_school_visit_plan", self.coaching_nodes.generate_visit_plan)
+        workflow.add_node("generate_observation_checklist", self.coaching_nodes.get_lesson_observation_checklist)
+        workflow.add_node("generate_visit_summary", self.coaching_nodes.generate_visit_summary)
+        workflow.add_node("generate_zone_review", self.coaching_nodes.generate_zone_review)
+
+        # Edges
+        workflow.add_edge(START, "plan_task")
+        workflow.add_edge("plan_task", "execution_agent")
+
+        workflow.add_conditional_edges(
+            "execution_agent",
+            self.execution_agent_nodes.execution_router,
+            {"continue": "classify_message", "end": "summarize_agent_workflow"}
+        )
+
+        workflow.add_conditional_edges(
+            "classify_message",
+            self.general_nodes.router,
+            {
+                "respond_with_rag": "respond_with_rag",
+                "generate_whatsapp_message": "generate_whatsapp_message",
+                "generate_sql_query": "generate_sql_query",
+                "extract_translation_text": "extract_translation_text",
+                "classify_coaching_task": "classify_coaching_task",
+            }
+        )
+
+        workflow.add_conditional_edges(
+            "classify_coaching_task",
+            self.coaching_nodes.coaching_task_router,
+            {
+                "generate_school_visit_plan": "generate_school_visit_plan",
+                "generate_observation_checklist": "generate_observation_checklist",
+                "generate_visit_summary": "generate_visit_summary",
+                "generate_zone_review": "generate_zone_review",
+            }
+        )
+
+        workflow.add_edge("respond_with_rag", "execution_agent")
+        workflow.add_edge("generate_whatsapp_message", "send_whatsapp")
+        workflow.add_edge("send_whatsapp", "execution_agent")
+        workflow.add_edge("generate_sql_query", "execute_sql")
+        workflow.add_edge("execute_sql", "summarize_sql_results")
+        workflow.add_edge("summarize_sql_results", "execution_agent")
+        workflow.add_edge("extract_translation_text", "translate_text")
+        workflow.add_edge("translate_text", "execution_agent")
+        workflow.add_edge("generate_school_visit_plan", "execution_agent")
+        workflow.add_edge("generate_observation_checklist", "execution_agent")
+        workflow.add_edge("generate_visit_summary", "execution_agent")
+        workflow.add_edge("generate_zone_review", "execution_agent")
+        workflow.add_edge("summarize_agent_workflow", END)
+
+        return workflow.compile()
+
+    async def chat(self, user_id: str, message: str, phone_number: str = None) -> Dict[str, Any]:
+        initial_state = {
+            "user_id": user_id,
+            "phone_number": phone_number,
+            "user_question": message,
+            "execution_instruction": "",
+            "message_type": "",
+            "plan": "",
+            "loop_iteration": 0,
+            "execution_directive": "",
+            "generated_content": {},
+            "workflow_summary": [],
+            "final_response": "",
+        }
+
+        result = await self.agent.ainvoke(initial_state)
+        return {
+            "response": result.get("final_response", "Error processing request."),
+            "workflow_summary": result.get("workflow_summary", [])
+        } 
+```

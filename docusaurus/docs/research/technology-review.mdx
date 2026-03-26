@@ -126,20 +126,19 @@ We ultimately selected GPT-4o-mini. Given that Dignitas is a non-profit organisa
 
   <TabItem value="ai-orchestration-frameworks" label="AI Orchestration Frameworks">
 
-
 ## AI Orchestration Framework
 
 AI orchestration frameworks were chosen to support the development of the required AI features, as relying solely on raw API calls would make the system unnecessarily complex and time-consuming to build from scratch. Moreover, these frameworks provide clear structure, improve development speeds through reusable components, and offer access to a well-established ecosystem of tools. While they may introduce some loss of low-level control and minor performance overhead, these trade-offs are relatively insignificant compared to the benefits in scalability and development efficiency. As a result, we evaluated several popular AI orchestration frameworks to develop the required features.
 
 ### Frameworks
 
-| Framework | Description |
-|----------|-------------|
-| LangChain | General-purpose framework that provides abstractions for building LLM applications. It supports chain-based workflows, tool usage, and AI memory management. |
-| LlamaIndex | Data-focused framework designed to connect LLMs with external data sources. Specialises in retrieval-augmented generation (RAG) over structured and unstructured data. |
-| LangGraph | Built on top of LangChain, enabling graph-based workflows for complex, stateful agent systems involving loops, branching, and persistence. |
-| CrewAI | Framework for coordinating team-based AI agent systems, enabling multiple agents to collaborate to complete tasks. |
-| Google’s Agent Development Kit | A toolkit by Google for building and deploying AI agents, with integration into Google Cloud services. |
+| Framework                      | Description                                                                                                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| LangChain                      | General-purpose framework that provides abstractions for building LLM applications. It supports chain-based workflows, tool usage, and AI memory management.           |
+| LlamaIndex                     | Data-focused framework designed to connect LLMs with external data sources. Specialises in retrieval-augmented generation (RAG) over structured and unstructured data. |
+| LangGraph                      | Built on top of LangChain, enabling graph-based workflows for complex, stateful agent systems involving loops, branching, and persistence.                             |
+| CrewAI                         | Framework for coordinating team-based AI agent systems, enabling multiple agents to collaborate to complete tasks.                                                     |
+| Google’s Agent Development Kit | A toolkit by Google for building and deploying AI agents, with integration into Google Cloud services.                                                                 |
 
 ### Decision
 
@@ -163,37 +162,36 @@ For the general educational assistant chat bot, we require that the message hist
 
 ### Redis
 
-| Advantages | Disadvantages |
-|---|---|
-| Fast key-value storage for efficient message history retrieval | Data does not persist after shutdown |
+| Advantages                                                                     | Disadvantages                                          |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| Fast key-value storage for efficient message history retrieval                 | Data does not persist after shutdown                   |
 | Extremely scalable for high message traffic (both horizontally and vertically) | Does not support complex querying of user message data |
 
 ---
 
 ### MySQL
 
-| Advantages | Disadvantages |
-|---|---|
-| Data persists after shutdown | Slower read/write performance compared to Redis and In-Memory |
-| Supports complex queries on user message data | |
-| Already integrated into the existing codebase | |
+| Advantages                                    | Disadvantages                                                 |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| Data persists after shutdown                  | Slower read/write performance compared to Redis and In-Memory |
+| Supports complex queries on user message data |                                                               |
+| Already integrated into the existing codebase |                                                               |
 
 ---
 
 ### In-Memory (Python Dictionary / List)
 
-| Advantages | Disadvantages |
-|---|---|
-| Fastest key-value storage for message history retrieval | Data does not persist after shutdown |
-| Zero network overhead, data is accessed directly in process | Does not support complex querying of user message data |
-| Simplest to implement with no external dependencies | Limited by available RAM; not sustainable at higher traffic volumes |
+| Advantages                                                  | Disadvantages                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------------------------- |
+| Fastest key-value storage for message history retrieval     | Data does not persist after shutdown                                |
+| Zero network overhead, data is accessed directly in process | Does not support complex querying of user message data              |
+| Simplest to implement with no external dependencies         | Limited by available RAM; not sustainable at higher traffic volumes |
 
 ---
 
 ### Decision
 
 We selected **Redis** for its speed and scalability. Since the client has no requirement to persist or perform complex queries on message history, the additional overhead of MySQL was unnecessary. In-Memory storage was ruled out due to its RAM limitations and lack of sustainability at scale.
-
 
 ## Vector Database
 
@@ -203,42 +201,42 @@ Additionally, we have to store vector embeddings of LeadNow course content and r
 
 ### Azure AI Search
 
-| Advantages | Disadvantages |
-|---|---|
-| Fully managed by Azure, no infrastructure overhead | Creates vendor lock-in within the Azure ecosystem |
-| Supports hybrid search (keyword + vector) out of the box | Significantly more expensive than open-source alternatives (15GB basic tier is $73.73 per month) |
-| Integrates natively with other Azure services (e.g. OpenAI) | |
+| Advantages                                                  | Disadvantages                                                                                    |
+| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Fully managed by Azure, no infrastructure overhead          | Creates vendor lock-in within the Azure ecosystem                                                |
+| Supports hybrid search (keyword + vector) out of the box    | Significantly more expensive than open-source alternatives (15GB basic tier is $73.73 per month) |
+| Integrates natively with other Azure services (e.g. OpenAI) |                                                                                                  |
 
 ---
 
 ### Qdrant
 
-| Advantages | Disadvantages |
-|---|---|
-| High-performance cosine similarity search, written in Rust for memory efficiency | Requires self-hosting and infrastructure management via Docker / Kubernetes |
-| Open-source,  no vendor lock-in to specific cloud provider | Smaller community and ecosystem compared to Pinecone |
-| Open-source therefore costs are dependant solely on transparent hosting infrastructure costs | No built-in embedding generation, relies on an external model |
-| Supports rich metadata (payload) filtering alongside vector search | |
+| Advantages                                                                                   | Disadvantages                                                               |
+| -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| High-performance cosine similarity search, written in Rust for memory efficiency             | Requires self-hosting and infrastructure management via Docker / Kubernetes |
+| Open-source, no vendor lock-in to specific cloud provider                                    | Smaller community and ecosystem compared to Pinecone                        |
+| Open-source therefore costs are dependant solely on transparent hosting infrastructure costs | No built-in embedding generation, relies on an external model               |
+| Supports rich metadata (payload) filtering alongside vector search                           |                                                                             |
 
 ---
 
 ### Pinecone
 
-| Advantages | Disadvantages |
-|---|---|
-| Fully managed service, no infrastructure to maintain | Proprietary and closed-source, leading to vendor lock-in |
-| Scales to billions of vectors with low-latency search | Expensive at scale (standard tier is $50 per month) |
-| Strong enterprise reliability and uptime guarantees | No built-in embedding generation, relies on an external model |
+| Advantages                                            | Disadvantages                                                 |
+| ----------------------------------------------------- | ------------------------------------------------------------- |
+| Fully managed service, no infrastructure to maintain  | Proprietary and closed-source, leading to vendor lock-in      |
+| Scales to billions of vectors with low-latency search | Expensive at scale (standard tier is $50 per month)           |
+| Strong enterprise reliability and uptime guarantees   | No built-in embedding generation, relies on an external model |
 
 ---
 
 ### Chroma
 
-| Advantages | Disadvantages |
-|---|---|
-| Very simple Python API, minimal setup and fast to prototype | Limited metadata filtering capability compared to Qdrant |
-| Open-source, no vendor lock-in to specific cloud provider | Performance lags behind Qdrant and Pinecone at higher vector volumes |
-| Open-source therefore costs are dependant solely on transparent hosting infrastructure costs | No built-in embedding generation, relies on an external model |
+| Advantages                                                                                   | Disadvantages                                                        |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| Very simple Python API, minimal setup and fast to prototype                                  | Limited metadata filtering capability compared to Qdrant             |
+| Open-source, no vendor lock-in to specific cloud provider                                    | Performance lags behind Qdrant and Pinecone at higher vector volumes |
+| Open-source therefore costs are dependant solely on transparent hosting infrastructure costs | No built-in embedding generation, relies on an external model        |
 
 ---
 
@@ -250,13 +248,11 @@ Our ETL pipeline already handles chunking and embedding generation, so built-in 
 
 Finally, as an open-source solution, Qdrant avoids vendor lock-in and is significantly cheaper than cloud-hosted alternatives, both important considerations for a non-profit organisation like Dignitas.
 
-
   </TabItem>
 
   <TabItem value="text-embedding" label="Text Embedding">
 
 ## Text Embedding
-
 
 A text embedding model is required to generate vector embeddings for two use cases with LeadNow. PDF resource chunking where vector embeddings have to be generated for chunked LeadNow PDF resources, then stored in a vector database and semantic search in the RAG pipeline, generating embeddings of user prompts at query time, which is used to retrieve relevant chunks via similarity search.
 
@@ -264,22 +260,22 @@ A text embedding model is required to generate vector embeddings for two use cas
 
 ### Models evaluated
 
-| Model | Open source | Performance | Size | Cost |
-|---|---|---|---|---|
-| `text-embedding-3-large` | No, provided by OpenAI API | Excellent, latency is primarily network I/O | Not disclosed | $0.13 per 1M tokens |
-| `all-MiniLM-L6-v2` | Yes | Excellent, runs well on CPU with low resource usage | 22M parameters | Self-hosting cost only |
-| `Qwen3-Embedding-8B` | Yes | Good, requires a GPU for acceptable latency | 8B parameters | Self-hosting cost only |
-| `Cohere embed-v3` | No, provided by Cohere API | Excellent, latency is primarily network I/O | Not disclosed | $0.10 per 1M tokens |
-| `BGE-Base-v1.5` | Yes | Good, CPU-compatible, but slower than `all-MiniLM-L6-v2` | 110M parameters | Self-hosting cost only |
+| Model                    | Open source                | Performance                                              | Size            | Cost                   |
+| ------------------------ | -------------------------- | -------------------------------------------------------- | --------------- | ---------------------- |
+| `text-embedding-3-large` | No, provided by OpenAI API | Excellent, latency is primarily network I/O              | Not disclosed   | $0.13 per 1M tokens    |
+| `all-MiniLM-L6-v2`       | Yes                        | Excellent, runs well on CPU with low resource usage      | 22M parameters  | Self-hosting cost only |
+| `Qwen3-Embedding-8B`     | Yes                        | Good, requires a GPU for acceptable latency              | 8B parameters   | Self-hosting cost only |
+| `Cohere embed-v3`        | No, provided by Cohere API | Excellent, latency is primarily network I/O              | Not disclosed   | $0.10 per 1M tokens    |
+| `BGE-Base-v1.5`          | Yes                        | Good, CPU-compatible, but slower than `all-MiniLM-L6-v2` | 110M parameters | Self-hosting cost only |
 
 ---
 
 ### Decision
 
-`all-MiniLM-L6-v2` was selected for several reasons. Since the text being embedded is around a paragraph in length, the model's 256 word-piece limit is sufficient, making models optimised for longer contexts unnecessary overhead. 
-As all content is in English, multilingual models such as `Qwen3-Embedding-8B` which carry significantly higher computational requirements offer no benefit here. 
-Infrastructure cost was also a key factor: as a non-profit organisation, hosting a GPU solely for text embedding is not cost-effective, and `all-MiniLM-L6-v2` runs efficiently on CPU. `BGE-Base-v1.5` is also CPU-compatible but is slower and offers no meaningful advantage at this scale. 
-Finally, closed-source API models like `text-embedding-3-large`, `Cohere embed-v3` were ruled out because AI agents can make a high volume of RAG calls, meaning per-token costs could escalate significantly. 
+`all-MiniLM-L6-v2` was selected for several reasons. Since the text being embedded is around a paragraph in length, the model's 256 word-piece limit is sufficient, making models optimised for longer contexts unnecessary overhead.
+As all content is in English, multilingual models such as `Qwen3-Embedding-8B` which carry significantly higher computational requirements offer no benefit here.
+Infrastructure cost was also a key factor: as a non-profit organisation, hosting a GPU solely for text embedding is not cost-effective, and `all-MiniLM-L6-v2` runs efficiently on CPU. `BGE-Base-v1.5` is also CPU-compatible but is slower and offers no meaningful advantage at this scale.
+Finally, closed-source API models like `text-embedding-3-large`, `Cohere embed-v3` were ruled out because AI agents can make a high volume of RAG calls, meaning per-token costs could escalate significantly.
 
   </TabItem>
 
@@ -287,8 +283,7 @@ Finally, closed-source API models like `text-embedding-3-large`, `Cohere embed-v
 
 ## MCP server
 
-An MCP server was built to provide the education officer agent with access to external tools. The three tools currently integrated are the WhatsApp tool, the translation tool, and the SQL tool. 
-
+An MCP server was built to provide the education officer agent with access to external tools. The three tools currently integrated are the WhatsApp tool, the translation tool, and the SQL tool.
 
 ### Framework selection
 
@@ -312,49 +307,49 @@ See the translation section for details on the translation tool and the research
 
 ## Speech To Text
 
-  Speech to text was needed to reduce typing friction in AI interactions, particularly when teachers submit longer reflections or scenario responses using their phones (most teachers in Kenya don't have a laptop). We evaluated four approaches against our project constraints: low operating cost, container-based deployment, response speed for short utterances, and minimal external dependencies.
+Speech to text was needed to reduce typing friction in AI interactions, particularly when teachers submit longer reflections or scenario responses using their phones (most teachers in Kenya don't have a laptop). We evaluated four approaches against our project constraints: low operating cost, container-based deployment, response speed for short utterances, and minimal external dependencies.
 
-  ---
+---
 
-  ### Options evaluated
+### Options evaluated
 
-  | Option | Advantages | Disadvantages |
-  |---|---|---|
-  | **Vosk (self-hosted)** | Runs locally in our FastAPI container, no per-request API billing, works without internet once model is present, full control over audio pre-processing | Lower raw accuracy ceiling than top-tier cloud STT in noisy/multi-accent audio, model files and conversion pipeline must be maintained |
-  | **OpenAI Whisper API (hosted)** | Strong recognition quality and language support, no local model maintenance | Per-usage API cost, network dependency, higher end-to-end latency from external round trips |
-  | **Azure Speech-to-Text (hosted)** | Mature managed service, strong tooling and enterprise reliability | Usage-based cost, vendor lock-in, requires sending user audio to external cloud STT endpoint |
-  | **Whisper local (self-hosted large model)** | No per-request billing, data stays within application boundary | Significantly higher CPU/GPU requirements for acceptable latency, heavier operational footprint for our prototype |
+| Option                                      | Advantages                                                                                                                                              | Disadvantages                                                                                                                          |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| **Vosk (self-hosted)**                      | Runs locally in our FastAPI container, no per-request API billing, works without internet once model is present, full control over audio pre-processing | Lower raw accuracy ceiling than top-tier cloud STT in noisy/multi-accent audio, model files and conversion pipeline must be maintained |
+| **OpenAI Whisper API (hosted)**             | Strong recognition quality and language support, no local model maintenance                                                                             | Per-usage API cost, network dependency, higher end-to-end latency from external round trips                                            |
+| **Azure Speech-to-Text (hosted)**           | Mature managed service, strong tooling and enterprise reliability                                                                                       | Usage-based cost, vendor lock-in, requires sending user audio to external cloud STT endpoint                                           |
+| **Whisper local (self-hosted large model)** | No per-request billing, data stays within application boundary                                                                                          | Significantly higher CPU/GPU requirements for acceptable latency, heavier operational footprint for our prototype                      |
 
-  ---
+---
 
-  ### Decision
+### Decision
 
-  We selected **Vosk** because it best matched the constraints of this project phase:
+We selected **Vosk** because it best matched the constraints of this project phase:
 
-  1. **Cost predictability**  
-    Inference runs inside our own service, so speech usage does not introduce variable API charges.
+1. **Cost predictability**  
+   Inference runs inside our own service, so speech usage does not introduce variable API charges.
 
-  2. **Deployment fit**  
-    The AI stack already uses containerised Python services (FastAPI + local dependencies), so adding a local STT model aligned with existing operations.
+2. **Deployment fit**  
+   The AI stack already uses containerised Python services (FastAPI + local dependencies), so adding a local STT model aligned with existing operations.
 
-  3. **Latency for short interactions**  
-    For short prompts used in chat and scenario flows, local processing removes an external network hop and keeps response times consistent.
+3. **Latency for short interactions**  
+   For short prompts used in chat and scenario flows, local processing removes an external network hop and keeps response times consistent.
 
-  4. **Privacy and control**  
-    Audio remains inside LeadNow-managed boundaries (browser → Laravel → FastAPI), and we keep direct control of pre-processing decisions (mono / 16kHz / PCM normalization).
+4. **Privacy and control**  
+   Audio remains inside LeadNow-managed boundaries (browser → Laravel → FastAPI), and we keep direct control of pre-processing decisions (mono / 16kHz / PCM normalization).
 
-  ---
+---
 
-  ### Trade-off and mitigation
+### Trade-off and mitigation
 
-  Compared with managed cloud STT, Vosk can be less accurate for difficult acoustic conditions and requires us to manage model assets plus FFmpeg/PyDub conversion dependencies. This trade-off was acceptable for a cost-sensitive prototype, and can be revisited later if production requirements prioritise maximum transcription accuracy over infrastructure independence.
-
+Compared with managed cloud STT, Vosk can be less accurate for difficult acoustic conditions and requires us to manage model assets plus FFmpeg/PyDub conversion dependencies. This trade-off was acceptable for a cost-sensitive prototype, and can be revisited later if production requirements prioritise maximum transcription accuracy over infrastructure independence.
 
   </TabItem>
 
   <TabItem value="translation-model" label="Translation">
 
 ## Translation Model
+
 ## Translation
 
 A dedicated translation service was implemented as a separate component rather than relying on the LLM for translation. Although modern LLMs can perform translation to a reasonable degree of accuracy, making repeated API calls for translation is expensive and purpose-built translation models generally produce more consistent results for specific language pairs. An additional benefit is that the translation model could be downloaded and run locally by users in future.
@@ -365,12 +360,12 @@ A dedicated translation service was implemented as a separate component rather t
 
 Four models were evaluated across performance, translation quality, and cost.
 
-| Model | Open source | Performance | Translation quality | Cost |
-|---|---|---|---|---|
-| Meta NLLB-200-600M distilled | Yes | Runs well on CPU due to small parameter size | Strong | Self-hosting cost only |
-| Helsinki-NLP Opus-MT | Yes | Runs faster than NLLB-200 on CPU due to fewer parameters | Moderate | Self-hosting cost only |
-| Google Cloud Translation API | No | Excellent, latency is primarily network I/O | Strong | $20 per million characters |
-| Microsoft Azure Translator | No | Excellent, latency is primarily network I/O | Strong | $10 per million characters |
+| Model                        | Open source | Performance                                              | Translation quality | Cost                       |
+| ---------------------------- | ----------- | -------------------------------------------------------- | ------------------- | -------------------------- |
+| Meta NLLB-200-600M distilled | Yes         | Runs well on CPU due to small parameter size             | Strong              | Self-hosting cost only     |
+| Helsinki-NLP Opus-MT         | Yes         | Runs faster than NLLB-200 on CPU due to fewer parameters | Moderate            | Self-hosting cost only     |
+| Google Cloud Translation API | No          | Excellent, latency is primarily network I/O              | Strong              | $20 per million characters |
+| Microsoft Azure Translator   | No          | Excellent, latency is primarily network I/O              | Strong              | $10 per million characters |
 
 Meta NLLB-200-600M distilled was selected. The cloud API options were ruled out as per-character pricing introduces costs that scale with usage, whereas self-hosting has a fixed infrastructure cost. Between the two open-source options, NLLB-200 was preferred over Helsinki-NLP Opus-MT due to its stronger translation quality, particularly for low-resource language pairs such as English to Swahili.
 
@@ -382,20 +377,20 @@ Since a traditional machine learning model was chosen, the next step was to fine
 
 ### Full fine-tuning
 
-| Advantages | Disadvantages |
-|---|---|
+| Advantages                                                              | Disadvantages                                      |
+| ----------------------------------------------------------------------- | -------------------------------------------------- |
 | Highest quality ceiling, every parameter can adapt to the training data | Requires significantly more GPU memory and compute |
-| | Slower to train |
-| | Higher risk of overfitting on smaller datasets |
+|                                                                         | Slower to train                                    |
+|                                                                         | Higher risk of overfitting on smaller datasets     |
 
 ### LoRA (Low-Rank Adaptation)
 
-| Advantages | Disadvantages |
-|---|---|
-| Adapter weights are small and easy to store, version, and swap | Slightly lower quality ceiling compared to full fine-tuning |
-| Lower GPU memory requirement | Requires careful tuning of the rank hyperparameter |
-| Faster to train | |
-| Preserves general translation ability, base model weights remain frozen | |
+| Advantages                                                              | Disadvantages                                               |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Adapter weights are small and easy to store, version, and swap          | Slightly lower quality ceiling compared to full fine-tuning |
+| Lower GPU memory requirement                                            | Requires careful tuning of the rank hyperparameter          |
+| Faster to train                                                         |                                                             |
+| Preserves general translation ability, base model weights remain frozen |                                                             |
 
 LoRA was selected. Access to high-end GPUs was limited and spending on cloud training compute was not desirable. LoRA allowed fine-tuning on available hardware while still producing results very close in quality to full fine-tuning. The risk of catastrophic forgetting, where full fine-tuning on a narrow dataset can degrade general translation ability, was also avoided by keeping the base model weights frozen.
 
@@ -409,26 +404,26 @@ To reduce model size and improve inference speed, an inference optimisation fram
 
 ### ONNX Runtime
 
-| Advantages | Disadvantages |
-|---|---|
-| Hardware-agnostic runs on any CPU or GPU without configuration | Smaller performance gains than OpenVINO on Intel hardware specifically |
-| Supports INT8 static and dynamic quantisation | Requires model export to ONNX format before inference |
-| Straightforward to integrate with existing Hugging Face pipelines via the `optimum` library | |
-| Portable across cloud providers and hosting environments | |
+| Advantages                                                                                  | Disadvantages                                                          |
+| ------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Hardware-agnostic runs on any CPU or GPU without configuration                              | Smaller performance gains than OpenVINO on Intel hardware specifically |
+| Supports INT8 static and dynamic quantisation                                               | Requires model export to ONNX format before inference                  |
+| Straightforward to integrate with existing Hugging Face pipelines via the `optimum` library |                                                                        |
+| Portable across cloud providers and hosting environments                                    |                                                                        |
 
 ### OpenVINO
 
-| Advantages | Disadvantages |
-|---|---|
+| Advantages                                                                                | Disadvantages                                                                                                               |
+| ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | Best performance on Intel CPUs, leverages Intel-specific instruction sets such as AVX-512 | Optimised for Intel hardware only, performance gains do not apply in environments where the CPU vendor cannot be guaranteed |
-| Dynamic quantisation reduces model size further than standard INT8 | More complex to integrate with Hugging Face pipelines compared to ONNX Runtime |
+| Dynamic quantisation reduces model size further than standard INT8                        | More complex to integrate with Hugging Face pipelines compared to ONNX Runtime                                              |
 
 ### BitsAndBytes
 
-| Advantages | Disadvantages |
-|---|---|
+| Advantages                                                                      | Disadvantages                                                                         |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 | Very simple integration with Hugging Face models, minimal code changes required | Primarily designed for GPU inference; CPU support is limited and significantly slower |
-| Supports INT8 and INT4 quantisation | Not suitable as an inference optimisation framework for CPU-hosted translation models |
+| Supports INT8 and INT4 quantisation                                             | Not suitable as an inference optimisation framework for CPU-hosted translation models |
 
 ONNX Runtime was selected. The model was exported to ONNX format and 8-bit dynamic quantisation was applied, reducing model size and improving inference speed on CPU. ONNX Runtime was preferred over OpenVINO because the deployment environment runs on Azure Container Apps, where the underlying CPU vendor cannot be guaranteed, meaning OpenVINO's Intel-specific optimisations may not be available. BitsAndBytes was ruled out as its CPU support is too limited for a production inference workload.
 
@@ -439,7 +434,6 @@ OpenVINO remains a strong candidate if the project migrates to a hosting environ
   <TabItem value="cloud-platform" label="Cloud Platform">
 
 ## Cloud Platform
-
 
 The client uses Vultr as their primary cloud hosting platform. However, since the team was provided with free Azure credits, Azure was used for two purposes: as an LLM API provider and to host Docker containers. Dependency on Azure-specific services was deliberately kept minimal to make future migration back to Vultr as straightforward as possible.
 
@@ -457,30 +451,31 @@ Four components needed to be hosted: the FastAPI server, the MCP server, Redis, 
 
 ### Azure Virtual Machines
 
-| Advantages | Disadvantages |
-|---|---|
-| Simplest to set up | More expensive than container-based options |
+| Advantages                                                  | Disadvantages                                                   |
+| ----------------------------------------------------------- | --------------------------------------------------------------- |
+| Simplest to set up                                          | More expensive than container-based options                     |
 | Most flexible, full control over OS and runtime environment | Team is responsible for uptime monitoring and security patching |
-| Easiest to migrate to a different cloud provider | |
+| Easiest to migrate to a different cloud provider            |                                                                 |
 
 ### Azure Container Apps
 
-| Advantages | Disadvantages |
-|---|---|
-| Cheapest to operate | More complex initial setup |
-| Built-in Docker container support, maps well to our multi-component setup | Harder to migrate, no exportable configuration files |
-| Scales to zero when idle, reducing resource usage and cost | Less control over underlying infrastructure compared to VMs or Kubernetes |
+| Advantages                                                                | Disadvantages                                                             |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Cheapest to operate                                                       | More complex initial setup                                                |
+| Built-in Docker container support, maps well to our multi-component setup | Harder to migrate, no exportable configuration files                      |
+| Scales to zero when idle, reducing resource usage and cost                | Less control over underlying infrastructure compared to VMs or Kubernetes |
 
 ### Azure Kubernetes Service
 
-| Advantages | Disadvantages |
-|---|---|
-| Works well with our system architecture | Most complex to set up and operate, particularly for a prototype |
-| Can be cheaper than VMs if resources are carefully scaled and provisioned | Expensive at baseline |
-| Easy to migrate to a different cloud provider | |
-| Industry standard, simplifies future hiring and onboarding | |
+| Advantages                                                                | Disadvantages                                                    |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Works well with our system architecture                                   | Most complex to set up and operate, particularly for a prototype |
+| Can be cheaper than VMs if resources are carefully scaled and provisioned | Expensive at baseline                                            |
+| Easy to migrate to a different cloud provider                             |                                                                  |
+| Industry standard, simplifies future hiring and onboarding                |                                                                  |
 
 ---
+
 ### Decision
 
 Azure Container Apps was selected as the primary hosting solution, prioritising low cost and delivery of a working prototype within the available timeframe. The key trade-off is migration difficulty: setup was performed manually through the Azure CLI and web UI, meaning there are no pre-configured files that can be ported directly to another provider.
