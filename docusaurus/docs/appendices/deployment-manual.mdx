@@ -63,9 +63,9 @@ az acr show \
 
 ### 2. Build and Push the FastAPI Image
 
-From the `ai_resource/` directory:
-
 ```bash
+cd ai_resource
+
 docker build -t YOUR_ACR_LOGIN_SERVER/ai-resource-api:latest .
 
 az acr login --name YOUR_ACR_NAME
@@ -241,7 +241,7 @@ az storage share create \
 ```bash
 az storage file upload-batch \
   --destination qdrant-storage \
-  --source ./ai_resource/qdrant_storage \
+  --source ./qdrant_storage \
   --account-name YOUR_STORAGE_ACCOUNT \
   --account-key $STORAGE_KEY
 ```
@@ -499,13 +499,19 @@ Use Azure Cache for Redis (same as the Azure Container Apps setup in Phase 1.2).
      -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
    ```
 2. Create an A record pointing your domain to that IP.
-3. Update `ai_resource/k8s/base/ingress.yaml` with your domain.
+3. Update `k8s/base/ingress.yaml` with your domain.
 
 ### Phase 2: Configure and Deploy
 
 #### 2.1 Update ConfigMap
 
-Edit `ai_resource/k8s/base/configmap.yaml` and replace the placeholders:
+From the `ai_resource/` directory:
+
+```bash
+cd ai_resource
+```
+
+Edit `k8s/base/configmap.yaml` and replace the placeholders:
 
 ```yaml
 REDIS_HOST: "your-redis.redis.cache.windows.net"
@@ -528,17 +534,17 @@ kubectl create secret generic leadnow-api-secrets \
   --from-literal=WHATSAPP_VERIFY_TOKEN='your-verify-token'
 ```
 
-Do not commit `ai_resource/k8s/base/secret.yaml` with real values to Git.
+Do not commit `k8s/base/secret.yaml` with real values to Git.
 
 #### 2.3 Apply Manifests
 
 ```bash
-kubectl apply -f ai_resource/k8s/base/namespace.yaml
-kubectl apply -f ai_resource/k8s/base/configmap.yaml
-kubectl apply -f ai_resource/k8s/base/qdrant.yaml
-kubectl apply -f ai_resource/k8s/base/fastapi.yaml
-kubectl apply -f ai_resource/k8s/base/mcp-server.yaml
-kubectl apply -f ai_resource/k8s/base/ingress.yaml
+kubectl apply -f k8s/base/namespace.yaml
+kubectl apply -f k8s/base/configmap.yaml
+kubectl apply -f k8s/base/qdrant.yaml
+kubectl apply -f k8s/base/fastapi.yaml
+kubectl apply -f k8s/base/mcp-server.yaml
+kubectl apply -f k8s/base/ingress.yaml
 ```
 
 #### 2.4 Verify the Deployment
