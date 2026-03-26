@@ -45,14 +45,33 @@ export default function AbstractCards() {
           <h3 className="abstract-card-title">Achievement and Impact</h3>
         </div>
         <div className="abstract-card-content">
-          <div className="placeholder-card" style={{margin: 0, minHeight: '150px'}}>
-            <span className="placeholder-icon">&#128202;</span>
-            <p className="placeholder-title">Real Data Needed</p>
-            <p className="placeholder-text">
-              Current achievements with real data + future extensions and impact
-              projections
-            </p>
-          </div>
+          <p>
+            Through this project, we developed new AI-powered features to make the platform more accessible and 
+            personalised for educators, improving how teachers in Kenya engage with professional teacher training.
+          </p>
+          <p>
+            The project successfully delivered all MoSCoW requirements, including all Must Have and Should
+            Have items, and went beyond the original scope by proactively identifying and addressing
+            additional client needs. All AI features: teacher chatbot, progress summaries,
+            scenario feedback, the Education Officer agent, speech-to-text and translation from English to Swahili, 
+            are fully implemented and deployed.
+          </p>
+          <p>
+            The system is stable and cloud-hosted on Azure Container Apps, with a comprehensive
+            three-layer test suite providing strong regression resistance. API response times average
+            1.52s for the chatbot and 2.74s for progress summaries, well within acceptable limits.
+            The microservice architecture ensures full backward compatibility with the client's existing
+            system, requiring no changes to pre-existing functionality.
+          </p>
+          <p>
+            The interface maintains a consistent design across web and mobile, and the system is designed
+            for extensibility. Additional features and integrations can be introduced with minimal effort
+            as the platform scales.
+          </p>
+          <p>
+            By integrating AI into the LeadNow platform, we have given educators personalised feedback, intelligent support, the ability to track
+            their own progress and more, which directly addresses the barriers that limit teaching quality.
+          </p>
         </div>
       </div>
     </div>
