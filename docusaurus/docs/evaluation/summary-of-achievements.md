@@ -12,8 +12,11 @@ Here's implementation result against the MoSCoW requirements.
 
 ## Must have 
 - ✅ **Teacher chatbot for remote training support**
+Contributors: 
 - ✅ **Performance summary report with next-step recommendations**
-- ✅ **Personalized scenario feedback**
+Contributors: 
+- ✅ **Personalized scenario feedback** 
+Contributors: 
 - ✅ **Cost-aware LLM baseline** (current setup favors lower-cost model defaults)
 
 ## Should have 
@@ -22,13 +25,18 @@ Here's implementation result against the MoSCoW requirements.
   - ✅ teacher/school performance review via data workflows
   - ✅ WhatsApp messaging actions
   - ✅ multi-step agent execution flow
+Contributors: 
 - ✅ **Speech-to-text capability** (API-level support is in place)
+Contributors: 
 - ✅ **Dockerized setup** (Dockerfiles and compose workflow available)
+Contributors: 
 
 ## Could have 
 - ✅ **English ↔ Swahili translation popup**
+Contributors: 
 - ✅ **Kubernetes deployment**
   - As an alternative deployment option as LeadNow scales up
+Contributors: 
 
 ## Won’t have 
 - 🚫 **Very large/expensive LLMs as default**
@@ -64,3 +72,20 @@ R we including this section?
 | **Overall Contribution** | **23%** | **20%** | **19%** | **19%** | **19%** |
 
 ### Website Report
+
+| Work                         | James | Lincoln | Ronald | Yi Kang | Matthew |
+|------------------------------|-------|---------|--------|---------|---------|
+| Website Template and Setup   | 15%   | 0%      | 85%    | 0%      | 0%      |
+| Home                         | 0%    | 30%     | 70%    | 0%      | 0%      |
+| Video                        | 20%   | 20%     | 20%    | 20%     | 20%     |
+| Requirement                  | 5%    | 70%     | 0%     | 10%     | 15%     |
+| Research                     | 95%   | 0%      | 0%     | 5%      | 0%      |
+| UI Design                    | 0%    | 0%      | 0%     | 25%     | 75%     |
+| System Design                | 100%  | 0%      | 0%     | 0%      | 0%      |
+| Implementation              | 50%   | 16.66%  | 0%     | 16.66%  | 16.66%  |
+| Testing                     | 25%   | 0%      | 65%    | 0%      | 10%     |
+| Evaluation and Future Work  | 60%   | 0%      | 0%     | 10%     | 30%     |
+| User and Deployment Manuals | 0%    | 0%      | 0%     | 0%      | 100%    |
+| Legal Issues                | 0%    | 0%      | 0%     | 100%    | 0%      |
+| Blog and Monthly Video      | 0%    | 0%      | 100%   | 0%      | 0%      |
+| **Overall contribution**    | **22%** | **18%** | **20%** | **20%** | **20%** |
