@@ -10,7 +10,7 @@ import TabItem from "@theme/TabItem";
 <Tabs className="small-tabs">
   <TabItem value="languages" label="Languages" default>
 
-## Languages
+## Languages [1]
 
 As we had to work with a pre-existing codebase, a few programming languages were initially fixed. HTML/CSS/JavaScript was used for the website frontend, PHP for the main Laravel backend, Flutter for mobile development, and SQL for the database. For the AI features, however, we evaluated multiple languages before selecting the one that best fit our requirements.
 
@@ -52,11 +52,13 @@ As we had to work with a pre-existing codebase, a few programming languages were
 
 We ultimately chose Python, prioritising team familiarity and ecosystem support above other factors such as raw performance. Although Python was not part of the existing codebase, our client confirmed they were comfortable with the language and were supportive of the decision.
 
+**References**: [1] Vipin Aggarwal, Why use Python for AI development?, 30 September 2025, https://www.chilliapple.co.uk/blog/python-ai-development
+
   </TabItem>
 
   <TabItem value="backend" label="Backend Framework">
 
-## Python Backend Framework
+## Python Backend Framework [2]
 
 After selecting Python for AI feature development, we evaluated several backend frameworks to serve the endpoints consumed by the Laravel backend.
 
@@ -98,6 +100,8 @@ In our AI service, the dominant source of latency is network I/O, specifically t
 
 While Django and Flask are integrating ASGI, their implementations are often abstraction layers rather than native designs. Additionally, FastAPI offers superior performance by using Pydantic for data validation (powered by a Rust engine) and maintaining minimal framework overhead. Since authentication and database management are already handled by our Laravel backend, FastAPI’s lightweight nature is a distinct advantage for this microservice.
 
+**References**: [2] Ifeoluwa Favour Ojumoro, The Top 4 Python backend frameworks for building entry level AI projects, 14 February 2025, https://pieces.app/blog/the-top-4-python-back-end-frameworks-for-your-next-project
+
   </TabItem>
 
   <TabItem value="llm-model" label="LLM Model">
@@ -126,7 +130,7 @@ We ultimately selected GPT-4o-mini. Given that Dignitas is a non-profit organisa
 
   <TabItem value="ai-orchestration-frameworks" label="AI Orchestration Frameworks">
 
-## AI Orchestration Framework
+## AI Orchestration Frameworks [3]
 
 AI orchestration frameworks were chosen to support the development of the required AI features, as relying solely on raw API calls would make the system unnecessarily complex and time-consuming to build from scratch. Moreover, these frameworks provide clear structure, improve development speeds through reusable components, and offer access to a well-established ecosystem of tools. While they may introduce some loss of low-level control and minor performance overhead, these trade-offs are relatively insignificant compared to the benefits in scalability and development efficiency. As a result, we evaluated several popular AI orchestration frameworks to develop the required features.
 
@@ -147,6 +151,8 @@ We selected LangChain and LangGraph as our primary AI orchestration frameworks, 
 LangChain was particularly well-suited for implementing the retrieval-augmented generation (RAG) pipeline, due to its strong support for data integration, prompt management, and tool usage. In contrast, LangGraph was more appropriate for developing the education officer agent, as it enables the construction of complex, stateful workflows involving conditional logic, iteration, and multi-step reasoning.
 
 Additionally, LangChain and LangGraph are designed to work seamlessly together, as LangGraph builds on top of LangChain’s abstractions. This compatibility simplifies integration and allows for a more cohesive system architecture.
+
+**References**: [3] Bala Priya C, Top 7 AI Agent Orchestration Frameworks, 12 March 2026, https://www.kdnuggets.com/top-7-ai-agent-orchestration-frameworks
 
   </TabItem>
 
@@ -193,7 +199,7 @@ For the general educational assistant chat bot, we require that the message hist
 
 We selected **Redis** for its speed and scalability. Since the client has no requirement to persist or perform complex queries on message history, the additional overhead of MySQL was unnecessary. In-Memory storage was ruled out due to its RAM limitations and lack of sustainability at scale.
 
-## Vector Database
+## Vector Database [4]
 
 Additionally, we have to store vector embeddings of LeadNow course content and resources for cosine similarity semantic search over PDF resources. We evaluated four vector database options to store these embeddings.
 
@@ -248,11 +254,13 @@ Our ETL pipeline already handles chunking and embedding generation, so built-in 
 
 Finally, as an open-source solution, Qdrant avoids vendor lock-in and is significantly cheaper than cloud-hosted alternatives, both important considerations for a non-profit organisation like Dignitas.
 
+**References**: [4] Moez Ali, The Top 7 Vector Databases in 2026, 18 Jan 2025, https://www.datacamp.com/blog/the-top-5-vector-databases
+
   </TabItem>
 
   <TabItem value="text-embedding" label="Text Embedding">
 
-## Text Embedding
+## Text Embedding [5]
 
 A text embedding model is required to generate vector embeddings for two use cases with LeadNow. PDF resource chunking where vector embeddings have to be generated for chunked LeadNow PDF resources, then stored in a vector database and semantic search in the RAG pipeline, generating embeddings of user prompts at query time, which is used to retrieve relevant chunks via similarity search.
 
@@ -276,6 +284,8 @@ A text embedding model is required to generate vector embeddings for two use cas
 As all content is in English, multilingual models such as `Qwen3-Embedding-8B` which carry significantly higher computational requirements offer no benefit here.
 Infrastructure cost was also a key factor: as a non-profit organisation, hosting a GPU solely for text embedding is not cost-effective, and `all-MiniLM-L6-v2` runs efficiently on CPU. `BGE-Base-v1.5` is also CPU-compatible but is slower and offers no meaningful advantage at this scale.
 Finally, closed-source API models like `text-embedding-3-large`, `Cohere embed-v3` were ruled out because AI agents can make a high volume of RAG calls, meaning per-token costs could escalate significantly.
+
+**References**: [5] Naman Bansal, Best Open Source Embedding Models Benchmarked and Ranked, 27 June 2025, https://supermemory.ai/blog/best-open-source-embedding-models-benchmarked-and-ranked/
 
   </TabItem>
 
@@ -371,7 +381,7 @@ Meta NLLB-200-600M distilled was selected. The cloud API options were ruled out 
 
 ---
 
-### Fine-tuning
+### Fine-tuning [6]
 
 Since a traditional machine learning model was chosen, the next step was to fine-tune it for English to Swahili translation, as this is the only language direction required by the client. Two fine-tuning approaches were evaluated.
 
@@ -395,6 +405,8 @@ Since a traditional machine learning model was chosen, the next step was to fine
 LoRA was selected. Access to high-end GPUs was limited and spending on cloud training compute was not desirable. LoRA allowed fine-tuning on available hardware while still producing results very close in quality to full fine-tuning. The risk of catastrophic forgetting, where full fine-tuning on a narrow dataset can degrade general translation ability, was also avoided by keeping the base model weights frozen.
 
 Further details on the training process can be found in the implementation section.
+
+**References**: [6] Lakshay Dagar, LoRA vs Full Fine-Tuning: The Truth No One Told You, 5 October 2025, https://medium.com/@ldagar315/lora-vs-full-fine-tuning-the-truth-no-one-told-you-2bdffa14aedb
 
 ---
 

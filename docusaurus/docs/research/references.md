@@ -6,10 +6,9 @@ sidebar_position: 3
 
 ## References for Related Projects
 
-- [1] Luis Mas Castillo, explain my answer is now free for all learners, 1 January 2026, h  ttps://blog.duolingo.com/explain-my-answer-now-free/
+- [1] Luis Mas Castillo, explain my answer is now free for all learners, 1 January 2026, https://blog.duolingo.com/explain-my-answer-now-free/
 - [2] Dibyajyoti Mohanty, Building a RAG Chatbot with Qdrant, LangChain and Streamlit, 6 December 2024, https://medium.com/@mohantydibyajyoti47/building-an-rag-chatbot-with-qdrant-langchain-and-streamlit-ed3e3e7a37d7
-- [3] Srikaran, Building a Powerful SQL Agent with LangGraph: A Step-by-Step Guide, 9 December 2024, https://medium.com/@hayagriva99999/
-building-a-powerful-sql-agent-with-langgraph-a-step-by-step-guide-part-2-24e818d47672
+- [3] Srikaran, Building a Powerful SQL Agent with LangGraph: A Step-by-Step Guide, 9 December 2024, https://medium.com/@hayagriva99999/building-a-powerful-sql-agent-with-langgraph-a-step-by-step-guide-part-2-24e818d47672
 - [4] Luke Harries, WhatsApp MCP, 13 July 2025, https://github.com/lharries/whatsapp-mcp/
 - [5] sorryhyun, NLLB-finetuning-with-lora-training, 20 November 2023, https://github.com/sorryhyun/NLLB-finetuning-with-lora-training
 
