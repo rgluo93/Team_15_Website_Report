@@ -6,6 +6,15 @@ sidebar_position: 1
 
 ## Web
 
+### Website URL and Login Details
+
+Development Website: https://dignitas.dev.leadnow.ke/login
+
+| Role | Username | Password |
+|------|----------|----------|
+| Teacher | 0712792075 | 12345678 |
+| Education Officer | 0790038798 | 12345678 |
+
 ### User Progress Summary
 
 Found at the **bottom of the dashboard page**. Scroll down to view it. Click **Generate** to create a new summary.
@@ -49,6 +58,12 @@ Both the response and the thought process of the AI agent are shown.
 </div>
 
 ## Mobile
+
+### Login Details
+
+| Username | Password |
+|----------|----------|
+| 0723450000 | 12345678 |
 
 ### User Progress Summary
 

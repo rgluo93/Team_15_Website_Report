@@ -16,12 +16,184 @@ The AI layer consists of two services deployed as Docker containers:
 
 For Azure Container Apps, both services use GitHub Actions CI/CD. Any push to `master` that touches their respective directories automatically builds and deploys. Kubernetes deployments are done manually via `kubectl`.
 
-All steps below are one-time setup, except for the **Ongoing Operations** sections under both Azure Container Apps and Kubernetes tabs.
+The numbered steps in each tab are one-time setup. Reference sections such as Ongoing Operations, Common Commands, Troubleshooting, and Cost sections are meant to be used repeatedly.
 
 <Tabs className="small-tabs">
-<TabItem value="common" label="Common Setup" default>
 
-## Common Setup
+<TabItem value="local" label="Local Setup">
+
+## Local Setup
+
+You can run the `ai_resource` FastAPI service completely locally and test it using tools like cURL or Postman. However, due to tenancy and configuration constraints, the Laravel web frontend and mobile app are **not** set up to run against a fully local environment.
+
+This means:
+
+- Local API endpoints (e.g. `http://localhost:8000/api/...`) work for backend testing.
+- Frontend changes (web or mobile) **will not be visible** when you start the website locally.
+- To see how the frontend behaves against your changes, you must deploy the API to a cloud environment and expose a public endpoint, then use the shared development instance of the frontend that points to that public API.
+
+In practice, most UI testing happens against a cloud-hosted dev environment. The current project CI/CD pipeline builds a Docker image for `ai_resource` and deploys it to Azure (e.g. Azure Container Apps or AKS), where it is reachable from the dev frontend via a public URL.
+
+### 1. Prerequisites
+
+- [Python 3.11+](https://www.python.org/downloads/)
+- [Docker Desktop](https://www.docker.com/) (includes Docker Compose)
+- UV (Python package manager):
+  - Linux/macOS: `curl -LsSf https://astral.sh/uv/install.sh | sh`
+  - Or via pip: `pip install uv`
+
+Verify UV:
+
+```bash
+uv --version
+```
+
+### 2. Configure Environment Variables
+
+From the project root, navigate to `ai_resource` and create your environment file:
+
+```bash
+cd ai_resource
+cp .env.api.example .env.api  # if example exists
+# OR edit .env.api directly
+nano .env.api
+```
+
+Set at minimum:
+
+- Azure OpenAI or Google Gemini API credentials
+- Database connection details (`DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`)
+- Redis configuration (if not using Docker defaults)
+
+### 3. Start Supporting Services
+
+```bash
+docker-compose up -d
+```
+
+Useful commands:
+
+```bash
+docker-compose ps          # Check services
+docker-compose logs -f     # Follow logs
+docker-compose down        # Stop services
+```
+
+### 4. Start the API Server
+
+```bash
+uv run python -m uvicorn api.main:app --reload
+```
+
+The API will be available at:
+
+- API: http://localhost:8000
+- Docs: http://localhost:8000/docs
+
+### 5. Start the MCP Server
+
+In a separate terminal from `ai_resource`:
+
+**Option A (fastmcp entrypoint):**
+
+```bash
+uv run python -m mcp_server.server_fastmcp
+```
+
+**Option B (package entrypoint):**
+
+```bash
+uv run python -m mcp_server
+```
+
+This starts the MCP server that provides tools for SQL execution, semantic search and RAG queries.
+
+### Common Commands
+
+#### Development Workflow
+
+```bash
+# 1. Start Docker services
+docker-compose up -d
+
+# 2. Start API server
+uv run python -m uvicorn api.main:app --reload
+
+# 3. Start MCP server (in another terminal)
+uv run python -m mcp_server
+```
+
+#### Package Management
+
+```bash
+# Install new package
+uv add package-name
+
+# Install from requirements.txt
+uv pip install -r requirements.txt
+
+# Update dependencies
+uv lock --upgrade
+```
+
+#### Testing
+
+```bash
+# Run tests
+uv run pytest
+
+# Run specific test file
+uv run pytest tests/test_file.py
+
+# Run with coverage
+uv run pytest --cov=.
+```
+
+### Troubleshooting
+
+#### Missing Python Packages
+
+If you encounter `ModuleNotFoundError`, install missing packages:
+
+```bash
+uv pip install redis pymysql qdrant-client
+# Or install all from requirements
+uv pip install -r requirements.txt
+```
+
+#### Database Connection Issues
+
+1. Verify database credentials in `.env.api`
+2. Test connection manually:
+    ```bash
+    mysql -u $DB_USERNAME -p -P $DB_PORT -h $DB_HOST $DB_DATABASE
+    ```
+
+#### Docker Services Not Starting
+
+```bash
+# Check Docker is running
+docker ps
+
+# View error logs
+docker-compose logs
+
+# Remove old containers and restart
+docker-compose down
+docker-compose up -d --force-recreate
+```
+
+### API Documentation
+
+Once the API server is running, visit:
+
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
+</TabItem>
+<TabItem value="common" label="Common Setup (Azure & Kubernetes)" default>
+
+## Common Setup (Azure & Kubernetes)
 
 These steps apply regardless of whether you deploy to Azure Container Apps or Kubernetes.
 
@@ -608,3 +780,4 @@ az aks nodepool add \
 
 </TabItem>
 </Tabs>
+
