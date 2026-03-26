@@ -1035,6 +1035,39 @@
 }
 
 /* ============================================
+   21A. DOCUMENTATION HEADING COLOURS
+   ============================================ */
+
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  color: var(--ifm-color-primary);
+}
+
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4,
+.theme-doc-markdown h5,
+.theme-doc-markdown h6 {
+  color: var(--color-secondary);
+}
+
+[data-theme='dark'] .theme-doc-markdown h1 {
+  color: var(--ifm-color-primary-lightest);
+}
+
+[data-theme='dark'] .theme-doc-markdown h2,
+[data-theme='dark'] .theme-doc-markdown h3,
+[data-theme='dark'] .theme-doc-markdown h4,
+[data-theme='dark'] .theme-doc-markdown h5,
+[data-theme='dark'] .theme-doc-markdown h6 {
+  color: var(--color-secondary-light);
+}
+
+/* ============================================
    21. HIGH CONTRAST MODE
    ============================================ */
 
