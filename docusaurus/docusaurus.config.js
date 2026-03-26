@@ -148,12 +148,6 @@ const config = {
             activeBaseRegex: `/docs/evaluation/`,
           },
           {
-            to: "/docs/conclusion/individual-contribution",
-            label: "Conclusion",
-            position: "left",
-            activeBaseRegex: `/docs/conclusion/`,
-          },
-          {
             to: "/docs/appendices/user-and-deployment-manual",
             label: "Appendices",
             position: "left",

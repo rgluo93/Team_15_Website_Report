@@ -1,8 +1,8 @@
 ---
-sidebar_position: 13
+sidebar_position: 12
 ---
 
-# K8s
+# Kubernetes
 
 LeadNow is designed to scale to approximately **16,000 educators**. To support this growth, we implemented Kubernetes as a production-grade deployment option beyond a single Docker host approach. The most notable benefits for our use case include:
 
