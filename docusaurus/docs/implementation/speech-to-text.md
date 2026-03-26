@@ -5,9 +5,7 @@ sidebar_label: Speech to Text
 
 # Speech to Text 
 
-## Overview
-
-LeadNow speech to text is implemented as a hybrid frontend + backend pipeline:
+Implemented as a hybrid frontend + backend pipeline:
 
 1. Browser records microphone audio.
 2. Frontend converts the recording to WAV and posts it to Laravel (`/transcribe`).
