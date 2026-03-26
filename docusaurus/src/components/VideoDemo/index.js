@@ -3,15 +3,17 @@ import React from 'react';
 export default function VideoDemo() {
   return (
     <div className="video-container">
-      <div className="video-placeholder">
-        <div className="video-placeholder-content">
-          <div className="video-placeholder-icon">&#127916;</div>
-          <p className="video-placeholder-text">8-Minute Video Demo</p>
-          <p style={{marginTop: 'var(--spacing-md)', fontSize: 'var(--font-size-base)', opacity: 0.9}}>
-            Video embed or file will be placed here
-          </p>
-        </div>
-      </div>
+      <iframe
+        src="https://drive.google.com/file/d/1puOfQc6PQopMqGH9nrcTy_XiA7SP8swc/preview"
+        title="LeadNow 8-Minute Demo Video"
+        allow="autoplay"
+        allowFullScreen
+        style={{
+          width: '100%',
+          aspectRatio: '16 / 9',
+          border: 'none',
+        }}
+      />
     </div>
   );
 }
