@@ -154,6 +154,11 @@ const config = {
             activeBaseRegex: `/docs/appendices/`,
           },
           {
+            to: "/blog",
+            label: "Blog",
+            position: "left",
+          },
+          {
             href: "https://github.com/matthewchmok/COMP0016_2025_Team15_AICoachingForEducatorDevelopment",
             label: "GitHub",
             position: "right",
