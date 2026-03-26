@@ -12,7 +12,13 @@ import TabItem from "@theme/TabItem";
 
 ## User Interface / User Experience
 
-_Content for UI/UX evaluation..._
+Overall, the project maintains a consistent visual design across both web and mobile interfaces, using a coherent colour palette centred around deep teal and gold. Rounded components, modern card layouts and structured dashboards create a cohesive interface that aligns with the overall theme of the website.
+
+The user summary interface on the web dashboard is presented within a dedicated section that aligns with the card-based layout used throughout the page, maintaining visual consistency with the rest of the interface. On mobile, the gradient summary card with subtle shadow gives the section strong visual prominence within the interface. In both platforms, the use of clear headings and structured content helps users quickly locate the summary within the dashboard. This interface could be further enhanced by incorporating visual progress indicators or charts to allow users to interpret their learning progress more quickly at a glance.
+
+The AI chatbot interface provides an accessible and non-intrusive support tool. On the web platform, the floating chat widget allows users to request help without disrupting their workflow, while loading indicators and typing animations provide useful feedback during AI response latency. On mobile, the chatbot includes thoughtful features such as an adjustable window height, automatic expansion when the keyboard opens and microphone input states, which improve usability for mobile-first users. Future improvements could allow the web chatbot to expand to full screen and include quick action buttons or suggested prompts to help users better understand how it can assist them.
+Finally, the scenario feedback interface presents a clear structure: personal justification, expert feedback and personalised AI feedback, which creates a logical flow for reflection. The AI progress summary section is visually consistent with the other cards in the page on both web and mobile, and provides a structured and consolidated overview of the user’s learning progress, complementing the per-scenario feedback with a broader perspective.
+Overall, the interface successfully integrates AI-driven learning support features within the LeadNow platform, but improvements in clarity, accessibility and maintainability would further enhance the overall user experience.
 
   </TabItem>
 
@@ -20,7 +26,11 @@ _Content for UI/UX evaluation..._
 
 ## Functionality
 
-_Content for Functionality evaluation..._
+Our project successfully delivered all required functionality as defined in our MoSCoW requirements list. While we initially identified three core requirements from the client's brief, through ongoing collaboration and discussion with stakeholders we proactively uncovered additional issues beyond the original scope, allowing us to exceed expectations and deliver a more comprehensive solution.
+
+[Talk about UAT and client indicated functionality] 
+
+The vast majority of bugs identified during development and testing were non-critical and low priority, with clear justifications provided or documented as areas for future improvement. Any issues that were identified do not affect the core usability or integrity of the system. Furthermore, the project has been designed with extensibility in mind, allowing additional features and enhancements to be integrated seamlessly in future development cycles. Overall, the project successfully achieves its primary objective of integrating AI to enhance educator development.
 
   </TabItem>
 
@@ -28,15 +38,83 @@ _Content for Functionality evaluation..._
 
 ## Stability
 
-_Content for Stability evaluation..._
+Our system is reliable and performs its intended functions without crashes or errors for the vast majority of interactions. While uptime is largely managed by Azure Cloud, meaning there is a degree of infrastructure dependency outside our control, the application code itself is robust and dependable. As the system is built on Azure Container Apps, it has also been designed to be resilient under load; we have configured maximum replica counts for each container and provisioned resources accordingly to handle higher volumes of traffic without degradation.
+
+The system is supported by a comprehensive test suite consisting of three layers of testing. Unit tests validate the correctness of individual functions and components in isolation, ensuring each piece of logic behaves as expected independently. Integration tests verify that the different modules and services interact correctly with one another, catching issues that would not surface in isolation. System tests assess the end-to-end behaviour of the application as a whole, confirming that the system meets its requirements from a user perspective. Together, this test suite provides strong regression resistance, ensuring that future changes and additions do not break existing functionality.
+
+Behavioral predictability is also largely achieved. While large language models are inherently non-deterministic, we mitigate this by validating that responses are semantically consistent with expected outputs rather than requiring exact matches. This is enforced through semantic similarity tests within our system test suite, providing a practical and meaningful measure of predictability given the nature of the underlying technology.
+
 
   </TabItem>
 
   <TabItem value="efficiency" label="Efficiency">
 
 ## Efficiency
+Our project aims to have the right resource usage to be efficient. Below is the resource utilization of our components
 
-_Content for Efficiency evaluation..._
+For the components, below are the resource usage details for the containers during the demo run 
+
+### FastAPI
+| Property     | Value |
+|-------------|-------|
+| Min Replicas | 1     |
+| Max Replicas | 10    |
+| CPU Cores    | 0.5   |
+| Memory       | 1GB   |
+
+![FastAPI](/img/fast-api-grafana.png)
+
+### Redis
+| Property     | Value |
+|-------------|-------|
+| Min Replicas | 1     |
+| Max Replicas | 1     |
+| CPU Cores    | 0.5   |
+| Memory       | 1GB   |
+
+![Redis](/img/redis-grafana.png)
+
+### Qdrant
+| Property     | Value |
+|-------------|-------|
+| Min Replicas | 1     |
+| Max Replicas | 1     |
+| CPU Cores    | 0.5   |
+| Memory       | 1GB   |
+
+![Qdrant](/img/qdrant-grafana.png)
+
+### MCP Server
+| Property     | Value |
+|-------------|-------|
+| Min Replicas | 1     |
+| Max Replicas | 10    |
+| CPU Cores    | 3.0   |
+| Memory       | 6GB   |
+
+![MCP Server](/img/mcp-grafana.png)
+
+The current configuration is right-sized for the application's demo stage, balancing cost efficiency with reliable performance.
+
+- FastAPI Allocated 0.5 CPU cores and 1GB memory, with average usage of 0.0129% CPU and 65% memory. The 1 minimum replica keeps idle costs low, while the maximum of 10 ensures the service can scale horizontally under increased demand.
+- Redis Allocated 0.5 CPU cores and 1GB memory, running at just 0.00694% CPU and 1% memory. As a lightweight caching layer, a single fixed replica is sufficient for its supporting role in the architecture.
+- Qdrant Allocated 0.5 CPU cores and 1GB memory, with 0% CPU and 15% memory usage. The 1GB allocation provides comfortable headroom as the vector dataset grows over time.
+- MCP Server Allocated 3 CPU cores and 6GB memory to reflect its heavier responsibilities around tool orchestration and model context management. Current usage sits at 0.0129% CPU and 65% memory, with auto-scaling up to 10 replicas available if demand increases.
+
+Overall Minimum replicas are set to 1 across all services to eliminate unnecessary idle costs at the demo stage. The system has not experienced high traffic or any degradation in request handling under these settings. As the application moves into production, resource limits and replica counts can be adjusted with minimal effort, with real usage data informing those decisions.
+
+The latency for each endpoint is approximate, as response times vary depending on the complexity of the request. Since LLM performance is primarily constrained by token count, more complex queries that generate longer responses will naturally take more time to process.
+
+| Endpoint | Characters in JSON Request | Average Latency (s) |
+|----------|---------------------------|---------------------|
+| `POST /api/v1/user-summary/generate` | 498 | 2.74 |
+| `POST /api/v1/chatbot/chat` | 106 | 1.52 |
+| `POST /api/v1/scenario-feedback/generate` | 224 | 6.35 |
+| `POST /api/v1/translate` | 64 | 0.459 |
+
+The Education Officer Agent endpoint was excluded from latency testing, as response time depends on the tools invoked during execution and the audio transcription input cannot be meaningfully measured by JSON request character count. Overall, latency remains well within acceptable limits, ensuring a smooth experience for users.
+
+
 
   </TabItem>
 
@@ -44,7 +122,13 @@ _Content for Efficiency evaluation..._
 
 ## Compatibility
 
-_Content for Compatibility evaluation..._
+Our solution adopts a microservice architecture, making it highly modular and inherently compatible across platforms and environments.
+
+Changes to the client's existing system are minimal, limited to UI updates and API requests from the Laravel backend. Critically, no pre-existing API calls are modified, all interactions introduced by our solution are net-new endpoints. This ensures full backward compatibility, as the client's existing functionality remains entirely untouched and continues to operate as expected.
+
+The modular nature of the architecture also ensures cross-platform compatibility. The Laravel backend serves as a unified API layer accessible across environments, while the Flutter application extends support to both Android and iOS from a single codebase, ensuring a consistent experience regardless of the platform.
+
+Interoperability is achieved through the use of HTTP as the communication protocol across all services. HTTP is a universally adopted standard, meaning any client or service capable of making HTTP requests can interact with the system regardless of the underlying technology stack. This allows the Laravel backend, Flutter application, and AI microservices to communicate seamlessly, and ensures the solution can readily integrate with third-party systems or future components without requiring changes to the existing architecture.
 
   </TabItem>
 
@@ -52,7 +136,15 @@ _Content for Compatibility evaluation..._
 
 ## Maintainability
 
-_Content for Maintainability evaluation..._
+Our project is designed to be maintainable and extendable for the future. The table below outlines the key aspects of maintainability across the codebase.
+
+| Aspect | Explanation |
+|--------|-------------|
+| **Readability** | The codebase maintains a high level of readability throughout. Meaningful and descriptive naming conventions are applied consistently, making the intent of functions, variables, and modules clear without requiring additional context. Python's naturally expressive syntax further contributes to readability. The codebase is also structured across multiple directories and files, each with a focused responsibility, keeping individual files concise and easy to navigate. Most files sit around 100 lines of code, with the largest reaching 500 lines. |
+| **Modularity** | The solution is highly modular by design, primarily due to its microservice architecture. Functionality is split across independent services, each responsible for a distinct concern, deployable and scalable in isolation, and communicating via HTTP. All new feature logic was kept entirely separate from the client's existing codebase. Modularity is further reinforced at the code level through the Singleton design pattern, where shared resources are centralised and consistently accessed through singleton objects, avoiding duplication and keeping logic contained within well-defined, reusable components. |
+| **Testability** | The project maintains strong test coverage of over 90% across unit, integration, and system tests. This ensures that any modifications to existing code can be validated against the existing test suite, significantly reducing the risk of introducing regressions or undetected bugs. Developers can make changes with confidence, knowing that the test suite acts as a reliable safety net throughout the development lifecycle. |
+| **Extendability** | The solution is designed with extensibility in mind. The modular microservice architecture means new features and AI capabilities can be introduced as independent services without modifying existing components. Potential improvements have been documented in the future work section, with the broader vision of progressively integrating additional AI-driven features into the LeadNow platform. |
+| **Documentation** | The project is thoroughly documented across multiple levels. Inline comments explain complex logic throughout the codebase, Python docstrings are applied to every file describing its purpose, and Markdown files provide high-level documentation for individual components such as the ETL pipeline CLI. This layered approach reduces onboarding time for new developers and makes the system considerably easier to maintain and extend over time. |
 
   </TabItem>
 
@@ -60,7 +152,12 @@ _Content for Maintainability evaluation..._
 
 ## Project Management
 
-_Content for Project Management evaluation..._
+Overall project management was handled across multiple platforms and communication channels. GitHub served as the central hub for hosting the project and managing collaborative development, where we handled pull requests, branch management, issue tracking, and code review comments to maintain code quality and coordination across the team. Day-to-day communication was conducted primarily via WhatsApp, and Google Drive was used for planning documentation and the management of shared resources such as slides and meeting notes.
+
+The team met weekly during scheduled lab sessions, with additional Friday meetings held as needed for progress updates and issue resolution. Task allocation followed a consistent cadence every Tuesday, tasks were assigned to team members with an expected completion target by the end of the week, reviewed and updated each Friday. For client communication, we met bi-weekly to provide project updates, demonstrate progress, and gather feedback to inform ongoing development.
+
+One area of reflection is that development became somewhat hurried towards the end of the project. During Term 1, significant focus was placed on non-development activities such as requirements gathering, HCI research, and overall project planning, which meant the bulk of implementation was concentrated in Term 2. That said, the timeline was deliberately structured across both terms to allow sufficient time to complete all requirements and maintain quality standards across testing, documentation, and code review. In hindsight, a more evenly distributed development schedule across both terms would have reduced the pressure in the final stages.
+
 
   </TabItem>
 </Tabs>

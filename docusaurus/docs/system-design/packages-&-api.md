@@ -287,25 +287,52 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 * **Request:**
 ```json
 {
+  "user_id":"1312312",
+  "question":"WHo is teacher mary? What lesson PP2 mathematicallesson is she teaching"
+}
+```
+
+* **Response:**
+```json
+{
+    "success": true,
+    "data": {
+        "response": "Hello! Teacher Mary is a character used in our LeadNow materials to illustrate effective teaching strategies for Kenyan classrooms. \n\nIn the example you mentioned, Teacher Mary is teaching a Pre-Primary 2 (PP2) mathematics lesson focused on number recognition. She engages her students by using a wall chart and number cut-outs, which cater to different learning styles, such as visual, auditory, and kinesthetic. This method helps ensure that all learners are actively participating and can understand the concepts being taught.\n\nIf you have any further questions or need more details, feel free to ask!",
+        "user_id": "1312312",
+        "workflow_summary": []
+    },
+    "timestamp": "2026-03-26T15:49:45.357103"
+}
+```
+
+
+* **Endpoint:** `POST /api/v1/eo-agent/chat`
+* **Request:**
+```json
+{
   "user_id": "user-123",
   "question": "How do I handle a disruptive classroom?",
   "phone_number": "254712345678"
 }
 ```
-* **Endpoint:** `POST /api/v1/eo-agent/chat`
 * **Response:**
 ```json
 {
-  "response": "AI generated coaching advice...",
-  "user_id": "user-123",
-  "workflow_summary": [
-    {
-      "step_key": "0",
-      "step_description": "Search pedagogy database",
-      "summary": "Found 3 relevant teaching modules."
-    }
-  ]
+  "success": true,
+  "data": {
+    "response": "AI generated coaching advice...",
+    "user_id": "user-123",
+    "workflow_summary": [
+      {
+        "step_key": "0",
+        "step_description": "Search pedagogy database",
+        "summary": "Found 3 relevant teaching modules."
+      }
+    ]
+  },
+  "timestamp": "2026-03-26T16:28:10.000Z"
 }
+
 ```
 
 ---
@@ -326,8 +353,11 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 * **Response:**
 ```json
 {
-  "feedback": "Your approach lacks engagement; try addressing the root cause...",
-  "user_id": "user-123"
+  "success": true,
+  "data": {
+    "feedback": "Your approach lacks engagement...",
+    "user_id": "user-123"
+  }
 }
 ```
 
@@ -336,17 +366,23 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 * **Request:**
 ```json
 {
-  "user_id": "user-123",
-  "user_data": { "progress": "80%", "completed_modules": ["Module A", "Module B"] }
+  "user_id": "test-user-123",
+  "modules_completed": "Module 1: Classroom Management (2024-01-15), Module 2: Student Engagement (2024-02-10)",
+  "topics_covered": "Classroom Management, Student Engagement",
+  "all_modules": "Module 1: Classroom Management, Module 2: Student Engagement, Module 3: Assessment Strategies, Module 4: Differentiated Instruction",
+  "additional_details": "Completed quizzes with an average score of 85%, actively participated in discussions, and completed 5 action plans."
 }
 ```
 * **Response:**
 ```json
 {
-  "summary": "Teacher has excelled in classroom management...",
-  "recommendations": ["Advanced Pedagogy", "Inclusive Learning"],
-  "user_id": "user-123"
+  "success": true,
+  "data": {
+    "summary": "Teacher has excelled in classroom management... Recommendations: Advanced Pedagogy, Inclusive Learning",
+    "user_id": "test-user-123"
+  }
 }
+
 ```
 
 ---
@@ -359,10 +395,13 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 * **Response:**
 ```json
 {
-  "text": "The transcribed content from the audio file.",
-  "language": "sw",
-  "confidence": 0.98
+  "success": true,
+  "data": {
+    "transcription": "The transcribed content from the audio file.",
+    "word_count": 8
+  }
 }
+
 ```
 
 **Translation**
@@ -371,14 +410,18 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 ```json
 {
   "text": "Habari gani?",
-  "target_language": "en"
+  "target_lang": "en"
 }
 ```
 * **Response:**
 ```json
 {
-  "translated_text": "How are you?"
+  "success": true,
+  "data": {
+    "translated_text": "How are you?"
+  }
 }
+
 ```
 
 ---
@@ -390,16 +433,17 @@ The API is built using FastAPI and follows RESTful principles. It consists of th
 * **Request:**
 ```json
 {
-  "phone_number": "254712345678",
+  "to_number": "254712345678",
   "template_name": "welcome_message",
-  "components": []
+  "language": "en",
+  "parameters": ["Optional Param 1", "Optional Param 2"]
 }
 ```
 * **Response:**
 ```json
 {
-  "messaging_product": "whatsapp",
-  "contacts": [{ "input": "254712345678", "wa_id": "254712345678" }],
-  "messages": [{ "id": "wamid.HBgLMjU0Nz..." }]
+  "success": true,
+  "message_id": "wamid.HBgLMjU0Nz...",
+  "error": null
 }
 ```
