@@ -63,9 +63,9 @@ az acr show \
 
 ### 2. Build and Push the FastAPI Image
 
-From the `ai_resource/` directory:
-
 ```bash
+cd ai_resource
+
 docker build -t YOUR_ACR_LOGIN_SERVER/ai-resource-api:latest .
 
 az acr login --name YOUR_ACR_NAME
@@ -208,9 +208,58 @@ Set `REDIS_PORT=6380`, `REDIS_SSL=true`, `REDIS_PASSWORD` to the primary key.
 
 #### 1.3 Provision Qdrant
 
-Azure Container Apps does not support persistent volumes natively. Option A runs Qdrant as a container app with ephemeral storage (data is lost on restart). Use Kubernetes (Option B) if persistent storage is required.
+Azure Container Apps does not support persistent volumes natively, but you can mount an Azure Files share for persistent storage. Option A sets this up using a storage account and file share. Use Kubernetes (Option B) if you prefer a native persistent volume.
 
-**Option A: Qdrant as a Container App:**
+**Option A: Qdrant as a Container App with persistent storage:**
+
+1. Create a storage account and get the key:
+
+```bash
+az storage account create \
+  --name YOUR_STORAGE_ACCOUNT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --location eastus \
+  --sku Standard_LRS
+
+STORAGE_KEY=$(az storage account keys list \
+  --account-name YOUR_STORAGE_ACCOUNT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --query '[0].value' --output tsv)
+```
+
+2. Create a file share:
+
+```bash
+az storage share create \
+  --name qdrant-storage \
+  --account-name YOUR_STORAGE_ACCOUNT \
+  --account-key $STORAGE_KEY
+```
+
+3. Upload existing Qdrant data to the file share (first deploy only, skip if starting fresh):
+
+```bash
+az storage file upload-batch \
+  --destination qdrant-storage \
+  --source ./qdrant_storage \
+  --account-name YOUR_STORAGE_ACCOUNT \
+  --account-key $STORAGE_KEY
+```
+
+4. Attach the file share to the Container Apps Environment:
+
+```bash
+az containerapp env storage set \
+  --name YOUR_MANAGED_ENVIRONMENT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --storage-name qdrant-files \
+  --azure-file-account-name YOUR_STORAGE_ACCOUNT \
+  --azure-file-account-key $STORAGE_KEY \
+  --azure-file-share-name qdrant-storage \
+  --access-mode ReadWrite
+```
+
+5. Create the Qdrant container app with the volume mounted:
 
 ```bash
 az containerapp create \
@@ -220,7 +269,9 @@ az containerapp create \
   --image qdrant/qdrant:latest \
   --target-port 6333 \
   --ingress internal \
-  --cpu 0.5 --memory 1Gi
+  --cpu 0.5 --memory 1Gi \
+  --volumes "name=qdrant-files,storageType=AzureFile,storageName=qdrant-files" \
+  --volume-mounts "volumeName=qdrant-files,mountPath=/qdrant/storage"
 ```
 
 Get the internal URL to use as `QDRANT_URL`:
@@ -453,6 +504,12 @@ Use Azure Cache for Redis (same as the Azure Container Apps setup in Phase 1.2).
 ### Phase 2: Configure and Deploy
 
 #### 2.1 Update ConfigMap
+
+From the `ai_resource/` directory:
+
+```bash
+cd ai_resource
+```
 
 Edit `k8s/base/configmap.yaml` and replace the placeholders:
 
