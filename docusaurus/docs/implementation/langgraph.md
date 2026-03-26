@@ -653,6 +653,152 @@ Provide a clear summary and insights."""
 ```
 
 ### Coaching Tool Workflow (Lincoln writes this)
+The entire coaching workflow consists of five nodes After the planner decides to call the coaching tool, the first node in line is classify_coaching_task. This is a sub-classifier that determines the exact intent of the user's request. It uses an LLM call with a detailed system prompt to analyze the instructions, determining which specific coaching task is being requested, of which there are four to select from: school visit preparation, lesson observation checklist, post-visit documentation, or weekly zone review. The classification result is stored in the workflow state. 
+```python
+def classify_coaching_task(self, state: Dict[str, Any]) -> Dict[str, str]:
+        """
+        Sub-classifier for coaching/planning tasks.
+        """
+        step_str = str(state.get("loop_iteration", 0))
+        instruction = state.get("execution_instruction") or state["user_question"]
+        logger.info(f"Classifying coaching task: {instruction}")
+        
+        system_prompt = """You are a coaching task classifier. Determine which specific tool to use:
+
+- school_visit_prep: User wants a comprehensive school visit preparation plan 
+  (e.g., "Prepare me for my visit to Moi School", "Help me plan a visit to ABC Primary")
+  
+- lesson_observation: User wants a quick lesson observation checklist for a specific competency
+  (e.g., "What should I look for in lesson observation for classroom management?", 
+   "Observation checklist for student engagement")
+
+- post_visit_documentation: User wants to document and summarize a completed visit with follow-up actions
+  (e.g., "Help me summarize today's visit", "Create visit notes for my meeting", 
+   "Document the coaching session")
+
+- weekly_zone_review: User wants zone-wide insights, priorities, or weekly overview
+  (e.g., "What's happening in my zone this week?", "Show me zone priorities", 
+   "Which schools need attention?", "What's happening in Nairobi zone?",
+   "Weekly zone summary", "Show me my zone review")
+
+Return the task_type."""
+        
+        result: CoachingTypeClassifier = self.chat_service.respond(
+            system_prompt=system_prompt,
+            user_message=instruction,
+            structured_output=CoachingTypeClassifier
+        )
+        
+        return {"coaching_task_type": result.task_type}
+```
+Second, the workflow routes the request to the appropriate node based on the classification.
+
+```python
+ def coaching_task_router(self, state: Dict[str, Any]) -> str:
+        """Route to specific coaching node."""
+        task_type = state.get("coaching_task_type")
+        logger.info(f"Routing coaching task: {task_type}")
+        
+        routing_map = {
+            "school_visit_prep": "generate_school_visit_plan",
+            "lesson_observation": "generate_observation_checklist",
+            "post_visit_documentation": "generate_visit_summary",
+            "weekly_zone_review": "generate_zone_review"
+        }
+        return routing_map.get(task_type, "generate_school_visit_plan")
+```
+
+Then, the selected node (i.e., generate_visit_plan, get_lesson_observation_checklist, generate_visit_summary, or generate_zone_review) uses another LLM call with a structured output model and, where relevant, retrieval-augmented generation (RAG) to generate a detailed, context-aware response. 
+
+```python
+def generate_visit_plan(self, state: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Generate structured school visit preparation plan using RAG and structured output.
+        """
+        step_str = str(state.get("loop_iteration", 0))
+        instruction = state.get("execution_instruction") or state["user_question"]
+        
+        logger.info(f"[NODE: generate_visit_plan] Generating visit plan based on: {instruction}")
+        
+        system_prompt = """You are an education planning assistant. Generate a detailed school visit 
+preparation plan.
+
+Use available data about the school from the knowledge base (RAG) to make data-driven recommendations,
+OR use any data provided directly in the request.
+
+If NO actual school data is found (in RAG or request):
+- Set no_data_available = True
+- Leave priority_teachers as empty list (DO NOT make up fake teacher names)
+- Still provide generic but useful coaching questions, observation look-fors, and follow-up task
+
+If real school data IS available (in RAG or request):
+- Set no_data_available = False
+- Provide 1-2 priority teachers based on actual performance data, attendance, or module completion
+- One specific competency focus area based on school's actual improvement needs
+- Make recommendations specific to the school's context
+
+Always provide:
+1. Exactly 3 coaching questions to ask teachers
+2. Exactly 3 observation look-fors during classroom visits
+3. One specific suggested follow-up task
+
+Make this practical and actionable."""
+        
+        user_prompt = f"Create a school visit preparation plan based on this request: {instruction}"
+        prompt = Prompt(system_prompt, user_prompt)
+        
+        # Use structured output with RAG to get school data
+        visit_plan: SchoolVisitPlan = self.chat_service.respond_with_history(
+            user_id=state["user_id"],
+            service_id="school_visit_planner",
+            prompt=prompt,
+            question=user_prompt,
+            use_rag=True,
+            structured_output=SchoolVisitPlan
+        )
+        
+        # Format the response for WhatsApp
+        formatted_response = self._format_visit_plan(visit_plan)
+        
+        logger.info(f"Generated visit plan for {visit_plan.school_name}")
+        return {"generated_content": {step_str: {"final_tool_response": formatted_response}}}
+    
+```
+
+The output is formatted for clarity and stored as final_tool_response in generated_content for the execution agent to collect.
+
+```python
+class SchoolVisitPlan(BaseModel):
+    """Structured output for school visit preparation."""
+    school_name: str = Field(description="Name of the school to visit")
+    priority_teachers: list[str] = Field(
+        description="Top 1-2 priority teachers based on actual data. If no data available, use empty list.",
+        min_length=0,
+        max_length=2
+    )
+    focus_competency: str = Field(
+        description="One specific competency area to focus on during visit"
+    )
+    coaching_questions: list[str] = Field(
+        description="3 coaching questions to ask teachers",
+        min_length=3,
+        max_length=3
+    )
+    observation_lookfors: list[str] = Field(
+        description="3 things to look for during classroom observation",
+        min_length=3,
+        max_length=3
+    )
+    followup_task: str = Field(
+        description="One specific follow-up task for after the visit"
+    )
+    no_data_available: bool = Field(
+        description="Set to True if no actual school data was available in the knowledge base",
+        default=False
+    )
+```
+
+This modular design ensures each coaching task is handled with strict formatting, actionable insights, and relevance to the Kenyan education context.
 
 ### Building the Agent 
 

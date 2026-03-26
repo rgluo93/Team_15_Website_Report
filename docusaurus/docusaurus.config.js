@@ -148,7 +148,7 @@ const config = {
             activeBaseRegex: `/docs/evaluation/`,
           },
           {
-            to: "/docs/appendices/user-and-deployment-manual",
+            to: "/docs/appendices/user-manual",
             label: "Appendices",
             position: "left",
             activeBaseRegex: `/docs/appendices/`,
