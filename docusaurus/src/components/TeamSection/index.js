@@ -4,6 +4,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 const teamMembers = [
   {
     name: 'James Loke',
+    role: 'AI Engineer & Researcher',
     photo: '/img/team-images/JamesLoke.jpeg',
     email: 'jameslokejw@gmail.com',
     github: 'https://github.com/BigBouncyBoii',
@@ -11,6 +12,7 @@ const teamMembers = [
   },
   {
     name: 'Lincoln Kwan',
+    role: 'AI Engineer & WhatsApp Integration',
     photo: '/img/team-images/LincolnKwan.jpeg',
     email: 'lincoln.kwan.24@ucl.ac.uk',
     github: 'https://github.com/carbonf',
@@ -18,6 +20,7 @@ const teamMembers = [
   },
   {
     name: 'Ronald Luo',
+    role: 'AI Engineer & Testing Lead',
     photo: '/img/team-images/RonaldLuo.jpeg',
     email: 'ronaldluo93@gmail.com',
     github: 'https://github.com/rgluo93',
@@ -25,6 +28,7 @@ const teamMembers = [
   },
   {
     name: 'Yi Kang Chai',
+    role: 'UI/UX Designer & DevOps Engineer',
     photo: '/img/team-images/YiKangChai.jpeg',
     email: 'yi.chai.24@ucl.ac.uk',
     github: 'https://github.com/Derlic',
@@ -32,6 +36,7 @@ const teamMembers = [
   },
   {
     name: 'Matthew Mok',
+    role: 'UI/UX Designer & DevOps Engineer',
     photo: '/img/team-images/MatthewMok.jpeg',
     email: 'matthew.mok.24@ucl.ac.uk',
     github: 'https://github.com/matthewchmok/',
@@ -75,6 +80,7 @@ export default function TeamSection() {
             <div className="team-photo-placeholder">&#128100;</div>
           )}
           <h3 className="team-name">{member.name}</h3>
+          {member.role && <p className="team-role">{member.role}</p>}
           <div className="team-links">
             <a href={`mailto:${member.email}`} className="team-link" aria-label={`Email ${member.name}`} title="Email">
               <EmailIcon />

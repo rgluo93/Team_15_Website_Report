@@ -108,7 +108,7 @@ if (type === 'bot' && Array.isArray(options.workflowSummary) && options.workflow
 
 AI-generated scenario feedback is surfaced directly in the Scenario-Based Learning flow as **Expert Feedback**, shown together with the learner's selected response and justification. This keeps reflection and guidance in one interface.
 
-```blade
+```php
 <li class="list-group-item d-flex align-items-center mb-4" style="background: #e7f1f4;">
 	<div class="row">
 		<div class="col-md-12">
@@ -129,7 +129,7 @@ Voice input was integrated into both chatbot and scenario response flows to impr
 
 ### Scenario Voice Input Trigger
 
-```blade
+```php
 <button type="button" class="scenario-mic-btn"
 	data-textarea-id="just-{{ $scenario->id }}-{{$key}}"
 	onclick="toggleSpeechRecordingFor(this)"

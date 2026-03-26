@@ -201,7 +201,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['dart', 'bash', 'yaml'],
+        additionalLanguages: ['dart', 'bash', 'yaml', 'php'],
       },
     }),
 };
