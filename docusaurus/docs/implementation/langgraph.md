@@ -422,7 +422,7 @@ class WhatsAppNodes:
         system_prompt = f"""
     You are a WhatsApp message assistant for LeadNow education platform.
 
-    Analyze the user's request and determine:
+    Analyse the user's request and determine:
 1. Should this use a TEMPLATE message or REGULAR text message?
    - Use TEMPLATE for: reminders, notifications, bulk messages to teachers/students
    - Use REGULAR for: personal messages, custom content, conversational messages
@@ -613,7 +613,7 @@ When calculating module completion rates, only include modules assigned to the t
         except json.JSONDecodeError:
             results_data = []
         
-        system_prompt = """You are a data analyst. Analyze the SQL query results and provide:
+        system_prompt = """You are a data analyst. Analyse the SQL query results and provide:
 1. Key insights and summary of the data
 2. Any notable patterns or findings
 3. Direct answer to the user's original question
@@ -653,7 +653,7 @@ Provide a clear summary and insights."""
 ```
 
 ### Coaching Tool Workflow (Lincoln writes this)
-The entire coaching workflow consists of five nodes After the planner decides to call the coaching tool, the first node in line is classify_coaching_task. This is a sub-classifier that determines the exact intent of the user's request. It uses an LLM call with a detailed system prompt to analyze the instructions, determining which specific coaching task is being requested, of which there are four to select from: school visit preparation, lesson observation checklist, post-visit documentation, or weekly zone review. The classification result is stored in the workflow state. 
+The entire coaching workflow consists of five nodes After the planner decides to call the coaching tool, the first node in line is classify_coaching_task. This is a sub-classifier that determines the exact intent of the user's request. It uses an LLM call with a detailed system prompt to analyse the instructions, determining which specific coaching task is being requested, of which there are four to select from: school visit preparation, lesson observation checklist, post-visit documentation, or weekly zone review. The classification result is stored in the workflow state. 
 ```python
 def classify_coaching_task(self, state: Dict[str, Any]) -> Dict[str, str]:
         """

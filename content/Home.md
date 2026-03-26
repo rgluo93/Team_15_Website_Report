@@ -12,7 +12,7 @@
 
 ## **Our Mission (Optional section)**
 
-- In collaboration with Dignitas, our mission is to provide necessary support and resources to improve education quality standards across Kenya. We aim to universalize access to high-quality professional development **for** **all educators** by automating content delivery and performance feedback. Leveraging generative AI and retrieval-augmented generation, we can enhance training methodology through **personalized data-driven insights** tailored to individual teachers and education officers.
+- In collaboration with Dignitas, our mission is to provide necessary support and resources to improve education quality standards across Kenya. We aim to universalise access to high-quality professional development **for** **all educators** by automating content delivery and performance feedback. Leveraging generative AI and retrieval-augmented generation, we can enhance training methodology through **personalised data-driven insights** tailored to individual teachers and education officers.
 
 ## **Abstract**
 

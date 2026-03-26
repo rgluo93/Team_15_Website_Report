@@ -37,7 +37,7 @@ It helps me get data to inform my decision-making. I review lesson observation d
 
 **What AI features in the LeadNow app would help you improve your productivity?**
 
-An AI assistant that suggests personalized coaching tips or next modules to learn based on teacher profiles would save time.
+An AI assistant that suggests personalised coaching tips or next modules to learn based on teacher profiles would save time.
 
 ### From Educator
 
@@ -57,7 +57,7 @@ The controls and navigation of the app is easy, but the content is sometimes a l
 
 No. The expert advice is always related to the scenario itself. It does not relate to any of my responses to scenario questions.
 
-**Would you use an AI chatbot which guides you through learning and personalizes advice for you?**
+**Would you use an AI chatbot which guides you through learning and personalises advice for you?**
 
 Yes, that would be helpful.
 

@@ -62,7 +62,7 @@ def send_template_message(self, to_number: str, template_name: str, language: st
     return response.json()
 ```
 
-The send_template_message method is used to send a pre-approved template message, supporting dynamic parameters for personalization. It takes a phone number and template name, and makes a POST request to the endpoint in a similar fashion to the previous method.
+The send_template_message method is used to send a pre-approved template message, supporting dynamic parameters for personalisation. It takes a phone number and template name, and makes a POST request to the endpoint in a similar fashion to the previous method.
 
 ### Marking Messages as Read
 

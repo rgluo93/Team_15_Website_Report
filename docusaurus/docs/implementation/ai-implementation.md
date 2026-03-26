@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # AI Implementation
 
-The AI functionality within LeadNow is designed to deliver personalized learning experiences, automated insights, and intelligent conversational support. The implementation leverages state-of-the-art language models, retrieval-augmented generation (RAG) pipelines, and custom agent workflows.
+The AI functionality within LeadNow is designed to deliver personalised learning experiences, automated insights, and intelligent conversational support. The implementation leverages state-of-the-art language models, retrieval-augmented generation (RAG) pipelines, and custom agent workflows.
 
 ## Key Technologies and Libraries
 The AI implementation relies mainly on the following technologies:
