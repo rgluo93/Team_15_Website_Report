@@ -16,6 +16,8 @@ The AI layer consists of two services deployed as Docker containers:
 
 For Azure Container Apps, both services use GitHub Actions CI/CD. Any push to `master` that touches their respective directories automatically builds and deploys. Kubernetes deployments are done manually via `kubectl`.
 
+All steps below are one-time setup, except for the **Ongoing Operations** sections under both Azure Container Apps and Kubernetes tabs.
+
 <Tabs className="small-tabs">
 <TabItem value="common" label="Common Setup" default>
 
@@ -149,8 +151,7 @@ env:
 </TabItem>
 <TabItem value="azure" label="Azure Container Apps">
 
-## Azure Container Apps (one-time setup)
-
+## Azure Container Apps
 ### Phase 1: Infrastructure
 
 #### 1.1 Create a Container Apps Environment
@@ -449,8 +450,7 @@ CI/CD triggers:
 </TabItem>
 <TabItem value="kubernetes" label="Kubernetes">
 
-## Kubernetes (one-time setup)
-
+## Kubernetes
 The Kubernetes deployment runs the same Docker images from ACR but adds persistent storage for Qdrant via a StatefulSet, horizontal pod autoscaling for FastAPI and NGINX Ingress for external access.
 
 ### Phase 1: Infrastructure
