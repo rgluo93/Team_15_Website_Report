@@ -990,10 +990,13 @@
   display: none;
 }
 
-/* Let the main doc content use the full width */
-[class*='docItemCol'] {
-  max-width: 100% !important;
-  flex: 0 0 100% !important;
+/* Use docusaurus.infima layer (first declared = highest !important priority with v4 cascade layers) */
+@layer docusaurus.infima {
+  [class*='docItemCol'] {
+    max-width: 90% !important;
+    flex: 0 0 100% !important;
+    margin: 0 auto !important;
+  }
 }
 
 /* ============================================
