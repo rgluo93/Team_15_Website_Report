@@ -3,7 +3,7 @@ sidebar_position: 6
 ---
 
 # MoSCoW Requirements List
-The requirements were defined based on the needs and approved add ons from the Dignitas team
+The requirements were defined based on the needs and approved add ons from the Dignitas team.
 
 ## Functional requirements
 
