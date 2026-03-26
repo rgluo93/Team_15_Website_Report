@@ -7,7 +7,7 @@ sidebar_position: 1
 Our project was made possible through extensive collaboration with these key partners:
 
 ## Dignitas Kenya
-Established in 2008, Dignitas is a leading education organization based in Kenya. Its focus is on empowering and equipping the school leaders and teachers who will transform opportunities for the next generation. Dignitas partners with schools to strengthen leadership and improve instructional quality, to create an environment where all children can fulfill their potential. 
+Established in 2008, Dignitas is a leading education organisation based in Kenya. Its focus is on empowering and equipping the school leaders and teachers who will transform opportunities for the next generation. Dignitas partners with schools to strengthen leadership and improve instructional quality, to create an environment where all children can fulfil their potential. 
 LeadNow by Dignitas is a mobile and web-based platform that delivers remote, evidence-based training and coaching for instructional leaders. It supports continuous, school-based teacher development to foster real shifts in classroom practice.
 
 ## IBM

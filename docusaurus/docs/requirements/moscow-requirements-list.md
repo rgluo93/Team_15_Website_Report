@@ -5,41 +5,24 @@ sidebar_position: 6
 # MoSCoW Requirements List
 The requirements were defined based on the needs and approved add ons from the Dignitas team
 
-## Must have
-- **Teacher chatbot for remote training support**
-  - Answer teacher questions about training content and progress.
-  - Provide context-aware responses (not static FAQ-only responses).
-- **Performance summary report with next-step recommendations**
-  - Generate teacher progress summaries and recommended follow-up actions.
-- **Personalized scenario feedback**
-  - Return tailored feedback based on teacher input and expected expert answers.
-- **Cost-aware LLM baseline**
-  - Default to practical, lower-cost model choices for production reliability and scale.
+## Functional requirements
 
-## Should have
-- **Education officer agent (multi-capability assistant)**
-  - Works as a chatbot and task agent for:
-    1. planning school visits,
-    2. reviewing teacher performance across schools/cohorts,
-    3. sending WhatsApp messages.
-  - Also supports multi-step execution where one request can chain tasks.
-- **Speech-to-text in relevant workflows**
-  - Enable voice input where typing is limiting (for example, scenario-related input and agent interactions).
-- **Dockerized local/runtime setup**
-  - Maintain Docker files and compose flow for consistent local/dev execution.
+| ID | Requirements | Priority |
+|---|---|---|
+| 1 | Deliver personalised learning recommendations and automated summaries based on user activity and performance. | Must have |
+| 2 | Support teachers within the modules they are learning and guidance on structured learning plans. | Must have |
+| 3 | Personalised feedback for scenario-based learning modules. | Must have |
+| 4 | Provide teachers with the option to speak their answers instead of typing. | Should have |
+| 5 | Provide teachers with the ability to translate between English and Swahili. | Could have |
+| 6 | Develop tooling to support education officers with their everyday tasks. | Should have |
 
-## Could have
-- **English ↔ Swahili translation popup**
-  - Lightweight translation assist focused on teacher and officer workflows.
-- **Kubernetes deployment hardening**
-  - Production-ready deployment patterns (replicas, scaling, secrets, ingress).
+## Non-functional requirements
 
-## Won’t have (this phase)
-- **Very large/expensive LLMs**
-  - No premium, high-cost model tier as default for this release.
-- **Translation popup for all languages**
-  - Translation scope remains focused (English and Swahili only).
-- **AI-assisted scenario answer generation**
-  - Users provide their own responses; AI focuses on feedback quality.
-- **Third-party educational content database**
-  - No external paid/third-party curriculum content ingestion in this phase.
+| ID | Requirements | Priority |
+|---|---|---|
+| 1 | Simple and intuitive interface that allows teachers and education officers to easily navigate modules, submit responses and access feedback. | Must have |
+| 2 | Functions should not take too long to load to maintain a smooth user experience. | Should have |
+| 3 | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed. | Should have |
+| 4 | Operational and hosting costs should be minimised. | Must have |
+| 5 | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections. | Must have |
+| 6 | System should be designed so that new features can be added without significant changes to the core platform. | Should have |

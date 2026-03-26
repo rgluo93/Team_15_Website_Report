@@ -15,7 +15,7 @@ Here's implementation result against the MoSCoW requirements.
 Contributors: 
 - ✅ **Performance summary report with next-step recommendations**
 Contributors: 
-- ✅ **Personalized scenario feedback** 
+- ✅ **Personalised scenario feedback** 
 Contributors: 
 - ✅ **Cost-aware LLM baseline** (current setup favors lower-cost model defaults)
 

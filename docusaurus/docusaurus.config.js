@@ -99,7 +99,7 @@ const config = {
         respectPrefersColorScheme: false,
       },
       navbar: {
-        title: "LeadNow Dignitas",
+        title: "LeadNow",
         logo: {
           alt: "LeadNow Dignitas Logo",
           src: "img/favicon.png",

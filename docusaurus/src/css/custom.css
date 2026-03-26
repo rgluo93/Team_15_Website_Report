@@ -570,9 +570,10 @@
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
   gap: var(--spacing-xl);
   margin-top: var(--spacing-2xl);
+  width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -591,7 +592,7 @@
 
 @media (min-width: 1280px) {
   .team-grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -603,6 +604,8 @@
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
   cursor: pointer;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .team-card:hover {

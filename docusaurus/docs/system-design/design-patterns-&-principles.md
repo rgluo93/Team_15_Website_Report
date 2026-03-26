@@ -24,11 +24,11 @@ Multiple design patterns were used throughout the project.
 | Facade | A simplified interface is provided for accessing a complex system. | `TranscriptionService` hides the complexity of audio processing. Instead of the caller managing WAV file bytes, audio chunks, and Vosk model states, they simply call `transcribe_audio_file()`. |
 | Flyweight | Memory usage is reduced by sharing common objects instead of creating duplicates. | `TranslationService` is initialised once and shared across every tool and API call. |
 
-### Behavioral Design Patterns
+### Behavioural Design Patterns
 
 | Pattern | Explanation | Example |
 |---|---|---|
-| State | An object changes its behavior based on its internal state. | LangGraph is a state machine. Each node (function) receives the current state, performs an action, and returns a state update. System behavior changes dynamically based on state values. |
+| State | An object changes its behaviour based on its internal state. | LangGraph is a state machine. Each node (function) receives the current state, performs an action, and returns a state update. System behaviour changes dynamically based on state values. |
 | Observer | A subject publishes notifications to subscribed observers. | The Python logging library uses a single logger call as the subject, and multiple handlers (the observers), such as console output, a log file, or an external monitoring tool, all observe and respond to that event. |
 
 ---

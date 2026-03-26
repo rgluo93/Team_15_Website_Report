@@ -6,12 +6,12 @@ sidebar_position: 2
 
 ## Web App
 
-We conducted unit tests for all major modules of the AI Resource service, organized into subdirectories mirroring the source code structure. This ensured comprehensive test coverage across all service components.
+We conducted unit tests for all major modules of the AI Resource service, organised into subdirectories mirroring the source code structure. This ensured comprehensive test coverage across all service components.
 
 ### Unit Testing with pytest
 
 
-We use **pytest** as our test framework, with **pytest-asyncio** for testing asynchronous functions. The framework supports class-based test organization, fixtures for shared setup, and parametrized tests for covering multiple input variations. Key testing utilities include:
+We use **pytest** as our test framework, with **pytest-asyncio** for testing asynchronous functions. The framework supports class-based test organisation, fixtures for shared setup, and parametrized tests for covering multiple input variations. Key testing utilities include:
 
 
 - **`unittest.mock.MagicMock`** — for mocking synchronous dependencies (Redis clients, LLM chains, HTTP responses)
@@ -63,7 +63,7 @@ The tests focus on the AI functionalities implemented in the LeadNow mobile appl
 - **MockClient** from `package:http/testing.dart` to mock HTTP responses in service tests
 - **registerServices() / locator.reset()** in `setUp` and `tearDown`
 - **`Completer<T>` pattern** to control async timing in widget tests
-- **testWidgets** to verify UI state, not just unit behavior
+- **testWidgets** to verify UI state, not just unit behaviour
 - Direct instantiation of `AlertService()` to test private dialog widgets
 - `tester.binding.setSurfaceSize()` to prevent layout overflow in widget tests
 

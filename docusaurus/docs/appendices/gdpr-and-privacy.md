@@ -62,7 +62,7 @@ LeadNow uses Laravel 11 scheduling and includes a custom cleanup command.
 
 - Scheduling entrypoint: `bootstrap/app.php` (`withSchedule(...)`)
 - Cleanup command: `app/Console/Commands/ClearLogs.php`
-- Command behavior: removes old log files (current command logic uses a 5-day threshold)
+- Command behaviour: removes old log files (current command logic uses a 5-day threshold)
 
 ### 4.4 Session Expiration
 
@@ -85,7 +85,7 @@ This provides ephemeral retention for Redis-based chat history contexts.
 
 ### 4.6 Soft Deletes in Domain Models
 
-The following domain models use soft delete behavior.
+The following domain models use soft delete behaviour.
 
 - Example: `app/Models/LeadnowDocument.php`
 - Example: `app/Models/ReflectiveJournalComment.php`

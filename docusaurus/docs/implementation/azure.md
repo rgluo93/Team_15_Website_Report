@@ -14,7 +14,7 @@ From a cost perspective, Container Apps is more suitable. The services scale bas
 
 Additionally, Kubernetes introduces additional infrastructure management. Running a Kubernetes cluster requires managing node pools, networking, persistent storage, scaling policies and cluster maintenance. For a system of this size, needing to manage all these adds unnecessary complexity.
 
-Azure Container Apps provides a simpler alternative that still supports **containerised services and automatic scaling**. It allows the services to run directly from Docker images while Azure manages the underlying infrastructure, networking and scaling behavior.  
+Azure Container Apps provides a simpler alternative that still supports **containerised services and automatic scaling**. It allows the services to run directly from Docker images while Azure manages the underlying infrastructure, networking and scaling behaviour.  
 
 For these reasons, Azure Container Apps was chosen as the hosting platform. It provides sufficient scalability and reliability while keeping complexity and infrastructure costs low. A Kubernetes setup has also been prepared in case the client prefers using it in the future.
 
