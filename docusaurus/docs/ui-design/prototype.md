@@ -10,17 +10,15 @@ Using the preferred sketch as a reference, we developed prototypes for the AI fe
 
 An AI-generated summary of a user's progress and activity, displayed on their dashboard to provide personalised insights.
 
-<img src="/img/ui-design-images/prototype-dashboard.png" alt="Dashboard Summary Prototype" width="80%" />
+![Dashboard Summary Prototype](/img/ui-design-images/prototype-dashboard.png)
 
 ## Scenario-Based Learning
 
 Integrating an LLM into scenario-based learning modules to simulate real-world situations, asking teachers open-ended questions on how they would respond. After a teacher submits their response to a scenario, an LLM generates personalised feedback by comparing their answer against LeadNow's expert feedback.
 
-<img src="/img/ui-design-images/prototype-feedback.png" alt="Scenario-Based Learning - Initial" width="80%" />
+![Scenario-Based Learning - Initial](/img/ui-design-images/prototype-feedback.png)
 
-<div style={{width: '80%', textAlign: 'center', fontSize: '2.5rem', color: '#888', margin: '1rem 0', lineHeight: 1}}>⬇</div>
-
-<img src="/img/ui-design-images/prototype-feedback1.png" alt="Scenario-Based Learning - Result" width="80%" />
+![Scenario-Based Learning - Result](/img/ui-design-images/prototype-feedback1.png)
 
 ## Education Officer AI Agent
 
@@ -28,11 +26,11 @@ The chatbot is different depending on the user's role. Teachers can use it to ge
 
 ### AI Chatbot
 
-<img src="/img/ui-design-images/prototype-edu-officer-ai.png" alt="Education Officer AI Chatbot" width="35%" />
+![Education Officer AI Chatbot](/img/ui-design-images/prototype-edu-officer-ai.png)
 
 ### Dashboard
 
-<img src="/img/ui-design-images/prototype-edu-officer-dashboard.png" alt="Education Officer Dashboard" width="80%" />
+![Education Officer Dashboard](/img/ui-design-images/prototype-edu-officer-dashboard.png)
 
 ### Changes in the Final Implementation
 

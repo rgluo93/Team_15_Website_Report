@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 ---
 
 # Azure Implementation
@@ -17,8 +17,6 @@ Additionally, Kubernetes introduces additional infrastructure management. Runnin
 Azure Container Apps provides a simpler alternative that still supports **containerised services and automatic scaling**. It allows the services to run directly from Docker images while Azure manages the underlying infrastructure, networking and scaling behavior.  
 
 For these reasons, Azure Container Apps was chosen as the hosting platform. It provides sufficient scalability and reliability while keeping complexity and infrastructure costs low. A Kubernetes setup has also been prepared in case the client prefers using it in the future.
-
----
 
 ## Azure Infrastructure and Deployment
 
@@ -49,8 +47,6 @@ Qdrant has a similar trade-off:
 
 For this deployment, Qdrant was also run as a **container app on internal ingress**. This choice keeps the infrastructure simpler and avoids introducing an additional Kubernetes cluster to maintain. Although this means vector data is not persisted across restarts, the embeddings can be regenerated if needed, making this trade-off acceptable for the current system.
 
----
-
 ## FastAPI Service Deployment
 
 The **FastAPI service** is deployed first. The Docker image is built from the `ai_resource` directory. The first build takes several minutes because it downloads the **sentence transformer model** and the **Vosk speech model**, embedding them into the image.  
@@ -69,8 +65,6 @@ Sensitive values are stored as **container app secrets** and referenced by name 
 
 After the container app is created and running, deployment is verified by hitting the **health endpoint**, which should return a connected status for Azure OpenAI.
 
----
-
 ## MCP Server Deployment
 
 The **MCP server** is deployed similarly, using a separate Dockerfile and container app. Its configuration is simpler, primarily requiring **database credentials** to run SQL queries.  
@@ -82,8 +76,6 @@ Once the MCP server is running, the `MCP_SERVER_URL` environment variable in the
 - sending WhatsApp messages  
 
 This connection ensures the EO agent can handle multi-step tasks seamlessly.
-
----
 
 ## CI/CD and Automated Deployments
 
@@ -103,8 +95,6 @@ The only items stored in GitHub are three **non-sensitive identifiers**:
 - client ID  
 - tenant ID  
 - subscription ID  
-
----
 
 ## Deployment Workflows
 

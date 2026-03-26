@@ -81,7 +81,7 @@ Override Docusaurus theme colors in `src/css/custom.css` using Infima variables:
 
 ```css
 :root {
-  --ifm-color-primary: #2563eb;
+  --ifm-color-primary: #215265;
   /* ... full shade palette ... */
 }
 ```
@@ -89,7 +89,7 @@ Override Docusaurus theme colors in `src/css/custom.css` using Infima variables:
 ### Custom Design Tokens
 
 For styles not covered by Infima, define custom CSS variables in `custom.css`:
-- `--color-secondary` (purple), `--color-accent` (orange)
+- `--color-secondary` (lighter teal), `--color-accent` (orange)
 - Shadow, spacing, and border-radius scales
 
 ### Component Styles
@@ -100,8 +100,8 @@ For styles not covered by Infima, define custom CSS variables in `custom.css`:
 
 ### Design System Colors
 
-- Primary: `#2563eb` (blue)
-- Secondary: `#7c3aed` (purple)
+- Primary: `#215265` (LeadNow teal)
+- Secondary: `#2a6f7f` (lighter teal)
 - Accent: `#ea580c` (orange, Kenya-inspired)
 - Text: `#1f2937`, Background: `#ffffff`
 

@@ -11,32 +11,150 @@ The system is built with a client (browser/mobile app), Laravel backend, FastAPI
 1. User Progress Summary Generation
  Generates a summary of a user’s learning progress using stored module and performance data, enhanced with AI-generated insights.
 
-![User Progress Sequence Diagram](/img/sequence-diagram-1.png)
+``` mermaid
+sequenceDiagram
+    actor User
+    participant App as Browser / Mobile App
+    participant Laravel
+    participant MySQL
+    participant FastAPI
+    participant Azure as Azure Foundry (LLM)
+
+    User->>App: Request Progress Summary
+    App->>Laravel: POST /dashboard/user-summary
+    Laravel->>MySQL: Fetch User Modules & Progress
+    MySQL-->>Laravel: User Data (JSON)
+    Laravel->>FastAPI: POST /api/v1/user-summary/generate
+    FastAPI->>Azure: Generate Summary (Prompt)
+    Azure-->>FastAPI: AI-Generated Summary
+    FastAPI-->>Laravel: Summary Response
+    Laravel-->>App: JSON Response
+    App-->>User: Display Summary Report
+```
 
 2. AI Chatbot (General Education Assistant)
  Provides interactive support by responding to user queries using conversational history and contextual knowledge retrieval.
 
-![Chatbot Sequence Diagram](/img/sequence-diagram-2.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Browser / Mobile App
+    participant Laravel
+    participant FastAPI
+    participant Redis
+    participant Qdrant
+    participant Azure as Azure Foundry (LLM)
+
+    User->>App: Send Chat Message
+    App->>Laravel: POST /dashboard/chatbot
+    Laravel->>FastAPI: POST /api/v1/chatbot/chat
+    FastAPI->>Redis: Fetch Conversation History
+    Redis-->>FastAPI: Last N Messages
+    FastAPI->>Qdrant: Retrieve Context
+    Qdrant-->>FastAPI: Knowledge Base Context
+    FastAPI->>Azure: Generate Response
+    Azure-->>FastAPI: AI Response
+    FastAPI-->>Laravel: Chat Response
+    Laravel-->>App: JSON Response
+    App-->>User: Display Chat Bubble
+```
 
 3. Personalised Scenario Feedback
  Evaluates user-submitted answers to scenarios and provides structured, AI-generated feedback based on expected solutions and pedagogical context.
 
-![Scenario Feedback Sequence Diagram](/img/sequence-diagram-3.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Browser / Mobile App
+    participant Laravel
+    participant MySQL
+    participant FastAPI
+    participant Qdrant
+    participant Azure as Azure Foundry (LLM)
+
+    User->>App: Submit Scenario Answer
+    App->>Laravel: POST /leadnow-module/scenario-ai-feedback
+    Laravel->>MySQL: Fetch Scenario Details
+    MySQL-->>Laravel: Expert Answer + Metadata
+    Laravel->>FastAPI: POST /api/v1/scenario-feedback/generate
+    FastAPI->>Qdrant: Retrieve Pedagogical Context
+    Qdrant-->>FastAPI: Context Data
+    FastAPI->>Azure: Generate Feedback
+    Azure-->>FastAPI: AI Feedback
+    FastAPI-->>Laravel: Feedback Response
+    Laravel-->>App: JSON Response
+    App-->>User: Display Feedback
+```
 
 4. Education Officer Agent
  An intelligent assistant that can perform multi-step tasks such as querying databases and sending messages (e.g. via WhatsApp), using AI planning and tool execution.
 
-![EO Agent Sequence Diagram](/img/sequence-diagram-4.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Browser / Mobile App
+    participant Laravel
+    participant FastAPI
+    participant Azure as Azure Foundry (LLM)
+    participant MCP as MCP Server
+    participant MySQL
+
+    User->>App: Education Officer Interaction
+    App->>Laravel: POST /dashboard/eo-chatbot
+    Laravel->>FastAPI: POST /api/v1/eo-agent/chat
+    FastAPI->>Azure: Plan (Intent Classification)
+    Azure-->>FastAPI: Execution Plan
+    FastAPI->>MCP: Call Tool (execute_sql / send_whatsapp)
+    MCP->>MySQL: Query Database
+    MySQL-->>MCP: Results
+    MCP-->>FastAPI: Tool Output
+    FastAPI->>Azure: Generate Final Response
+    Azure-->>FastAPI: Response
+    FastAPI-->>Laravel: Chat Response
+    Laravel-->>App: JSON Response
+    App-->>User: Display Response
+```
 
 5. English to Swahili Translation
  Converts text from English to Swahili using a dedicated translation model served through a tool-based architecture.
 
-![Translation Sequence Diagram](/img/sequence-diagram-5.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Browser / Mobile App
+    participant Laravel
+    participant FastAPI
+    participant MCP as MCP Server
+
+    User->>App: Request Translation
+    App->>Laravel: POST /translate
+    Laravel->>FastAPI: POST /api/v1/translate
+    FastAPI->>MCP: Call Tool (translate_text)
+    MCP->>MCP: Run NLLB Model
+    MCP-->>FastAPI: Translated Text
+    FastAPI-->>Laravel: Response
+    Laravel-->>App: JSON Response
+    App-->>User: Display Translation
+```
 
 6. Speech-to-Text Transcription
  Converts audio input into written text through backend processing and transcription services.
 
-![Speech-to-Text Sequence Diagram](/img/sequence-diagram-6.png)
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as Browser / Mobile App
+    participant Laravel
+    participant FastAPI
+
+    User->>App: Upload Audio
+    App->>Laravel: POST /transcribe
+    Laravel->>FastAPI: POST /api/v1/speech-to-text/transcribe
+    FastAPI->>FastAPI: Process & Transcribe Audio
+    FastAPI-->>Laravel: Transcribed Text
+    Laravel-->>App: JSON Response
+    App-->>User: Display Transcription
+```
 
 The components of this sequence diagram are
 - User

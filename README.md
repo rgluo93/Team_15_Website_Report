@@ -126,7 +126,7 @@ Rich layouts (hero sections, card grids, team profiles) are built as React compo
 
 - **Infima CSS Framework:** Docusaurus's built-in CSS framework, customized via CSS variable overrides in `src/css/custom.css`
 - **CSS Modules:** Component-scoped styles using `.module.css` files
-- **Design System:** Blue (#2563eb) primary, purple (#7c3aed) secondary, orange (#ea580c) accent
+- **Design System:** LeadNow teal (#215265) primary, lighter teal (#2a6f7f) secondary, orange (#ea580c) accent
 
 ---
 

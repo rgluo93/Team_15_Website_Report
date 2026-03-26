@@ -1,0 +1,610 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Deployment Manual
+
+The AI layer consists of two services deployed as Docker containers:
+
+| Service | Port | Description |
+|---------|------|-------------|
+| FastAPI REST API | 8000 | Main API called by the Laravel app for all AI features |
+| MCP Server | 8001 | Internal service called by FastAPI for SQL queries, translation and WhatsApp messaging |
+
+For Azure Container Apps, both services use GitHub Actions CI/CD. Any push to `master` that touches their respective directories automatically builds and deploys. Kubernetes deployments are done manually via `kubectl`.
+
+All steps below are one-time setup, except for the **Ongoing Operations** sections under both Azure Container Apps and Kubernetes tabs.
+
+<Tabs className="small-tabs">
+<TabItem value="common" label="Common Setup" default>
+
+## Common Setup
+
+These steps apply regardless of whether you deploy to Azure Container Apps or Kubernetes.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) installed
+- [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) installed
+- Azure account with an active subscription
+- GitHub repository admin access
+
+```bash
+az login
+az account show
+```
+
+### 1. Create an Azure Container Registry
+
+All Docker images are stored in ACR and pulled from there by both Azure Container Apps and Kubernetes.
+
+```bash
+az group create \
+  --name YOUR_RESOURCE_GROUP \
+  --location eastus
+
+az acr create \
+  --name YOUR_ACR_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --sku Basic \
+  --admin-enabled false
+```
+
+Note the login server (you will need this throughout):
+
+```bash
+az acr show \
+  --name YOUR_ACR_NAME \
+  --query loginServer \
+  --output tsv
+# e.g. youracrname.azurecr.io
+```
+
+### 2. Build and Push the FastAPI Image
+
+```bash
+cd ai_resource
+
+docker build -t YOUR_ACR_LOGIN_SERVER/ai-resource-api:latest .
+
+az acr login --name YOUR_ACR_NAME
+
+docker push YOUR_ACR_LOGIN_SERVER/ai-resource-api:latest
+```
+
+The first build takes several minutes. It downloads a sentence transformer model (for semantic search) and a Vosk model (for speech-to-text). Subsequent builds are faster due to Docker layer caching.
+
+### 3. Build and Push the MCP Server Image
+
+```bash
+docker build -f Dockerfile.mcp -t YOUR_ACR_LOGIN_SERVER/ai-resource-mcp:latest .
+
+az acr login --name YOUR_ACR_NAME
+
+docker push YOUR_ACR_LOGIN_SERVER/ai-resource-mcp:latest
+```
+
+### 4. Set Up GitHub Actions Authentication (OIDC)
+
+No long-lived credentials are stored in GitHub. Authentication uses federated identity.
+
+**Create a service principal:**
+
+```bash
+az ad app create --display-name "github-actions-leadnow"
+# Note the appId from the output
+
+az ad sp create --id YOUR_APP_ID
+```
+
+**Assign roles:**
+
+```bash
+SUBSCRIPTION_ID=$(az account show --query id --output tsv)
+
+az role assignment create \
+  --assignee YOUR_APP_ID \
+  --role Contributor \
+  --scope /subscriptions/$SUBSCRIPTION_ID/resourceGroups/YOUR_RESOURCE_GROUP
+
+az role assignment create \
+  --assignee YOUR_APP_ID \
+  --role AcrPush \
+  --scope /subscriptions/$SUBSCRIPTION_ID/resourceGroups/YOUR_RESOURCE_GROUP/providers/Microsoft.ContainerRegistry/registries/YOUR_ACR_NAME
+```
+
+**Create federated credentials:**
+
+```bash
+az ad app federated-credential create \
+  --id YOUR_APP_ID \
+  --parameters '{
+    "name": "github-actions",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "subject": "repo:YOUR_GITHUB_ORG/YOUR_REPO_NAME:ref:refs/heads/master",
+    "audiences": ["api://AzureADTokenExchange"]
+  }'
+```
+
+**Add secrets to GitHub** (Settings > Secrets and variables > Actions):
+
+| Secret | How to get |
+|--------|-----------|
+| `AZURE_CLIENT_ID` | `az ad app show --id YOUR_APP_ID --query appId -o tsv` |
+| `AZURE_TENANT_ID` | `az account show --query tenantId -o tsv` |
+| `AZURE_SUBSCRIPTION_ID` | `az account show --query id -o tsv` |
+
+**Update the `env:` block** in both `.github/workflows/deploy-ai-resource.yml` and `.github/workflows/deploy-mcp-server.yml`:
+
+```yaml
+env:
+  AZURE_CONTAINER_APP_NAME: your-container-app-name
+  AZURE_RESOURCE_GROUP: your-resource-group
+  AZURE_CONTAINER_REGISTRY: your-acr-name
+  AZURE_CONTAINER_REGISTRY_SERVER: your-acr-name.azurecr.io
+  AZURE_CONTAINER_ENV: your-managed-environment-name
+```
+
+</TabItem>
+<TabItem value="azure" label="Azure Container Apps">
+
+## Azure Container Apps
+### Phase 1: Infrastructure
+
+#### 1.1 Create a Container Apps Environment
+
+```bash
+az containerapp env create \
+  --name YOUR_MANAGED_ENVIRONMENT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --location eastus
+```
+
+#### 1.2 Provision Redis
+
+**Option A: Redis as a Container App** (simpler, no auth required):
+
+```bash
+az containerapp create \
+  --name YOUR_REDIS_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --environment YOUR_MANAGED_ENVIRONMENT \
+  --image redis:7-alpine \
+  --target-port 6379 \
+  --ingress internal \
+  --cpu 0.25 --memory 0.5Gi
+```
+
+Set `REDIS_HOST` to your container app name, `REDIS_PORT=6379`, `REDIS_SSL=false`. No password needed.
+
+**Option B: Azure Cache for Redis** (managed, more reliable):
+
+```bash
+az redis create \
+  --name YOUR_REDIS_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --location eastus \
+  --sku Basic \
+  --vm-size c0
+```
+
+Get the hostname and key:
+
+```bash
+az redis show \
+  --name YOUR_REDIS_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --query hostName --output tsv
+
+az redis list-keys \
+  --name YOUR_REDIS_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --query primaryKey --output tsv
+```
+
+Set `REDIS_PORT=6380`, `REDIS_SSL=true`, `REDIS_PASSWORD` to the primary key.
+
+#### 1.3 Provision Qdrant
+
+Azure Container Apps does not support persistent volumes natively, but you can mount an Azure Files share for persistent storage. Option A sets this up using a storage account and file share. Use Kubernetes (Option B) if you prefer a native persistent volume.
+
+**Option A: Qdrant as a Container App with persistent storage:**
+
+1. Create a storage account and get the key:
+
+```bash
+az storage account create \
+  --name YOUR_STORAGE_ACCOUNT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --location eastus \
+  --sku Standard_LRS
+
+STORAGE_KEY=$(az storage account keys list \
+  --account-name YOUR_STORAGE_ACCOUNT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --query '[0].value' --output tsv)
+```
+
+2. Create a file share:
+
+```bash
+az storage share create \
+  --name qdrant-storage \
+  --account-name YOUR_STORAGE_ACCOUNT \
+  --account-key $STORAGE_KEY
+```
+
+3. Upload existing Qdrant data to the file share (first deploy only, skip if starting fresh):
+
+```bash
+az storage file upload-batch \
+  --destination qdrant-storage \
+  --source ./qdrant_storage \
+  --account-name YOUR_STORAGE_ACCOUNT \
+  --account-key $STORAGE_KEY
+```
+
+4. Attach the file share to the Container Apps Environment:
+
+```bash
+az containerapp env storage set \
+  --name YOUR_MANAGED_ENVIRONMENT \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --storage-name qdrant-files \
+  --azure-file-account-name YOUR_STORAGE_ACCOUNT \
+  --azure-file-account-key $STORAGE_KEY \
+  --azure-file-share-name qdrant-storage \
+  --access-mode ReadWrite
+```
+
+5. Create the Qdrant container app with the volume mounted:
+
+```bash
+az containerapp create \
+  --name YOUR_QDRANT_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --environment YOUR_MANAGED_ENVIRONMENT \
+  --image qdrant/qdrant:latest \
+  --target-port 6333 \
+  --ingress internal \
+  --cpu 0.5 --memory 1Gi \
+  --volumes "name=qdrant-files,storageType=AzureFile,storageName=qdrant-files" \
+  --volume-mounts "volumeName=qdrant-files,mountPath=/qdrant/storage"
+```
+
+Get the internal URL to use as `QDRANT_URL`:
+
+```bash
+az containerapp show \
+  --name YOUR_QDRANT_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --query properties.configuration.ingress.fqdn \
+  --output tsv
+```
+
+**Option B: Kubernetes:** See the Kubernetes tab for a Qdrant StatefulSet with persistent storage.
+
+### Phase 2: Deploy the FastAPI Service
+
+#### 2.1 Create the Container App (first time only)
+
+```bash
+az containerapp create \
+  --name YOUR_FASTAPI_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --environment YOUR_MANAGED_ENVIRONMENT \
+  --image YOUR_ACR_LOGIN_SERVER/ai-resource-api:latest \
+  --target-port 8000 \
+  --ingress external \
+  --registry-server YOUR_ACR_LOGIN_SERVER \
+  --cpu 1 --memory 2Gi
+```
+
+#### 2.2 Set Secrets
+
+```bash
+az containerapp secret set \
+  --name YOUR_FASTAPI_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --secrets \
+    api-key=YOUR_API_KEY \
+    azure-openai-key=YOUR_AZURE_OPENAI_KEY \
+    azure-openai-endpoint=YOUR_AZURE_OPENAI_ENDPOINT \
+    azure-openai-version=YOUR_AZURE_OPENAI_VERSION \
+    azure-openai-deployment=YOUR_DEPLOYMENT_NAME \
+    redis-host=YOUR_REDIS_HOST \
+    redis-password=YOUR_REDIS_PASSWORD \
+    qdrant-url=YOUR_QDRANT_URL \
+    mcp-server-url=YOUR_MCP_SERVER_URL \
+    whatsapp-token=YOUR_WHATSAPP_TOKEN \
+    whatsapp-phone-number-id=YOUR_PHONE_NUMBER_ID \
+    whatsapp-verify-token=YOUR_VERIFY_TOKEN
+```
+
+#### 2.3 Set Environment Variables
+
+```bash
+az containerapp update \
+  --name YOUR_FASTAPI_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --set-env-vars \
+    API_KEY=secretref:api-key \
+    AZURE_API_KEY=secretref:azure-openai-key \
+    AZURE_API_ENDPOINT=secretref:azure-openai-endpoint \
+    AZURE_API_VERSION=secretref:azure-openai-version \
+    AZURE_API_DEPLOYMENT=secretref:azure-openai-deployment \
+    REDIS_HOST=secretref:redis-host \
+    REDIS_PASSWORD=secretref:redis-password \
+    QDRANT_URL=secretref:qdrant-url \
+    MCP_SERVER_URL=secretref:mcp-server-url \
+    WHATSAPP_TOKEN=secretref:whatsapp-token \
+    WHATSAPP_PHONE_NUMBER_ID=secretref:whatsapp-phone-number-id \
+    WHATSAPP_VERIFY_TOKEN=secretref:whatsapp-verify-token \
+    CORS_ORIGINS=https://your-laravel-domain.com \
+    WORKERS=4 \
+    LOG_LEVEL=info
+```
+
+#### 2.4 Verify the Deployment
+
+Wait approximately 40 seconds after startup for the ML models to load, then:
+
+```bash
+curl https://YOUR_FASTAPI_URL/api/v1/health
+```
+
+The response should include `"azure_openai": "connected"`.
+
+### Phase 3: Deploy the MCP Server
+
+#### 3.1 Create the Container App (first time only)
+
+Use **internal** ingress (only the FastAPI service needs to reach it):
+
+```bash
+az containerapp create \
+  --name YOUR_MCP_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --environment YOUR_MANAGED_ENVIRONMENT \
+  --image YOUR_ACR_LOGIN_SERVER/ai-resource-mcp:latest \
+  --target-port 8001 \
+  --ingress internal \
+  --registry-server YOUR_ACR_LOGIN_SERVER \
+  --cpu 0.5 --memory 1Gi
+```
+
+#### 3.2 Set Secrets
+
+```bash
+az containerapp secret set \
+  --name YOUR_MCP_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --secrets \
+    db-host=YOUR_DB_HOST \
+    db-port=YOUR_DB_PORT \
+    db-name=YOUR_DB_NAME \
+    db-user=YOUR_DB_USER \
+    db-password=YOUR_DB_PASSWORD
+```
+
+#### 3.3 Set Environment Variables
+
+```bash
+az containerapp update \
+  --name YOUR_MCP_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --set-env-vars \
+    DB_HOST=secretref:db-host \
+    DB_PORT=secretref:db-port \
+    DB_DATABASE=secretref:db-name \
+    DB_USERNAME=secretref:db-user \
+    DB_PASSWORD=secretref:db-password
+```
+
+#### 3.4 Link to the FastAPI Service
+
+Get the MCP server's internal URL:
+
+```bash
+az containerapp show \
+  --name YOUR_MCP_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --query properties.configuration.ingress.fqdn \
+  --output tsv
+```
+
+Update `MCP_SERVER_URL` on the FastAPI container app to this URL:
+
+```bash
+az containerapp secret set \
+  --name YOUR_FASTAPI_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --secrets mcp-server-url=https://YOUR_MCP_INTERNAL_URL
+
+az containerapp update \
+  --name YOUR_FASTAPI_APP_NAME \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --set-env-vars MCP_SERVER_URL=secretref:mcp-server-url
+```
+
+### Ongoing Operations
+
+| Task | Method |
+|------|--------|
+| Deploy update | Push to `master` (GitHub Actions builds and deploys automatically) |
+| Manual deploy | GitHub > Actions > select workflow > Run workflow |
+| Roll back | `az containerapp update --name <app> --resource-group <rg> --image <acr>.azurecr.io/<image>:<previous-tag>` |
+| View logs | `az containerapp logs show --name <app> --resource-group <rg> --tail 50` |
+| Check revisions | `az containerapp revision list --name <app> --resource-group <rg> --output table` |
+
+CI/CD triggers:
+
+| Workflow | Triggers on changes to |
+|----------|----------------------|
+| `deploy-ai-resource.yml` | `ai_resource/api/**`, `ai_resource/Dockerfile` |
+| `deploy-mcp-server.yml` | `ai_resource/mcp_server/**`, `ai_resource/language_translation/**`, `ai_resource/whatsapp_service/**`, `ai_resource/Dockerfile.mcp` |
+
+</TabItem>
+<TabItem value="kubernetes" label="Kubernetes">
+
+## Kubernetes
+The Kubernetes deployment runs the same Docker images from ACR but adds persistent storage for Qdrant via a StatefulSet, horizontal pod autoscaling for FastAPI and NGINX Ingress for external access.
+
+### Phase 1: Infrastructure
+
+#### 1.1 Create an AKS Cluster
+
+```bash
+az aks create \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --name leadnow-aks \
+  --node-count 2 \
+  --node-vm-size Standard_D4s_v3 \
+  --enable-managed-identity \
+  --attach-acr YOUR_ACR_NAME
+```
+
+Get credentials:
+
+```bash
+az aks get-credentials \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --name leadnow-aks
+```
+
+#### 1.2 Install NGINX Ingress Controller
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
+```
+
+Wait for the LoadBalancer to get an external IP:
+
+```bash
+kubectl get svc -n ingress-nginx ingress-nginx-controller --watch
+```
+
+#### 1.3 Provision Redis
+
+Use Azure Cache for Redis (same as the Azure Container Apps setup in Phase 1.2). Set `REDIS_PORT=6380`, `REDIS_SSL=true`, `REDIS_PASSWORD` to the primary key.
+
+#### 1.4 Configure DNS (optional)
+
+1. Get the Ingress LoadBalancer IP:
+   ```bash
+   kubectl get svc -n ingress-nginx ingress-nginx-controller \
+     -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+   ```
+2. Create an A record pointing your domain to that IP.
+3. Update `k8s/base/ingress.yaml` with your domain.
+
+### Phase 2: Configure and Deploy
+
+#### 2.1 Update ConfigMap
+
+From the `ai_resource/` directory:
+
+```bash
+cd ai_resource
+```
+
+Edit `k8s/base/configmap.yaml` and replace the placeholders:
+
+```yaml
+REDIS_HOST: "your-redis.redis.cache.windows.net"
+DB_HOST: "your-mysql-server.mysql.database.azure.com"
+AZURE_API_ENDPOINT: "https://your-resource.openai.azure.com/"
+AZURE_API_DEPLOYMENT: "your-deployment-name"
+WHATSAPP_PHONE_NUMBER_ID: "your-phone-number-id"
+CORS_ORIGINS: "https://your-laravel-domain.com"
+```
+
+#### 2.2 Create Secrets
+
+```bash
+kubectl create secret generic leadnow-api-secrets \
+  --namespace=leadnow-ai \
+  --from-literal=API_KEY='your-api-key' \
+  --from-literal=AZURE_API_KEY='your-azure-openai-key' \
+  --from-literal=DB_PASSWORD='your-database-password' \
+  --from-literal=WHATSAPP_TOKEN='your-whatsapp-token' \
+  --from-literal=WHATSAPP_VERIFY_TOKEN='your-verify-token'
+```
+
+Do not commit `k8s/base/secret.yaml` with real values to Git.
+
+#### 2.3 Apply Manifests
+
+```bash
+kubectl apply -f k8s/base/namespace.yaml
+kubectl apply -f k8s/base/configmap.yaml
+kubectl apply -f k8s/base/qdrant.yaml
+kubectl apply -f k8s/base/fastapi.yaml
+kubectl apply -f k8s/base/mcp-server.yaml
+kubectl apply -f k8s/base/ingress.yaml
+```
+
+#### 2.4 Verify the Deployment
+
+Check pod status:
+
+```bash
+kubectl get pods -n leadnow-ai
+```
+
+All pods should show `Running`. Then test the health endpoint:
+
+```bash
+curl https://YOUR_DOMAIN/api/v1/health
+# or via LoadBalancer IP:
+curl http://$(kubectl get svc -n leadnow-ai fastapi-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}')/api/v1/health
+```
+
+The response should include `"azure_openai": "connected"`.
+
+### Ongoing Operations
+
+| Task | Method |
+|------|--------|
+| Deploy update | `kubectl set image deployment/fastapi fastapi=YOUR_ACR/leadnow-fastapi:<new-tag> -n leadnow-ai` |
+| Roll back | `kubectl rollout undo deployment/fastapi -n leadnow-ai` |
+| Watch rollout | `kubectl rollout status deployment/fastapi -n leadnow-ai` |
+| View logs | `kubectl logs -f deployment/fastapi -n leadnow-ai` |
+| Scale manually | `kubectl scale deployment/fastapi --replicas=5 -n leadnow-ai` |
+| Check HPA | `kubectl get hpa -n leadnow-ai` |
+| Restart after config change | `kubectl rollout restart deployment/fastapi -n leadnow-ai` |
+
+### Estimated Monthly Costs (Azure East US)
+
+| Resource | Specs | Approx Cost |
+|----------|-------|-------------|
+| AKS Nodes (2x D4s_v3) | 4 vCPU, 16GB RAM each | $280/month |
+| Azure Cache for Redis (Basic C0) | 250MB | $16/month |
+| Premium SSD for Qdrant | 10GB | $2/month |
+| Load Balancer | Standard | $20/month |
+| **Total** | | **~$318/month** |
+
+### Cost Reduction Strategies
+
+**Use spot instances for dev/staging** (significantly cheaper but subject to eviction):
+
+```bash
+az aks nodepool add \
+  --resource-group YOUR_RESOURCE_GROUP \
+  --cluster-name leadnow-aks \
+  --name spotnodepool \
+  --priority Spot \
+  --eviction-policy Delete \
+  --spot-max-price -1 \
+  --node-count 2
+```
+
+**Scale to zero for dev environments** by setting `minReplicas: 0` in the HPA spec, so pods scale down completely when there is no traffic.
+
+**Use Azure Dev/Test pricing** if your subscription is eligible.
+
+</TabItem>
+</Tabs>
