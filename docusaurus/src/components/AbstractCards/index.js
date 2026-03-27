@@ -44,15 +44,9 @@ const achievements = [
     color: '#215265',
   },
   {
-    label: 'Leaders & Teachers Helped',
+    label: 'Projected Leaders & Teachers Impacted',
     value: 90,
     display: '16,000+',
-    color: '#215265',
-  },
-  {
-    label: 'Projected Students by 2028',
-    value: 100,
-    display: '2 million',
     color: '#215265',
   },
 ];
@@ -141,6 +135,9 @@ export default function AbstractCards() {
               <AchievementBar key={idx} {...a} />
             ))}
           </div>
+          <p className="citation" style={{fontSize: '0.8rem', color: '#6b7280', marginTop: '1rem', fontStyle: 'italic'}}>
+            [1] Team4Tech, Dignitas, "Kenya: Strengthening Teacher Practices Through AI-Powered Teacher Coaching," <span style={{fontStyle: 'italic'}}>Generative AI Cohort Case Study</span>, 2025.
+          </p>
         </div>
       </div>
     </div>
