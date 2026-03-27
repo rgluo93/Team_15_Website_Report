@@ -643,6 +643,10 @@
   transition: transform var(--transition-base), box-shadow var(--transition-base);
 }
 
+.video-container iframe {
+  display: block;
+}
+
 .video-container:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-2xl);
@@ -676,6 +680,41 @@
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
 }
+
+/* ============================================
+   12B. GANTT CHART
+   ============================================ */
+  
+.timeline-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.timeline-container img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top;
+}
+
+.timeline-container:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2xl);
+}
+
+@media (min-width: 1024px) {
+  .timeline-container:hover {
+    transform: translateY(-6px);
+  }
+}
+
+
 
 /* ============================================
    13. TEAM SECTION

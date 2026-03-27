@@ -48,11 +48,12 @@ export default function Home() {
 
         <Section
           title="Project Timeline"
-          subtitle="Our journey from conception to implementation">
+          subtitle="Our journey from conception to implementation"
+          alt>
           <ProjectTimeline />
         </Section>
 
-        <Section title="Our Team" alt>
+        <Section title="Our Team">
           <TeamSection />
         </Section>
       </main>
