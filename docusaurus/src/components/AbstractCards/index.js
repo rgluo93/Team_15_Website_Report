@@ -1,5 +1,55 @@
 import React from 'react';
 
+const achievements = [
+  {
+    label: 'Coaching Feedback Speed',
+    value: 100,
+    display: 'Up to 3x faster',
+    color: '#215265',
+  },
+  {
+    label: 'Teacher AI Adoption',
+    value: 76,
+    display: '76%',
+    color: '#215265',
+  },
+  {
+    label: 'Positive Student Behaviour',
+    value: 65,
+    display: '65%',
+    color: '#215265',
+  },
+  {
+    label: 'Leaders & Teachers Helped',
+    value: 90,
+    display: '16,000+',
+    color: '#215265',
+  },
+  {
+    label: 'Projected Students by 2028',
+    value: 100,
+    display: '2 million',
+    color: '#215265',
+  },
+];
+
+function AchievementBar({label, value, display, color}) {
+  return (
+    <div className="achievement-item">
+      <div className="achievement-label">
+        <span>{label}</span>
+        <strong>{display}</strong>
+      </div>
+      <div className="achievement-bar-track">
+        <div
+          className="achievement-bar-fill"
+          style={{width: `${value}%`, backgroundColor: color}}
+        />
+      </div>
+    </div>
+  );
+}
+
 export default function AbstractCards() {
   return (
     <div className="abstract-grid">
@@ -25,7 +75,7 @@ export default function AbstractCards() {
         </div>
       </div>
 
-      {/* Our Solution Card (Placeholder) */}
+      {/* Our Solution Card */}
       <div className="abstract-card">
         <div className="abstract-card-header">
           <div className="abstract-card-icon">02</div>
@@ -49,40 +99,18 @@ export default function AbstractCards() {
         </div>
       </div>
 
-      {/* Achievement and Impact Card (Placeholder) */}
+      {/* Achievement and Impact Card */}
       <div className="abstract-card abstract-card--full">
         <div className="abstract-card-header">
           <div className="abstract-card-icon">03</div>
           <h3 className="abstract-card-title">Achievement and Impact</h3>
         </div>
         <div className="abstract-card-content">
-          <p>
-            Through this project, we developed new AI-powered features to make the platform more accessible and 
-            personalised for educators, improving how teachers in Kenya engage with professional teacher training.
-          </p>
-          <p>
-            The project successfully delivered all MoSCoW requirements, including all Must Have and Should
-            Have items, and went beyond the original scope by proactively identifying and addressing
-            additional client needs. All AI features: teacher chatbot, progress summaries,
-            scenario feedback, the Education Officer agent, speech-to-text and translation from English to Swahili, 
-            were fully implemented and deployed.
-          </p>
-          <p>
-            The system is stable and cloud-hosted on Azure Container Apps, with a comprehensive
-            three-layer test suite providing strong regression resistance. API response times average
-            1.52s for the chatbot and 2.74s for progress summaries, well within acceptable limits.
-            The microservice architecture ensures full backward compatibility with the client's existing
-            system, requiring no changes to pre-existing functionality.
-          </p>
-          <p>
-            The interface maintains a consistent design across web and mobile, and the system is designed
-            for extensibility. Additional features and integrations can be introduced with minimal effort
-            as the platform scales.
-          </p>
-          <p>
-            By integrating AI into the LeadNow platform, we have given educators personalised feedback, intelligent support, the ability to track
-            their own progress and more, which directly addresses the barriers that limit teaching quality.
-          </p>
+          <div className="achievements-list">
+            {achievements.map((a, idx) => (
+              <AchievementBar key={idx} {...a} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
