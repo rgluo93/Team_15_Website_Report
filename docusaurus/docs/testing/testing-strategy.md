@@ -4,25 +4,20 @@ sidebar_position: 1
 
 # Testing Strategy
 
+This strategy ensures both the AI Resource, the web application and mobile app are reliable, maintainable, and usable in real conditions.
 
-Testing is a critical phase in software development, ensuring that the application functions as intended, handles edge cases gracefully, and maintains reliability as the codebase evolves. For our project, we chose a comprehensive set of testing strategies to address different aspects of the AI Resource for LeadNow. The methods we chose are Unit Testing, Integration Testing, and User Acceptance Testing. They test all of the new implementations, including the LLM chatbot, RAG pipeline, LangGraph agent, MCP tools, translation, speech-to-text, and WhatsApp messaging.
+## AI Resource Testing Strategy
 
+The AI Resource includes the LLM chatbot, RAG pipeline, LangGraph agent, MCP tools, translation, speech-to-text, and WhatsApp messaging. We use layered testing to validate isolated logic, cross-component behaviour, full deployment flows, and user-level usability.
 
-## Why These Testing Methods?
+| Testing Method | Purpose |
+|----------------|---------|
+| Unit Testing | Validates individual functions/services in isolation (for example LLM adapters, tool wrappers, and utility logic). |
+| Integration Testing | Verifies interactions between components (for example API, Redis, vector DB, and tool orchestration). |
+| System Testing | Validates end-to-end behaviour in deployed/cloud-like conditions, including API availability and response correctness. |
+| User Acceptance Testing | Confirms the workflows are practical and intuitive for teachers and education officers. |
 
-
-Below is an overview of the testing methods we employed and why they are suitable for our project. AI-powered backend services are inherently multi-layered, requiring a combination of isolated component testing and cross-system validation to ensure quality. Our testing approach was designed to cover both the functional and non-functional aspects of the service, ensuring that all features work as intended while also delivering reliable responses to end users.
-
-
-| Testing Method | Explanation |
-|----------------|-------------|
-| Unit Testing | The LeadNow AI Resource involves many components including LLM services, vector databases, MCP tool servers, external APIs, and more. Unit Testing helps ensure that each component works correctly in isolation. |
-| Integration Testing | The new AI capabilities involve many interactions between multiple complex components. Integration Testing helps ensure that each component works correctly when combined with others. |
-| System Testing | With the AI Resource deployed as a live service on the cloud, System Testing validates the behaviour of the fully deployed system end-to-end, including API availability, response correctness under real network conditions, and overall system stability. |
-| User Acceptance Testing | Most importantly, for the LeadNow AI Resource to be useful, it must be usable, intuitive, and easy to adopt for teachers in Kenya. We conducted User Acceptance Testing to ensure this and also identify possible improvements. |
-
-
-## Web App Testing Statistics
+## AI Resource Testing Statistics
 
 | Metric | Value |
 |--------|-------|
@@ -33,3 +28,28 @@ Below is an overview of the testing methods we employed and why they are suitabl
 | **Source Modules Covered** | 15/15 |
 | **Test Framework** | pytest + pytest-asyncio |
 | **Execution Time** | ~8.5 seconds |
+
+## Web App Testing Strategy
+
+The web app is tested using frontend unit tests, frontend integration tests and browser E2E tests
+
+| Web App Layer | Tools | Scope |
+|---------------|-------|-------|
+| Frontend Unit Testing | Jest + jsdom + Testing Library | Isolated UI/component logic in `resources/js/chat-module.js` |
+| Frontend Integration Testing | Jest + mocked `fetch` + DOM fixtures | End-to-end frontend flows from input to rendered response, with API interactions mocked |
+| Browser E2E Testing | Playwright | Role-based user journeys in a real browser against the running Laravel app |
+
+### Web App Test Locations
+
+- Frontend unit tests: `resources/tests/unit`
+- Frontend integration tests: `resources/tests/integration`
+- Browser E2E tests: `e2e`
+
+### Web App Test Commands
+
+- `npm run test:unit`
+- `npm run test:integration`
+- `npm run test:e2e`
+- `npm run test:e2e:eo`
+- `npm run test:e2e:teacher`
+- `php artisan test`
