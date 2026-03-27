@@ -20,6 +20,12 @@ To build our project successfully, we referred to a couple of similar projects w
 
 **References**: [1] Luis Mas Castillo, explain my answer is now free for all learners, 1 January 2026, https://blog.duolingo.com/explain-my-answer-now-free/
 
+<div class="side-by-side-imgs">
+  ![Duolingo explain my answer](/img/duolingo-explain-my-answer.png)
+  ![Duolingo explain my answer 2](/img/duolingo-explain-my-answer-2.png)
+</div>
+
+
   </TabItem>
 
   <TabItem value="rag" label="Project for RAG">
@@ -31,6 +37,10 @@ To build our project successfully, we referred to a couple of similar projects w
 **What can be learnt from this project**: This project served as a practical reference for building a RAG pipeline using LangChain and Qdrant, offering a working implementation that was more immediately accessible than navigating through library documentation alone. Specifically, it demonstrated the key functions and classes needed for loading and preprocessing PDFs with LangChain, creating vector embeddings, setting up a Qdrant client, and performing semantic search. The primary architectural difference between this reference project and our own is in how and when embeddings are generated. In this project, documents are converted to vector embeddings at runtime, whereas our implementation features a dedicated ETL pipeline accessible via a CLI, that preprocesses and embeds documents in advance, with the resulting embeddings persisted in the vector store. This design improves efficiency by decoupling the embedding process from the application's runtime. Additionally, our project differs in its choice of embedding model.
 
 **References**: [2] Dibyajyoti Mohanty, Building a RAG Chatbot with Qdrant, LangChain and Streamlit, 6 December 2024, https://medium.com/@mohantydibyajyoti47/building-an-rag-chatbot-with-qdrant-langchain-and-streamlit-ed3e3e7a37d7
+
+<div class="single-img">
+  ![Rag picture](/img/project-research-rag.png)
+</div>
 
   </TabItem>
 
@@ -55,6 +65,11 @@ This project implements a Model Context Protocol (MCP) server that enables an AI
 **What can be learnt from this project**: This project provided valuable guidance on how an MCP server can be used to host and expose WhatsApp-related tools to an AI agent. It offered a practical reference for working with fastMCP to host tools and helped inform the design of the types of tools that can be exposed through an MCP server for WhatsApp interaction. A key distinction between this project and our own is that while this project connects to WhatsApp via the unofficial WhatsApp Web multi-device API, our implementation uses the official WhatsApp Business Platform making our approach more suitable for a production environment and compliant with Meta's terms of service.
 
 **References**: Luke Harries, WhatsApp MCP, 13 July 2025, https://github.com/lharries/whatsapp-mcp/
+
+<div class = "single-img">
+ ![Whatsapp-mcp](/img/project-research-mcp.png)
+</div>
+
   </TabItem>
 
   <TabItem value="fine-tuning" label="Project for fine-tuning">
