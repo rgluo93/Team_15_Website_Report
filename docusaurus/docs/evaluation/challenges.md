@@ -8,9 +8,9 @@ During the development of the LeadNow AI-coaching platform, our team faced sever
 
 ## Frontend Deployment
 
-One of the main challenges was getting started with the frontend. The development server was hosted in Kenya and was not configured to allow local hosting, causing significant delays early in the project. We spent considerable time in meetings with the developer to understand how to access the frontend.
+One of the main challenges was getting started with the frontend. The development server was hosted in Kenya and was not configured to allow local hosting, causing significant delays early in the project. We spent considerable time in meetings with the developer attempting to get the frontend running locally, but we ultimately did not succeed.
 
-To continue development, we resorted to manually uploading all frontend changes using SFTP. Without SSH access, we were unable to set up automated GitHub CI/CD pipelines, making the deployment process slower and more manual throughout the project.
+To continue development, we resorted to manually uploading all frontend changes using SFTP and viewing our changes directly in the development website. Without SSH access, we were unable to set up automated GitHub CI/CD pipelines, making the deployment process slower and more manual throughout the project.
 
 ## AI Feature Integration
 
