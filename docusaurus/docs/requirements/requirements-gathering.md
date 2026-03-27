@@ -4,17 +4,6 @@ sidebar_position: 4
 
 # Requirements Gathering
 
-## Functional & Non-Functional Requirements
-
-| Functional Requirements | Non-Functional Requirements |
-|---|---|
-| Deliver personalised learning recommendations and automated summaries based on user activity and performance | Simple and intuitive interface that allows teachers and education officers to easily navigate modules, submit responses and access feedback |
-| Support teachers within the modules they are learning and guidance on structured learning plans | Functions should not take too long to load to maintain a smooth user experience |
-| Personalised feedback for scenario-based learning modules | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed |
-| Provide teachers with the option to speak their answers instead of typing | Operational and hosting costs should be minimised |
-| Provide teachers with the ability to translate between English and Swahili | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections |
-| Develop tooling to support education officers with their everyday tasks | System should be designed so that new features can be added without significant changes to the core platform |
-
 ## User Survey Questionnaire
 
 After evaluating the different methods of identifying requirements, we decided to use a questionnaire because it allowed us to reach the majority of the existing user base and was the best method to quantify their general feelings about the current version of the app. We surveyed active users and gathered their feedback through multiple choice questions. Below are the response statistics to some of the questions.

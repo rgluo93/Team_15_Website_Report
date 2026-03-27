@@ -63,7 +63,7 @@ const config = {
           sidebarPath: "./sidebars.js",
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
+          // editUrl: "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
@@ -75,8 +75,8 @@ const config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
+          //editUrl:
+          //  "https://github.com/rgluo93/Team_15_Website_Report/tree/main/docusaurus/",
           // Useful options to enforce blogging best practices
           onInlineTags: "warn",
           onInlineAuthors: "warn",
