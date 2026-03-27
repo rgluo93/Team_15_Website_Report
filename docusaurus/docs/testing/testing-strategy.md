@@ -53,3 +53,23 @@ The web app is tested using frontend unit tests, frontend integration tests and 
 - `npm run test:e2e:eo`
 - `npm run test:e2e:teacher`
 - `php artisan test`
+
+## Mobile App Testing Strategy
+
+The mobile app is tested using Flutter unit tests and widget tests, focusing on AI service integrations, view model behaviour, and UI state.
+
+| Mobile App Layer | Tools | Scope |
+|-----------------|-------|-------|
+| Unit Testing | Flutter test + Mockito + MockClient | Isolated AI service logic (chatbot, user summary, scenario feedback, speech-to-text, translation) and helper utilities |
+| Widget Testing | Flutter testWidgets + Mockito | UI state and user interactions for views and view models in a simulated environment |
+
+### Mobile App Test Locations
+
+- Helper tests: `test/helpers/`
+- Service tests: `test/services/`
+- View model tests: `test/viewmodels/`
+- View tests: `test/views/`
+
+### Mobile App Test Commands
+
+- `flutter test`
