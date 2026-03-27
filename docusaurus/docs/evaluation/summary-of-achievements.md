@@ -96,10 +96,10 @@ R we including this section?
 | Research                     | 95%   | 0%      | 0%     | 5%      | 0%      |
 | UI Design                    | 0%    | 0%      | 0%     | 25%     | 75%     |
 | System Design                | 100%  | 0%      | 0%     | 0%      | 0%      |
-| Implementation              | 50%   | 16.66%  | 0%     | 16.66%  | 16.66%  |
+| Implementation              | 50%   | 20%  | 0%     | 15%  | 15%  |
 | Testing                     | 25%   | 0%      | 65%    | 0%      | 10%     |
 | Evaluation and Future Work  | 60%   | 0%      | 0%     | 10%     | 30%     |
 | User and Deployment Manuals | 0%    | 0%      | 0%     | 0%      | 100%    |
 | Legal Issues                | 0%    | 0%      | 0%     | 100%    | 0%      |
-| Blog and Monthly Video      | 0%    | 0%      | 100%   | 0%      | 0%      |
+| Blog and Monthly Video      | 0%    | 65%      | 35%   | 0%      | 0%      |
 | **Overall contribution**    | **22%** | **18%** | **20%** | **20%** | **20%** |
