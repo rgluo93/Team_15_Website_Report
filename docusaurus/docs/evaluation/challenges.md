@@ -14,7 +14,7 @@ To continue development, we resorted to manually uploading all frontend changes 
 
 ## AI Feature Integration
 
-Another challenge was demonstrating the AI-powered features on the frontend. Since features such as the chatbot, user summary and personalised feedback required a FastAPI backend, we hosted these services on Azure Container Apps as Docker containers. This setup allowed us to showcase the AI features on the frontend regardless of constraints on the development server.
+Another challenge was demonstrating the AI-powered features on the development website. Since features such as the chatbot, user summary and personalised feedback required a FastAPI backend, we hosted these services on Azure Container Apps as Docker containers. The website cannot be run locally, and we lacked SSH access to run backend services directly on the development server, making Azure the most practical solution. This setup allowed us to showcase the AI features on the frontend despite these constraints.
 
 ## Environment Configuration
 
