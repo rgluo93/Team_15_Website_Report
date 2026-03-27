@@ -4,13 +4,11 @@ sidebar_position: 1
 
 # Summary of Achievements
 
-Details about the summary of achievements will go here.
-
 ## Achievement Table
 
-Here's implementation result against the MoSCoW requirements.
+Here are the implementation results against the MoSCoW requirements.
 
-## Functional requirements
+### Functional requirements
 
 | ID | Requirements | Priority | State |
 |---|---|---|---|
@@ -23,7 +21,7 @@ Here's implementation result against the MoSCoW requirements.
 | 7 | Very large/expensive LLMs as default. | Won't have | 🚫 |
 | 8 | Translation popup for all languages. | Won't have | 🚫 |
 
-## Non-functional requirements
+### Non-functional requirements
 
 | ID | Requirements | Priority | State |
 |---|---|---|---|
