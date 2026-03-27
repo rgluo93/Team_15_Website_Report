@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Unit Testing
 
-## Web App
+## AI Resource
 
 We conducted unit tests for all major modules of the AI Resource service, organised into subdirectories mirroring the source code structure. This ensured comprehensive test coverage across all service components.
 
@@ -86,3 +86,32 @@ The tests focus on the AI functionalities implemented in the LeadNow mobile appl
 - **`home_view.dart`**: Uses localisation (`S.of(context)`), `CachedNetworkImage`, `Marquee` and `DigDrawer`, all of which do not function in the test environment.
 - **`alert_service.dart`**: Only `feedbackDialog` was tested as part of this refactor (it uses the AI feedback and translation services). The non-AI methods were out of scope and were untested.
 - **General limitations**: Platform channels (mic, camera), localisation, third-party widgets and direct instantiation of services limit testability and mockability.
+
+## Web App Unit Testing (Dashboard Frontend + Laravel)
+
+### Frontend Unit Tests (Jest)
+
+The web dashboard frontend uses Jest with a jsdom environment for isolated unit testing of chat UI logic and helper functions.
+
+| Test File | Area Covered |
+|-----------|--------------|
+| `workflow-summary.spec.js` | Workflow summary rendering logic for EO chatbot responses |
+| `speech-recording.spec.js` | Speech recording UI controls and state transitions |
+| `chat-modal.spec.js` | Chat modal open/close behavior and visibility state |
+| `chat-messages.spec.js` | Message bubble rendering and formatting behavior |
+| `chat-history.spec.js` | Clear-history confirmation modal and message reset behavior |
+
+### Frontend Unit Test Approach
+
+- DOM fixtures are created and cleaned up per test using helpers under `resources/tests/mocks`.
+- Browser APIs are simulated in jsdom.
+- Assertions use Testing Library matchers and Jest expectations.
+- Network interactions are mocked to keep tests deterministic.
+
+### Laravel Unit Test Harness
+
+Laravel unit testing is configured through PHPUnit/Pest via `phpunit.xml` and the `tests/Unit` suite.
+
+- Current unit test suite location: `tests/Unit`
+- Current baseline file in repo: `tests/Unit/ExampleTest.php`
+- Execution command: `php artisan test --testsuite=Unit`

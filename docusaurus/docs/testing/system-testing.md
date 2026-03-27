@@ -137,3 +137,35 @@ def test_user_summary_endpoint_schema_and_similarity(api_base_url: str, api_key:
 | Scenario feedback endpoints | `test_scenario_feedback.py` | 3 | `/api/v1/scenario-feedback/generate` |
 | Translate text endpoints | `test_translate_text.py` | 2 | `/api/v1/translate` |
 | User summary endpoints | `test_user_summary.py` | 3 | `/api/v1/user-summary/generate` |
+
+## Web App System Testing (Playwright E2E)
+
+The LeadNow web dashboard also includes browser-level system tests using Playwright. These tests execute realistic user workflows against the running Laravel application and verify visible behavior in a real browser context.
+
+### E2E Scope
+
+| E2E Suite | File | Scenarios Covered |
+|-----------|------|-------------------|
+| **Teacher chatbot workflow** | `teacher-chatbot-workflow.spec.js` | Teacher login, chatbot open, successful AI response rendering, clear-history confirmation and empty state |
+| **Education officer chatbot workflow** | `eo-chatbot-workflow.spec.js` | EO login, workflow-summary response handling, thought-process toggle, workflow arrows and step rendering |
+
+### E2E Test Configuration
+
+- Test runner: `@playwright/test`
+- Base URL: `E2E_BASE_URL` (defaults to `http://127.0.0.1:8000`)
+- Artifacts: trace on first retry, screenshots/videos on failure
+- Retry strategy: retries in CI, no retries locally
+
+### E2E Execution
+
+- Run all suites: `npm run test:e2e`
+- Run EO suite only: `npm run test:e2e:eo`
+- Run teacher suite only: `npm run test:e2e:teacher`
+
+### Environment Variables
+
+- `E2E_BASE_URL` (optional)
+- `E2E_EO_LOGIN` (required for EO suite)
+- `E2E_EO_PASSWORD` (required for EO suite)
+- `E2E_TEACHER_LOGIN` (required for teacher suite)
+- `E2E_TEACHER_PASSWORD` (required for teacher suite)
