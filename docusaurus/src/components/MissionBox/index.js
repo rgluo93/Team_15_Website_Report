@@ -8,8 +8,7 @@ export default function MissionBox() {
         support and resources to improve education quality across
         Kenya. We aim to universalise access to high-quality professional
         development <strong>for all educators</strong> by automating content
-        delivery and performance feedback. Leveraging generative AI and
-        retrieval-augmented generation, we can enhance training methodology
+        delivery and performance feedback. Leveraging generative AI we can enhance training methodology
         through <strong>personalised data-driven insights</strong> tailored to
         individual teachers and education officers.
       </p>
