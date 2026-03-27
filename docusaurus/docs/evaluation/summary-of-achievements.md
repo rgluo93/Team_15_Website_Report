@@ -28,11 +28,11 @@ Here's implementation result against the MoSCoW requirements.
 | ID | Requirements | Priority | State |
 |---|---|---|---|
 | 1 | Simple and intuitive interface that allows teachers and education officers to easily navigate modules, submit responses and access feedback. | Must have | ✅ |
-| 2 | Functions should not take too long to load to maintain a smooth user experience. | Should have | ✅ |
-| 3 | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed. | Should have | ✅ |
-| 4 | Operational and hosting costs should be minimised. | Must have | ✅ |
-| 5 | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections. | Must have | ✅ |
-| 6 | System should be designed so that new features can be added without significant changes to the core platform. | Should have | ✅ |
+| 2 | Operational and hosting costs should be minimised. | Must have | ✅ |
+| 3 | Functions should not take too long to load to maintain a smooth user experience. | Should have | ✅ |
+| 4 | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed. | Should have | ✅ |
+| 5 | System should be designed so that new features can be added without significant changes to the core platform. | Should have | ✅ |
+| 6 | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections. | Could have | ✅ |
 | 7 | iOS support for the mobile application. | Won't have | 🚫 |
 | 8 | Authentication and security features such as two-factor authentication. | Won't have | 🚫 |
 
@@ -68,10 +68,6 @@ The majority of known issues are attributable to limitations in the underlying m
 | 2 | **Inaccurate English-to-Swahili Translation**: The translation model does not guarantee accurate English-to-Swahili translation, particularly for longer texts. This limitation persists even after fine-tuning, and was validated through comparison testing against Google Translate. This is a known constraint of working with low-resource languages such as Swahili, where training data is limited, affecting both fine-tuned models and general-purpose LLMs. Despite this, the current approach remains the preferred solution, as cloud-based translation services (e.g. Google Translate API) present a significantly higher operational cost. | Low |
 | 3 | **Inaccurate Speech-to-Text Transcription**: The Vosk speech-to-text model may not always produce accurate transcriptions, particularly in suboptimal recording conditions such as background noise or low-quality microphone input. This is a recognised limitation of the model rather than a fault in the application. Despite this, Vosk remains the preferred solution as it is open-source and free to use; alternative models that offer higher accuracy typically come at a significant cost. | Low |
 | 4 | **API Timeout Due to Cold Start**: Azure Container Apps automatically scales down idle containers after a period of inactivity. As a result, the first API call made after this idle period may experience a significantly delayed response while the container restarts, a behaviour commonly referred to as a "cold start." If the container takes too long to restart, the API request will timeout and an error will be thrown, rather than returning a valid response. This can cause the UI to update without the expected data, leading to incomplete or missing information being displayed. This scaling behaviour is intentional and is retained as it reduces hosting costs, particularly during development. | Low |
-
-## Feedback
-
-R we including this section? 
 
 ## Individual contribution
 

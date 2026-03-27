@@ -652,7 +652,7 @@ Provide a clear summary and insights."""
         return {"generated_content": new_gc}
 ```
 
-### Coaching Tool Workflow (Lincoln writes this)
+### Coaching Tool Workflow 
 The entire coaching workflow consists of five nodes After the planner decides to call the coaching tool, the first node in line is classify_coaching_task. This is a sub-classifier that determines the exact intent of the user's request. It uses an LLM call with a detailed system prompt to analyse the instructions, determining which specific coaching task is being requested, of which there are four to select from: school visit preparation, lesson observation checklist, post-visit documentation, or weekly zone review. The classification result is stored in the workflow state. 
 ```python
 def classify_coaching_task(self, state: Dict[str, Any]) -> Dict[str, str]:

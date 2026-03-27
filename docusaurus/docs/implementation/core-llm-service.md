@@ -44,11 +44,10 @@ class ChatService:
         self._vectorstore = None
         self._retriever = None
         self.redis_client = redis.Redis(host=redis_host, port=redis_port)
-
+```
 - Sets up internal state for prompt and retriever management.
 
 ### Conversation History Management
- sidebar_position: 2
 Conversation history is managed using Redis, ensuring context is preserved across user sessions.
 
 ```python
@@ -59,6 +58,8 @@ def get_memory(self, user_id: str, service_id: str) -> RedisHistory:
 
 - Each user-service pair has a unique session key.
 - History is retrieved and updated for every interaction.
+
+This will be expanded upon below.
 
 ### Retrieval-Augmented Generation (RAG)
 
@@ -87,6 +88,8 @@ def respond_with_history(
 
 - Retrieves top-k relevant documents for a query.
 - Documents are formatted and injected into the prompt for the LLM.
+
+This will be expanded in another section to go into more detail about how RAG is implemented using Qdrant and LangChain.
 
 ### Prompt Construction and Pipelining
 

@@ -10,6 +10,8 @@ After evaluating the different methods of identifying requirements, we decided t
 
 ![User Survey Questionnaire Responses](/img/requirements-questionnaire.png)
 
+Overall, the responses indicated that the platform's UI was good. The main issue was with engagement with the app with many responses indicating they did not feel motivated to learn.
+
 ## Interviews
 
 After gathering data from the questionnaire, we also decided to conduct semi-structured interviews to probe deeper into the specific motivations and goals of our users. The transcripts below were recorded from two different interviews, one with an education officer and one with an educator.
