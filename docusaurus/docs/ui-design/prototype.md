@@ -26,7 +26,11 @@ The chatbot is different depending on the user's role. Teachers can use it to ge
 
 ### AI Chatbot
 
+<div class="vertical-screenshot">
+
 ![Education Officer AI Chatbot](/img/ui-design-images/prototype-edu-officer-ai.png)
+
+</div>
 
 ### Dashboard
 

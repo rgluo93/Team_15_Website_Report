@@ -6,7 +6,7 @@ sidebar_position: 5
 
 ## Heuristic Evaluation
 
-**Severity scale:** 1 — not very severe &nbsp;|&nbsp; 2 — not severe &nbsp;|&nbsp; 3 — severe &nbsp;|&nbsp; 4 — very severe
+**Severity scale:** 1 - not very severe &nbsp;|&nbsp; 2 - not severe &nbsp;|&nbsp; 3 - severe &nbsp;|&nbsp; 4 - very severe
 
 | No. | Heuristic | Location & Description | Solution | Severity |
 |-----|-----------|----------------------|----------|----------|
