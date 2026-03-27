@@ -24,50 +24,6 @@ function ImpactIcon() {
   );
 }
 
-const achievements = [
-  {
-    label: 'Coaching Feedback Speed',
-    value: 100,
-    display: 'Up to 3x faster',
-    color: '#215265',
-  },
-  {
-    label: 'Teacher AI Adoption',
-    value: 76,
-    display: '76%',
-    color: '#215265',
-  },
-  {
-    label: 'Positive Student Behaviour',
-    value: 65,
-    display: '65%',
-    color: '#215265',
-  },
-  {
-    label: 'Projected Leaders & Teachers Impacted',
-    value: 90,
-    display: '16,000+',
-    color: '#215265',
-  },
-];
-
-function AchievementBar({label, value, display, color}) {
-  return (
-    <div className="achievement-item">
-      <div className="achievement-label">
-        <span>{label}</span>
-        <strong>{display}</strong>
-      </div>
-      <div className="achievement-bar-track">
-        <div
-          className="achievement-bar-fill"
-          style={{width: `${value}%`, backgroundColor: color}}
-        />
-      </div>
-    </div>
-  );
-}
-
 export default function AbstractCards() {
   return (
     <div className="abstract-grid">
@@ -130,12 +86,15 @@ export default function AbstractCards() {
           <h3 className="abstract-card-title">Achievement and Impact</h3>
         </div>
         <div className="abstract-card-content">
-          <div className="achievements-list">
-            {achievements.map((a, idx) => (
-              <AchievementBar key={idx} {...a} />
-            ))}
-          </div>
-          <p className="citation" style={{fontSize: '0.8rem', color: '#6b7280', marginTop: '1rem', fontStyle: 'italic'}}>
+          <p>
+            Early results from Dignitas's AI-powered coaching pilot are
+            promising: coaching feedback is delivered up to 3x faster, 76% of
+            teachers have adopted AI tools into their practice, and 65% of
+            classrooms report improved positive student behaviour. Looking
+            ahead, the platform is projected to impact over 16,000 leaders and
+            teachers across Kenya.
+          </p>
+          <p style={{fontSize: '0.8rem', color: '#6b7280', marginTop: '0.5rem', fontStyle: 'italic'}}>
             [1] Team4Tech, Dignitas, "Kenya: Strengthening Teacher Practices Through AI-Powered Teacher Coaching," <span style={{fontStyle: 'italic'}}>Generative AI Cohort Case Study</span>, 2025.
           </p>
         </div>
