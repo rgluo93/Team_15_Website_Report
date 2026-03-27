@@ -130,7 +130,7 @@ const config = {
             activeBaseRegex: `/docs/system-design/`,
           },
           {
-            to: "/docs/implementation/mobile",
+            to: "/docs/implementation/backend-api",
             label: "Implementation",
             position: "left",
             activeBaseRegex: `/docs/implementation/`,
