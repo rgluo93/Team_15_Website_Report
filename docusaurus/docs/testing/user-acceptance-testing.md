@@ -12,14 +12,9 @@ UAT was conducted in collaboration with our client at Dignitas. Following a demo
 
 | Question | Rating | Feedback |
 |---|---|---|
-| The UI is intuitive and easy to navigate | 5 - Strongly Agree | It includes teacher being
-able to navigate the platform (audio narrator), it has synced well with the other
-content. |
-| The personalised learning recommendations were useful and relevant | 4 - Agree | We
-need to reference the content more. To create synergy |
-| The user summary is easy to understand and contains sufficient information | 4 - Agree | The statement is simple and to the point, Next step are actionable. The only areas of
-improvement, there needs to be reference to Dignitas next steps of practice eg COPs
-& Action Plan |
+| The UI is intuitive and easy to navigate | 5 - Strongly Agree | It includes teacher being able to navigate the platform (audio narrator), it has synced well with the other content. |
+| The personalised learning recommendations were useful and relevant | 4 - Agree | We need to reference the content more to create synergy. |
+| The user summary is easy to understand and contains sufficient information | 4 - Agree | The statement is simple and to the point, *Next steps* are actionable. The only areas of improvement: there needs to be reference to Dignitas next steps of practice (e.g. COPs & Action Plan) |
 
 **Discussion:** In general, the user summary feature was well-received by the teachers. They found it easy to navigate and understand, and the personalised learning recommendations were useful and relevant. The only areas of improvement were to reference LeadNow and Dignitas content more in the user summary.
 
