@@ -1,19 +1,69 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+roadmap:
+  label: Roadmap
+  permalink: /tags/roadmap
+  description: Project roadmap entries and fortnightly updates.
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+foundation:
+  label: Foundation
+  permalink: /tags/foundation
+  description: Requirements, stakeholder research, and project setup.
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+architecture:
+  label: Architecture
+  permalink: /tags/architecture
+  description: System design, diagrams, and core architecture decisions.
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+data:
+  label: Data
+  permalink: /tags/data
+  description: Data pipelines, ingestion, and storage topics.
+
+ml:
+  label: Machine Learning
+  permalink: /tags/ml
+  description: Model evaluation, embeddings, and ML-related work.
+
+infra:
+  label: Infrastructure
+  permalink: /tags/infra
+  description: Deployment, hosting, and operational hardening.
+
+features:
+  label: Features
+  permalink: /tags/features
+  description: Feature development and user-facing changes.
+
+testing:
+  label: Testing
+  permalink: /tags/testing
+  description: Internal testing, QA, and validation activities.
+
+integrations:
+  label: Integrations
+  permalink: /tags/integrations
+  description: Third-party integrations such as WhatsApp and translation.
+
+accessibility:
+  label: Accessibility
+  permalink: /tags/accessibility
+  description: Accessibility and usability improvements.
+
+translation:
+  label: Translation
+  permalink: /tags/translation
+  description: Localization and translation work (e.g., Swahili).
+
+whatsapp:
+  label: WhatsApp
+  permalink: /tags/whatsapp
+  description: WhatsApp client and messaging integration work.
+
+rag:
+  label: RAG
+  permalink: /tags/rag
+  description: Retrieval-Augmented Generation pipelines and tooling.
+
+ui:
+  label: UI
+  permalink: /tags/ui
+  description: Frontend and UI component work.

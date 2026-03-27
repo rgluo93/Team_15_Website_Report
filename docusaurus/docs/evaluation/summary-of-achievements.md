@@ -90,7 +90,7 @@ R we including this section?
 | Work                         | James | Lincoln | Ronald | Yi Kang | Matthew |
 |------------------------------|-------|---------|--------|---------|---------|
 | Website Template and Setup   | 15%   | 0%      | 85%    | 0%      | 0%      |
-| Home                         | 0%    | 30%     | 70%    | 0%      | 0%      |
+| Home                         | 0%    | 35%     | 65%    | 0%      | 0%      |
 | Video                        | 20%   | 20%     | 20%    | 20%     | 20%     |
 | Requirement                  | 5%    | 70%     | 0%     | 10%     | 15%     |
 | Research                     | 95%   | 0%      | 0%     | 5%      | 0%      |
@@ -102,4 +102,4 @@ R we including this section?
 | User and Deployment Manuals | 0%    | 0%      | 0%     | 0%      | 100%    |
 | Legal Issues                | 0%    | 0%      | 0%     | 100%    | 0%      |
 | Blog and Monthly Video      | 0%    | 65%      | 35%   | 0%      | 0%      |
-| **Overall contribution**    | **22%** | **18%** | **20%** | **20%** | **20%** |
+| **Overall contribution**    | **22%** | **19%** | **20%** | **19%** | **20%** |
