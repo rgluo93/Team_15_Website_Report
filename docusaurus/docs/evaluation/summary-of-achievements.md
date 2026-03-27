@@ -44,6 +44,27 @@ Contributors:
 - 🚫 **AI-assisted scenario answer generation**
 - 🚫 **Third-party educational content database**
 
+Through this project, we developed new AI-powered features to make the platform more accessible and 
+personalised for educators, improving how teachers in Kenya engage with professional teacher training.
+
+The project successfully delivered all MoSCoW requirements, including all Must Have and Should
+Have items, and went beyond the original scope by proactively identifying and addressing
+additional client needs. All AI features: teacher chatbot, progress summaries,
+scenario feedback, the Education Officer agent, speech-to-text and translation from English to Swahili, 
+were fully implemented and deployed.
+
+The system is stable and cloud-hosted on Azure Container Apps, with a comprehensive
+three-layer test suite providing strong regression resistance. API response times average
+1.52s for the chatbot and 2.74s for progress summaries, well within acceptable limits.
+The microservice architecture ensures full backward compatibility with the client's existing
+system, requiring no changes to pre-existing functionality.
+
+The interface maintains a consistent design across web and mobile, and the system is designed
+for extensibility. Additional features and integrations can be introduced with minimal effort
+as the platform scales.
+
+By integrating AI into the LeadNow platform, we have given educators personalised feedback, intelligent support, the ability to track their own progress and more, which directly addresses the barriers that limit teaching quality.
+
 ## Known bugs
 
 The majority of known issues are attributable to limitations in the underlying machine learning models.
