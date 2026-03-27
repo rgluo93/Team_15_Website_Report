@@ -13,7 +13,7 @@ sidebar_position: 5
 
 ### System Artefacts Submission 
 
-In the system artefacts submission on Moodle, we have submitted the forked version of the main repository and the mobile version of the project. The forked version of the main repository contains all the commits and code changes made by Team 15, while the mobile version contains the code for the mobile-specific features we developed. We have added a seperate README file outlining the structure of the repositories and the contributions made in each repository.
+In the system artefacts submission on Moodle, we have submitted the forked version of the main repository and the mobile version of the project. Both repositories contains code that was developed by Dignitas and developed by Team 15. We have added a seperate README file outlining the structure of the repositories and the contributions made in each repository.
 
 ### Local Setup
 

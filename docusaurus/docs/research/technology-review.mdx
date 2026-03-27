@@ -52,6 +52,10 @@ As we had to work with a pre-existing codebase, a few programming languages were
 
 We ultimately chose Python, prioritising team familiarity and ecosystem support above other factors such as raw performance. Although Python was not part of the existing codebase, our client confirmed they were comfortable with the language and were supportive of the decision.
 
+<div class="single-img">
+  ![Python logo](/img/technology-logos/technology-python.png)
+</div>
+
 **References**: [1] Vipin Aggarwal, Why use Python for AI development?, 30 September 2025, https://www.chilliapple.co.uk/blog/python-ai-development
 
   </TabItem>
@@ -100,6 +104,11 @@ In our AI service, the dominant source of latency is network I/O, specifically t
 
 While Django and Flask are integrating ASGI, their implementations are often abstraction layers rather than native designs. Additionally, FastAPI offers superior performance by using Pydantic for data validation (powered by a Rust engine) and maintaining minimal framework overhead. Since authentication and database management are already handled by our Laravel backend, FastAPI’s lightweight nature is a distinct advantage for this microservice.
 
+<div class="single-img">
+  ![FastAPI logo](/img/technology-logos/technology-fastapi.png)
+</div>
+
+
 **References**: [2] Ifeoluwa Favour Ojumoro, The Top 4 Python backend frameworks for building entry level AI projects, 14 February 2025, https://pieces.app/blog/the-top-4-python-back-end-frameworks-for-your-next-project
 
   </TabItem>
@@ -126,6 +135,10 @@ _Data referenced from Azure AI Foundry._
 
 We ultimately selected GPT-4o-mini. Given that Dignitas is a non-profit organisation, cost was the most critical factor in our decision and GPT-4o-mini is among the most affordable models available on Azure AI Foundry. Beyond cost, it offers an extremely low time to first token and high throughput, both of which contribute to a fast, responsive user experience. While its AI quality index is comparatively lower, the tasks our service requires of the model are not particularly complex, making this a reasonable trade-off.
 
+<div class="single-img">
+  ![Chatgpt logo](/img/technology-logos/technology-chatgpt.png)
+</div>
+
   </TabItem>
 
   <TabItem value="ai-orchestration-frameworks" label="AI Orchestration Frameworks">
@@ -151,6 +164,12 @@ We selected LangChain and LangGraph as our primary AI orchestration frameworks, 
 LangChain was particularly well-suited for implementing the retrieval-augmented generation (RAG) pipeline, due to its strong support for data integration, prompt management, and tool usage. In contrast, LangGraph was more appropriate for developing the education officer agent, as it enables the construction of complex, stateful workflows involving conditional logic, iteration, and multi-step reasoning.
 
 Additionally, LangChain and LangGraph are designed to work seamlessly together, as LangGraph builds on top of LangChain’s abstractions. This compatibility simplifies integration and allows for a more cohesive system architecture.
+
+<div class="side-by-side-imgs">
+  ![LangChain](/img/technology-logos/technology-langchain.png)
+  ![LangGraph](/img/technology-logos/technology-langgraph.png)
+</div>
+
 
 **References**: [3] Bala Priya C, Top 7 AI Agent Orchestration Frameworks, 12 March 2026, https://www.kdnuggets.com/top-7-ai-agent-orchestration-frameworks
 
@@ -198,6 +217,10 @@ For the general educational assistant chat bot, we require that the message hist
 ### Decision
 
 We selected **Redis** for its speed and scalability. Since the client has no requirement to persist or perform complex queries on message history, the additional overhead of MySQL was unnecessary. In-Memory storage was ruled out due to its RAM limitations and lack of sustainability at scale.
+
+<div class="single-img">
+  ![Redis logo](/img/technology-logos/technology-redis.png)
+</div>
 
 ## Vector Database [4]
 
@@ -253,6 +276,10 @@ We selected **Qdrant** as our vector database for several reasons. The core requ
 Our ETL pipeline already handles chunking and embedding generation, so built-in embedding support (as offered by Azure AI Search) was unnecessary. Qdrant's strong performance and rich metadata filtering were further advantages. Since Docker was already being used to manage Redis infrastructure, adding Qdrant to the same setup introduced minimal additional overhead.
 
 Finally, as an open-source solution, Qdrant avoids vendor lock-in and is significantly cheaper than cloud-hosted alternatives, both important considerations for a non-profit organisation like Dignitas.
+
+<div class="single-img">
+  ![Chatgpt logo](/img/technology-logos/technology-qdrant.png)
+</div>
 
 **References**: [4] Moez Ali, The Top 7 Vector Databases in 2026, 18 Jan 2025, https://www.datacamp.com/blog/the-top-5-vector-databases
 
@@ -354,6 +381,12 @@ We selected **Vosk** because it best matched the constraints of this project pha
 
 Compared with managed cloud STT, Vosk can be less accurate for difficult acoustic conditions and requires us to manage model assets plus FFmpeg/PyDub conversion dependencies. This trade-off was acceptable for a cost-sensitive prototype, and can be revisited later if production requirements prioritise maximum transcription accuracy over infrastructure independence.
 
+
+<div class="single-img">
+  ![Chatgpt logo](/img/technology-logos/technology-vosk.png)
+</div>
+
+
   </TabItem>
 
   <TabItem value="translation-model" label="Translation">
@@ -441,6 +474,12 @@ ONNX Runtime was selected. The model was exported to ONNX format and 8-bit dynam
 
 OpenVINO remains a strong candidate if the project migrates to a hosting environment where an Intel CPU can be explicitly specified. A configuration option to switch to OpenVINO was therefore included to make this transition straightforward.
 
+<div class="side-by-side-imgs">
+  ![LangChain](/img/technology-logos/technology-onnx.png)
+  ![LangGraph](/img/technology-logos/technology-openvino.png)
+</div>
+
+
   </TabItem>
 
   <TabItem value="cloud-platform" label="Cloud Platform">
@@ -493,6 +532,10 @@ Four components needed to be hosted: the FastAPI server, the MCP server, Redis, 
 Azure Container Apps was selected as the primary hosting solution, prioritising low cost and delivery of a working prototype within the available timeframe. The key trade-off is migration difficulty: setup was performed manually through the Azure CLI and web UI, meaning there are no pre-configured files that can be ported directly to another provider.
 
 To mitigate this, a Kubernetes-based hosting configuration was developed in parallel and presented to the client at handover as an alternative, should they wish to migrate to Vultr or another provider in future.
+
+<div class="single-img">
+  ![Chatgpt logo](/img/technology-logos/technology-azure.png)
+</div>
 
   </TabItem>
 </Tabs>
