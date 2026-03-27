@@ -21,8 +21,8 @@ The requirements were defined based on the needs and approved add ons from the D
 | ID | Requirements | Priority |
 |---|---|---|
 | 1 | Simple and intuitive interface that allows teachers and education officers to easily navigate modules, submit responses and access feedback. | Must have |
-| 2 | Functions should not take too long to load to maintain a smooth user experience. | Should have |
-| 3 | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed. | Should have |
-| 4 | Operational and hosting costs should be minimised. | Must have |
-| 5 | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections. | Must have |
-| 6 | System should be designed so that new features can be added without significant changes to the core platform. | Should have |
+| 2 | Operational and hosting costs should be minimised. | Must have |
+| 3 | Functions should not take too long to load to maintain a smooth user experience. | Should have |
+| 4 | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed. | Should have |
+| 5 | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections. | Could have |
+| 6 | System should be designed so that new features can be added without significant changes to the core platform. | Could have |
