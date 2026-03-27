@@ -10,39 +10,32 @@ Details about the summary of achievements will go here.
 
 Here's implementation result against the MoSCoW requirements.
 
-## Must have 
-- ✅ **Teacher chatbot for remote training support**
-Contributors: 
-- ✅ **Performance summary report with next-step recommendations**
-Contributors: 
-- ✅ **Personalised scenario feedback** 
-Contributors: 
-- ✅ **Cost-aware LLM baseline** (current setup favors lower-cost model defaults)
+## Functional requirements
 
-## Should have 
-- ✅ **Education officer agent**
-  - ✅ school visit planning
-  - ✅ teacher/school performance review via data workflows
-  - ✅ WhatsApp messaging actions
-  - ✅ multi-step agent execution flow
-Contributors: 
-- ✅ **Speech-to-text capability** (API-level support is in place)
-Contributors: 
-- ✅ **Dockerized setup** (Dockerfiles and compose workflow available)
-Contributors: 
+| ID | Requirements | Priority | State |
+|---|---|---|---|
+| 1 | Deliver personalised learning recommendations and automated summaries based on user activity and performance. | Must have | ✅ |
+| 2 | Support teachers within the modules they are learning and guidance on structured learning plans. | Must have | ✅ |
+| 3 | Personalised feedback for scenario-based learning modules. | Must have | ✅ |
+| 4 | Provide teachers with the option to speak their answers instead of typing. | Should have | ✅ |
+| 5 | Provide teachers with the ability to translate between English and Swahili. | Could have | ✅ |
+| 6 | Develop tooling to support education officers with their everyday tasks. | Should have | ✅ |
+| 7 | Very large/expensive LLMs as default. | Won't have | 🚫 |
+| 8 | Translation popup for all languages. | Won't have | 🚫 |
 
-## Could have 
-- ✅ **English ↔ Swahili translation popup**
-Contributors: 
-- ✅ **Kubernetes deployment**
-  - As an alternative deployment option as LeadNow scales up
-Contributors: 
+## Non-functional requirements
 
-## Won’t have 
-- 🚫 **Very large/expensive LLMs as default**
-- 🚫 **Translation popup for all languages**
-- 🚫 **AI-assisted scenario answer generation**
-- 🚫 **Third-party educational content database**
+| ID | Requirements | Priority | State |
+|---|---|---|---|
+| 1 | Simple and intuitive interface that allows teachers and education officers to easily navigate modules, submit responses and access feedback. | Must have | ✅ |
+| 2 | Functions should not take too long to load to maintain a smooth user experience. | Should have | ✅ |
+| 3 | Features should remain consistently available on both the website and the mobile app so that users can reliably access them whenever needed. | Should have | ✅ |
+| 4 | Operational and hosting costs should be minimised. | Must have | ✅ |
+| 5 | Features should be usable on low-cost smartphones and desktop devices, and should handle intermittent or low-bandwidth internet connections. | Must have | ✅ |
+| 6 | System should be designed so that new features can be added without significant changes to the core platform. | Should have | ✅ |
+| 7 | iOS support for the mobile application. | Won't have | 🚫 |
+| 8 | Authentication and security features such as two-factor authentication. | Won't have | 🚫 |
+
 
 Through this project, we developed new AI-powered features to make the platform more accessible and 
 personalised for educators, improving how teachers in Kenya engage with professional teacher training.
