@@ -16,3 +16,32 @@ Due to the multi-layered nature of the AI Resource service, there are frequent i
 | **Agent Workflow** | `test_agent_flow.py` | 11 | Message → classify → route → execute node → response; all 6 routing paths; GeneralAgent.chat() end-to-end |
 | **API Endpoints** | `test_api_endpoints.py` | 7 | HTTP request → FastAPI router → dependency injection → service call → StandardResponse; shared dependencies across routers; error propagation (500, 422) |
 | **MCP Integration** | `test_mcp_integration.py` | 16 | Parameter validation → tool call → MCP server communication; Pydantic constraint enforcement; convenience function delegation |
+
+## Web App Integration Testing
+
+For the web application, integration tests validate full frontend feature flows by combining UI interactions, request payload construction, API response parsing, and UI state updates.
+
+### Frontend Integration Test Results
+
+| Integration Area | Test File | Flow Tested |
+|------------------|-----------|-------------|
+| **Teacher Chat Flow** | `chat-flow.spec.js` | Message send/receive cycle, typing indicator, send button state, CSRF headers, error fallbacks |
+| **Clear History Flow** | `clear-history-flow.spec.js` | Clear-history API call, modal confirmation path, UI reset and empty state |
+| **EO Agent Flow** | `eo-agent-flow.spec.js` | EO endpoint calls, workflow summary rendering, step sorting, collapsible thought-process panel |
+| **Session Flow** | `session-flow.spec.js` | Session-scoped conversation behavior and payload consistency |
+| **Speech Flow** | `speech-flow.spec.js` | Speech capture flow integration with chat input and sending pipeline |
+
+### Frontend Integration Testing Approach
+
+- Test runtime: Jest + jsdom.
+- API transport is mocked via `fetch` mocks to validate client behavior deterministically.
+- DOM assertions verify rendered output and interaction side effects.
+- Integration tests are executed with `npm run test:integration`.
+
+### Laravel Feature Test Harness
+
+Laravel feature/integration testing is configured under the `Feature` suite in `phpunit.xml`.
+
+- Suite location: `tests/Feature`
+- Current baseline file in repo: `tests/Feature/ExampleTest.php`
+- Execution command: `php artisan test --testsuite=Feature`

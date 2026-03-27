@@ -27,3 +27,7 @@ Although LeadNow is widely used across schools in Kenya, not all schools and tea
 ### Learning Effectiveness
 
 Currently, LeadNow is lacking in one of the most critical parts of learning: feedback. Without feedback, teachers can’t measure progress, understand mistakes, or get guidance in real time. We intend to address this by generating personalised learning recommendations for each user by analysing their activity logs, assessment results, and engagement patterns within the LeadNow platform. Additionally, we will integrate an AI-driven chatbot into the scenario-based learning module to simulate realistic classroom challenges, enabling users to practice decision-making and problem-solving in interactive conversations.
+
+<div class = "single-img">
+  ![Leadnow project goals](/img/project-goals.png)
+</div>
