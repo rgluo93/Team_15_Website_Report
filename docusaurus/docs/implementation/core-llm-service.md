@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# AI Implementation
+# Core LLM Service
 
 The AI functionality within LeadNow is designed to deliver personalised learning experiences, automated insights, and intelligent conversational support. The implementation leverages state-of-the-art language models, retrieval-augmented generation (RAG) pipelines, and custom agent workflows.
 
