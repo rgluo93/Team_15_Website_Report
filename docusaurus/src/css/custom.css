@@ -1262,6 +1262,10 @@
   flex-shrink: 0;
 }
 
+.down-arrow { 
+  font-size: 3rem; color: blue; text-align: center; display: block;
+}
+
 /* ============================================
    14. PARTNER LOGO HOVER EFFECTS
    ============================================ */
