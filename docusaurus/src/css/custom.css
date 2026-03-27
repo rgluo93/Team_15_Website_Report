@@ -1259,6 +1259,91 @@
   }
 }
 
-.vertical-screenshot { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-.vertical-screenshot img { max-width: 320px; }
-.screenshot-arrow { font-size: 3rem; color: var(--ifm-color-primary); flex-shrink: 0; }
+.vertical-screenshot {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.vertical-screenshot img {
+  max-width: 320px;
+}
+.screenshot-arrow {
+  font-size: 3rem;
+  color: var(--ifm-color-primary);
+  flex-shrink: 0;
+}
+
+.down-arrow { 
+  font-size: 3rem; 
+  color: blue; 
+  text-align: center; 
+  display: block;
+  max-width: 320px;
+}
+
+/* ============================================
+   14. PARTNER LOGO HOVER EFFECTS
+   ============================================ */
+
+.partner-logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  width: 100%;
+}
+
+.partner-logo-container p {
+  margin: 0;
+}
+
+.partner-logo-img,
+.partner-logo-container img {
+  max-height: 180px;
+  width: auto;
+  max-width: 280px;
+  display: block;
+  object-fit: contain;
+  background-color: white;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 0.75rem;
+}
+
+[data-theme="dark"] .partner-logo-img {
+  background-color: #ffffff; /* Logos often look best on white even in dark mode */
+}
+
+.partner-logo-container a {
+  display: inline-block;
+  text-align: center;
+}
+
+.side-by-side-imgs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+.side-by-side-imgs img {
+  width: 80%;
+  max-width: 220px;
+  height: auto;
+}
+
+.single-img{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.single-img img {
+  width: 80%;
+  max-width: 600px;
+}
