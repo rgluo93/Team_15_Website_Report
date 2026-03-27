@@ -8,7 +8,7 @@ sidebar_position: 1
 
 Here are the implementation results against the MoSCoW requirements.
 
-## Functional requirements
+### Functional requirements
 
 | ID | Requirements | Priority | State |
 |---|---|---|---|
@@ -21,7 +21,7 @@ Here are the implementation results against the MoSCoW requirements.
 | 7 | Very large/expensive LLMs as default. | Won't have | 🚫 |
 | 8 | Translation popup for all languages. | Won't have | 🚫 |
 
-## Non-functional requirements
+### Non-functional requirements
 
 | ID | Requirements | Priority | State |
 |---|---|---|---|
