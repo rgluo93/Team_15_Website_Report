@@ -24,13 +24,14 @@ const config = {
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
+    experimental_router: 'hash',
   },
 
   // Set the production url of your site here
   url: "http://students.cs.ucl.ac.uk",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/2025/group15/",
+  baseUrl: "/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -51,6 +52,22 @@ const config = {
     {
       href: "https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css",
       type: "text/css",
+    },
+  ],
+
+  plugins: [
+    function relativePathPlugin() {
+      return {
+        name: 'relative-path-plugin',
+        configureWebpack(config, isServer) {
+          if (isServer) return {};
+          return {
+            output: {
+              publicPath: './',
+            },
+          };
+        },
+      };
     },
   ],
 
@@ -130,7 +147,7 @@ const config = {
             activeBaseRegex: `/docs/system-design/`,
           },
           {
-            to: "/docs/implementation/backend-api",
+            to: "/docs/implementation/mobile",
             label: "Implementation",
             position: "left",
             activeBaseRegex: `/docs/implementation/`,
